@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_rev_int_tab.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/28 13:50:21 by tcakmako          #+#    #+#             */
-/*   Updated: 2021/11/28 13:50:23 by tcakmako         ###   ########.fr       */
+/*   Created: 2021/11/28 13:50:04 by tcakmako          #+#    #+#             */
+/*   Updated: 2021/11/28 13:50:05 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(char *str)
+void	ft_rev_int_tab(int *tab, int size)
 {
-	int	size;
+	int	temp;
+	int	index;
 
-	size = 0;
-	while (str[size] != '\0')
+	index = 0;
+	while (index < size / 2)
 	{
-		size++;
+		temp = tab[index];
+		tab[index] = tab[size - (index + 1)];
+		tab[size - (index + 1)] = temp;
+		index++;
 	}
-	return (size);
 }
