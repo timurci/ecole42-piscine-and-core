@@ -13,8 +13,10 @@ char	check_base(char *base)
 	index = 0;
 	while (base[index] != 0)
 	{
+		if (base[index] == '+' || base[index] == '-')
+			return (-1);
 		scan = base;
-		while(scan < &base[index])
+		while (scan < &base[index])
 		{
 			if (*scan == base[index])
 				return (-1);
