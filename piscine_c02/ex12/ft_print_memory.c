@@ -16,11 +16,17 @@ void	print_hexv(unsigned char *p, unsigned int max)
 	{
 		if (i % 2 == 0 && i != 0)
 			write(1, " ", 1);
-		if (p[i] > 16)
-			write(1, &("0123456789abcdef"[(p[i] / 16) % 16]), 1);
+		write(1, &("0123456789abcdef"[(p[i] / 16) % 16]), 1);
 		write(1, &("0123456789abcdef"[p[i] % 16]), 1);
 		i++;
 	}
+	while (i < 16)
+	{
+		write(1, "  ", 2);
+		if (i++ % 2 == 0)
+			write(1, " ", 1);
+	}
+	write (1, " ", 1);
 }
 
 void	print_chrv(unsigned char *p, unsigned int max)
@@ -55,7 +61,6 @@ void	*ft_print_memory(void *addr, unsigned int size)
 			write(1, &ads[j--], 1);
 		write(1, ": ", 2);
 		print_hexv(p, size - i);
-		write(1, " ", 1);
 		print_chrv(p, size - i);
 		write(1, "\n", 1);
 		p += 16;
