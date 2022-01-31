@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/31 13:46:49 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/01/31 13:46:50 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/01/31 15:03:45 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/01/31 15:03:46 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-size_t	ft_strlen(const char *s)
+void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
 {
-	size_t	size;
+	size_t			scan;
+	unsigned char	*dp;
+	unsigned char	*sp;
 
-	size = 0;
-	while (*(s++))
-		size++;
-	return (size);
+	scan = 0;
+	dp = (unsigned char *) dst;
+	sp = (unsigned char *) src;
+	while (scan < n)
+	{
+		dp[scan] = sp[scan];
+		scan++;
+	}
+	return (dst);
 }

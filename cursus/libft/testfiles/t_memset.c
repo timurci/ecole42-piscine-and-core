@@ -12,8 +12,8 @@ int	main(void)
 	printf("i:\t\t\t");
 	while (scan < 6)
 		printf("%d ", i[scan++]);
-	rtn_checker = ft_memset(i, 45, 3);
-	printf("\nft_memset (b, 45, 3):\t");
+	rtn_checker = ft_memset(i, 1, 3);
+	printf("\nft_memset (b, 1, 3):\t");
 	scan = 0;
 	while (scan < 6)
 		printf("%d ", i[scan++]);

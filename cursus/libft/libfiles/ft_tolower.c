@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/31 13:46:49 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/01/31 13:46:50 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/01/31 15:34:35 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/01/31 15:34:36 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-size_t	ft_strlen(const char *s)
+int	ft_tolower(int c)
 {
-	size_t	size;
-
-	size = 0;
-	while (*(s++))
-		size++;
-	return (size);
+	if (c > 64 && c < 91)
+		c += 32;
+	return (c);
 }

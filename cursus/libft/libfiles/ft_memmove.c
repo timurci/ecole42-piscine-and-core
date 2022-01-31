@@ -1,23 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/31 13:46:49 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/01/31 13:46:50 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/01/31 15:03:35 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/01/31 15:28:33 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-size_t	ft_strlen(const char *s)
+void	*memmove(void *dst, const void *src, size_t len)
 {
-	size_t	size;
+	size_t			scan;
+	unsigned char	*dp;
+	unsigned char	*sp;
 
-	size = 0;
-	while (*(s++))
-		size++;
-	return (size);
+	dp = NULL;
+	sp = NULL;
+	scan = 0;
+	if ((unsigned int) dst < (unsigned int) src)
+	{
+		while (scan < len)
+		{
+			dp[scan] = sp[scan];
+			scan++;
+		}
+	}
+	else if ((unsigned int) dst > (unsigned int) src)
+	{
+		scan = len;
+		while (scan > len)
+		{
+			dp[scan - 1] = sp[scan - 1];
+			scan--;
+		}
+	}
+	return (dst);
 }
