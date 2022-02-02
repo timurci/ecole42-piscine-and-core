@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 13:49:59 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/02 13:50:00 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/02 13:49:35 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/02 13:49:36 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*p;
-	size_t	scan;
+	char	*scan;
+	size_t	s1size;
+	size_t	s2size;
 
-	p = (char *) malloc(sizeof(char) * len);
+	s1size = 0;
+	while (s1[s1size])
+		s1size++;
+	s2size = 0;
+	while (s2[s2size])
+		s2size++;
+	p = malloc(sizeof(char) * (s1size + s2size + 1));
 	if (!p)
 		return (NULL);
-	scan = 0;
-	s = &s[start];
-	while (scan < len)
-		p[scan++] = *(s++);
+	scan = p;
+	while (*s1)
+		*(scan++) = *(s1++);
+	while (*s2)
+		*(scan++) = *(s2++);
+	*scan = 0;
 	return (p);
 }
