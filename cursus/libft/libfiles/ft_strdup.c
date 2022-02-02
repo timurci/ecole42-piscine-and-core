@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 11:51:08 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/02 11:51:09 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/02 12:28:59 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/02 12:29:00 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+char	*ft_strdup(const char *s1)
 {
-	if (!n)
-		return (0);
-	while (n-- > 0 && *s1)
-	{
-		if (*s1 != *s2)
-			break ;
-		s1++;
-		s2++;
-	}
-	return (*s1 - *s2);
+	size_t	ssize;
+	char	*dup;
+
+	ssize = 0;
+	while (s1[ssize])
+		ssize++;
+	dup = (char *) malloc(sizeof(char) * ssize);
+	if (!dup)
+		return (NULL);
+	while (*s1)
+		*(dup++) = *(s1++);
+	*dup = 0;
+	return (dup);
 }

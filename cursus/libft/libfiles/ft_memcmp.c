@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 11:51:08 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/02 11:51:09 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/02 11:52:06 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/02 11:52:06 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	if (!n)
-		return (0);
-	while (n-- > 0 && *s1)
+	unsigned char	*p1;
+	unsigned char	*p2;
+
+	p1 = s1;
+	p2 = s2;
+	while (n-- > 0)
 	{
-		if (*s1 != *s2)
+		if (*p1 != *p2)
 			break ;
-		s1++;
-		s2++;
+		p1++;
+		p2++;
 	}
-	return (*s1 - *s2);
+	return (*p1 - *p2);
 }

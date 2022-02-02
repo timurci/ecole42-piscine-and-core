@@ -6,13 +6,13 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 15:03:45 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/01/31 15:03:46 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/02 12:47:21 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	size_t			scan;
 	unsigned char	*dp;

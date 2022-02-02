@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 11:51:08 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/02 11:51:09 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/02 11:44:34 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/02 12:48:24 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+size_t	ft_strlcat(char *dst, const char *src, size_t dsize)
 {
-	if (!n)
-		return (0);
-	while (n-- > 0 && *s1)
-	{
-		if (*s1 != *s2)
-			break ;
-		s1++;
-		s2++;
-	}
-	return (*s1 - *s2);
+	size_t	scan;
+	size_t	dlen;
+	size_t	slen;
+
+	scan = 0;
+	while (dst[scan])
+		scan++;
+	dlen = scan;
+	slen = 0;
+	while (src[slen])
+		slen++;
+	if (dsize <= dlen)
+		return (dsize + slen);
+	while (*src && scan < dsize - 1)
+		dlen[scan++] = *(src++);
+	dlen[scan] = 0;
+	return (dlen + slen);
 }

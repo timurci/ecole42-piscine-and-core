@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 11:51:08 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/02 11:51:09 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/02 12:26:14 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/02 12:30:45 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+void	*ft_calloc(size_t count, size_t size)
 {
-	if (!n)
-		return (0);
-	while (n-- > 0 && *s1)
+	unsigned char	*p;
+	unsigned char	*s;
+	size_t			size_holder;
+
+	p = malloc(size * count);
+	s = p;
+	size_holder = size;
+	while (count * size > 0)
 	{
-		if (*s1 != *s2)
-			break ;
-		s1++;
-		s2++;
+		while (size_holder-- > 0)
+			*(s++) = 0;
+		size_holder = size;
+		count--;
 	}
-	return (*s1 - *s2);
+	return (p);
 }

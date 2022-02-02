@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 11:51:08 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/02 11:51:09 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/02 11:48:53 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/02 12:48:10 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dsize)
 {
-	if (!n)
-		return (0);
-	while (n-- > 0 && *s1)
+	size_t	ssize;
+
+	ssize = 0;
+	while (src[ssize])
+		ssize++;
+	while (dsize-- > 1)
 	{
-		if (*s1 != *s2)
-			break ;
-		s1++;
-		s2++;
+		if (*src)
+			*(dst++) = *(src++);
+		else
+			*(dst++) = 0;
 	}
-	return (*s1 - *s2);
+	*dst = 0;
+	return (ssize);
 }
