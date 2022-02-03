@@ -6,21 +6,21 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 15:03:35 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 11:56:54 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 15:22:29 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-void	*memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
 	size_t			scan;
 	unsigned char	*dp;
 	unsigned char	*sp;
 
-	dp = NULL;
-	sp = NULL;
+	dp = (unsigned char *) dst;
+	sp = (unsigned char *) src;
 	scan = 0;
 	if ((unsigned int) dst < (unsigned int) src)
 	{
@@ -33,7 +33,7 @@ void	*memmove(void *dst, const void *src, size_t len)
 	else if ((unsigned int) dst > (unsigned int) src)
 	{
 		scan = len;
-		while (scan > len)
+		while (scan > 0)
 		{
 			dp[scan - 1] = sp[scan - 1];
 			scan--;

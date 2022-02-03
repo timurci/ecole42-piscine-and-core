@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 14:20:28 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 12:02:11 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 15:32:02 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int static	ft_strcmp(const char *s1, const char *s2)
 		s2++;
 	}
 	if (!*s1)
-		return (*(s1 - 1) - *(s2 - 1));
-	return (*s1 - *s2);
+		return ((int) *(s1 - 1) - *(s2 - 1));
+	return ((int) *s1 - *s2);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)

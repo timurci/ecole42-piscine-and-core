@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 13:46:24 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 11:54:09 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:51:00 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ void	ft_bzero(void *s, size_t n)
 
 	scan = 0;
 	while (scan < n)
-		((int *) s)[scan++] = 0;
+		((char *) s)[scan++] = 0;
 }

@@ -6,13 +6,13 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:08:23 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 11:53:42 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:48:27 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char static	ft_strcmp(char *s1, char *s2)
+char static	ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s2)
 	{

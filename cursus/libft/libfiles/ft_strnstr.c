@@ -6,37 +6,29 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:51:22 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 12:01:45 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 17:23:33 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-static int	ft_strcmp(const char *s1, const char *s2)
-{
-	while (*s1)
-	{
-		if (*s1 != *s2)
-			return (*s1 - *s2);
-		s1++;
-		s2++;
-	}
-	return (0);
-}
-
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	char	*checkp;
+	size_t	scan;
+	size_t	nsize;
 
 	if (!*needle)
 		return ((char *)haystack);
-	checkp = NULL;
-	while (*haystack && len-- > 0)
+	nsize = 0;
+	while (needle[nsize])
+		nsize++;
+	scan = 0;
+	while (haystack[scan] && scan < len && nsize + scan <= len)
 	{
-		if (!ft_strcmp(needle, haystack))
-			return ((char *)haystack);
-		haystack++;
+		if (!ft_strncmp(needle, &haystack[scan], nsize))
+			return ((char *) &haystack[scan]);
+		scan++;
 	}
 	return (NULL);
 }

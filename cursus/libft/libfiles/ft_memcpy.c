@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 15:03:45 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 11:56:38 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:08:44 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	unsigned char	*sp;
 
 	scan = 0;
+	if (dst == NULL && src == NULL)
+		return (NULL);
 	dp = (unsigned char *) dst;
 	sp = (unsigned char *) src;
 	while (scan < n)

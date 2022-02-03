@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 11:59:59 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 12:04:15 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:48:52 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 	i = 0;
 	while (s[i])
 	{
-		s[i] = (*f)(i, &s[i]);
+		(*f)(i, &s[i]);
 		i++;
 	}
 }
