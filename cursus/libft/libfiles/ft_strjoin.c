@@ -6,11 +6,12 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 13:49:35 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/02 13:49:36 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 12:00:34 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

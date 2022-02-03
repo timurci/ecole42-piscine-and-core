@@ -6,12 +6,11 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 12:06:21 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/01/31 12:06:23 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 11:54:53 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isalpha(int c);
-int	ft_isdigit(int c);
+#include "libft.h"
 
 int	ft_isalnum(int c)
 {

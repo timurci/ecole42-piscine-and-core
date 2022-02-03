@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/31 12:12:20 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 11:55:52 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/03 11:58:55 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/03 11:58:56 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include "libft.h"
 
-int	ft_isprint(int c)
+void	ft_putendl_fd(char *s, int fd)
 {
-	if (c > 31 && c < 127)
-		return (1);
-	else
-		return (0);
+	write(fd, s, ft_strlen(s));
+	write(1, "\n", 1);
 }

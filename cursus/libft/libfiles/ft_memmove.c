@@ -6,11 +6,12 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 15:03:35 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/01/31 15:28:33 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 11:56:54 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft.h"
 
 void	*memmove(void *dst, const void *src, size_t len)
 {

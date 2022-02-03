@@ -6,11 +6,12 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:28:59 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/02 17:01:57 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/03 11:59:50 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft.h"
 
 char	*ft_strdup(const char *s1)
 {
