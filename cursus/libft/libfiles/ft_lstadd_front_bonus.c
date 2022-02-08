@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 12:26:14 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/08 12:47:58 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/08 12:12:26 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/08 12:12:26 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	unsigned char	*p;
-	unsigned char	*s;
-	size_t			size_holder;
-
-	p = malloc(size * count);
-	if (!p)
-		return (NULL);
-	s = p;
-	size_holder = size;
-	while (count * size > 0)
-	{
-		while (size_holder-- > 0)
-			*(s++) = 0;
-		size_holder = size;
-		count--;
-	}
-	return (p);
+	if (lst == NULL || new == NULL)
+		return ;
+	new->next = *lst;
+	*lst = new;
 }

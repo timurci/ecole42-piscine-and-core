@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 11:51:08 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 16:20:13 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/08 12:12:05 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	scan;
+	size_t			scan;
 	unsigned char	*u1;
 	unsigned char	*u2;
 
