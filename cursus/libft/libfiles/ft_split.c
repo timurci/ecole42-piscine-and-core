@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:24:04 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/08 14:05:33 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/08 14:57:54 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,16 @@ char static	*wgrab(char **strs, char const *s, char c)
 	return ((char *) s);
 }
 
-void static	freelist(char **strs)
+void static	freelist(char ***strs, size_t *loop_element, size_t max)
 {
 	char	**scan;
 
-	scan = strs;
+	scan = *strs;
 	while (*scan)
 		free(*(scan++));
-	free(strs);
+	free(*strs);
+	*strs = NULL;
+	*loop_element = max;
 }
 
 char	**ft_split(char const *str, char c)
@@ -80,17 +82,13 @@ char	**ft_split(char const *str, char c)
 	if (!strs)
 		return (NULL);
 	wscan = 0;
-	while (wscan < w_count)
+	while (wscan++ < w_count)
 	{
 		while (*s && *s == c)
 			s++;
-		s = wgrab(&strs[wscan], s, c);
+		s = wgrab(&strs[wscan - 1], s, c);
 		if (!s)
-		{
-			freelist(strs);
-			return (NULL);
-		}
-		wscan++;
+			freelist(&strs, &wscan, w_count);
 	}
 	return (strs);
 }
