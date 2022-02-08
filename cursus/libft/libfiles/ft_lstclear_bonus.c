@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/08 12:12:45 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/08 12:49:30 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/08 14:15:37 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 
 	if (lst == NULL || *lst == NULL || del == NULL)
 		return ;
-	free(deleter);;
 	deleter = *lst;
 	leader = deleter;
 	while (leader)
@@ -29,4 +28,5 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		ft_lstdelone(deleter, del);
 		deleter = leader;
 	}
+	*lst = NULL;
 }

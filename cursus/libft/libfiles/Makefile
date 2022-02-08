@@ -24,7 +24,7 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 re: fclean all
 fclean: clean
-	$(RM) $(LIB)
+	$(RM) $(NAME)
 clean:
 	$(RM) $(OBJS) $(BONUS_OBJS)
 .PHONY: all bonus clean fclean re

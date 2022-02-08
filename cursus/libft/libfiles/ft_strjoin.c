@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 13:49:35 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/03 12:00:34 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/08 13:52:40 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	s1size;
 	size_t	s2size;
 
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
 	s1size = 0;
 	while (s1[s1size])
 		s1size++;

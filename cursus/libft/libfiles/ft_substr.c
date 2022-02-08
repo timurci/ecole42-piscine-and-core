@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 13:49:59 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/08 13:01:27 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/08 13:51:12 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	scan;
 	size_t	slen;
 
-	if (start > ft_strlen(s))
+	if (!s || start > ft_strlen(s))
 	{
 		p = (char *) malloc(sizeof(char) * 1);
 		if (!p)

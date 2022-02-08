@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 15:24:04 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/02 15:28:59 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/08 14:05:33 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ char	**ft_split(char const *str, char c)
 	char	**strs;
 	char	*s;
 
+	if (!str)
+		return (NULL);
 	s = (char *) str;
 	w_count = cword(s, c);
 	strs = (char **) ft_calloc(1, sizeof(char *) * (w_count + 1));
