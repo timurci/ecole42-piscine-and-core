@@ -3,37 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/08 14:50:50 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/08 14:58:40 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/10 12:19:36 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/10 12:19:37 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 
+t_list static	*free_items(t_list *nl, t_list *element, void (*del)(void *))
+{
+	if (nl)
+		ft_lstclear(&nl, del);
+	ft_lstdelone(element, del);
+	return (NULL);
+}
+
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*nl;
-	t_list	*scanner;
-	t_list	*subject;
+	t_list	*nl_scanner;
+	t_list	*element;
 
-	if (lst == NULL || f == NULL || del == NULL)
-		return (NULL);
-	nl = lst;
-	scanner = nl;
+	nl = 0;
 	while (lst)
 	{
-		subject = ft_lstnew(f(lst->content));
-		if (!subject)
-		{
-			ft_lstclear(nl, del);
-			return (NULL);
-		}
-		ft_lstadd_back(&scanner, subject);
+		element = ft_lstnew(f(lst->content));
+		if (!element)
+			return (free_items(nl, element, del));
+		if (!nl)
+			nl = element;
+		else
+			nl_scanner->next = element;
+		nl_scanner = element;
 		lst = lst->next;
-		scanner = scanner->next;
 	}
 	return (nl);
 }
