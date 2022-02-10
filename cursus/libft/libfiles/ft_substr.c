@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 13:49:59 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/08 13:51:12 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/10 12:34:50 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		*p = 0;
 		return (p);
 	}
-	p = (char *) malloc(sizeof(char) * len);
-	if (!p)
-		return (NULL);
 	scan = 0;
 	s = &s[start];
 	slen = ft_strlen(s);
+	p = (char *) malloc(sizeof(char) * (slen + 1));
+	if (!p)
+		return (NULL);
 	while (scan < len && scan < slen)
 		p[scan++] = *(s++);
+	p[scan] = 0;
 	return (p);
 }
