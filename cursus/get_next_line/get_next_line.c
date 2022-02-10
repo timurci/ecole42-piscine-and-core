@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:12:35 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/10 14:36:40 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:13:03 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,14 @@ char	*get_next_line(int fd)
 
 	buffer = alloc_str("", BUFFER_SIZE);
 	store = alloc_str("", 1);
-	if (!buffer)
+	if (!store || !buffer)
 		return (NULL);
 	while (read(fd, buffer, BUFFER_SIZE) > 0)
 	{
 		is_nl = check_nl(buffer, BUFFER_SIZE);
 		store = realloc_str(store, buffer);
+		if (!store)
+			return (NULL);
 		if (is_nl)
 			break ;
 	}

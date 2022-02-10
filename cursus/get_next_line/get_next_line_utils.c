@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 14:12:38 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/10 14:29:32 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:16:35 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,14 @@ char	*realloc_str(char *base, char *tail)
 	while (tail[tsize])
 		tsize++;
 	ns = malloc(sizeof(char) * (bsize + tsize + 1));
+	if (!ns)
+		return (NULL);
 	bsize = 0;
-	while (*base)
-		ns[bsize++] = *(base++);
+	while (base[bsize])
+	{
+		ns[bsize] = base[bsize];
+		bsize++;
+	}
 	free (base);
 	while (*tail)
 		ns[bsize++] = *(tail++);
