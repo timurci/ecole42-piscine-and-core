@@ -5,50 +5,66 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/10 14:12:35 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/10 15:13:03 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/14 13:48:23 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/14 14:43:21 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
 #include "get_next_line.h"
 
-char static	check_nl(char *buffer, size_t buff_size)
+char	check_nl(char **store, char **remains)
 {
-	size_t	size;
+	size_t	offset;
+	size_t	pos_nl;
+	char	has_nl;
 
-	size = 0;
-	while (size <= buff_size)
+	offset = 0;
+	pos_nl = 0;
+	has_nl = 0;
+	while ((*store)[offset])
 	{
-		if (buffer[size] == '\n')
+		if ((*store)[offset] == '\n' && !pos_nl)
 		{
-			buffer[size + 1] = 0;
-			return (1);
+			pos_nl = offset;
+			has_nl = 1;
 		}
-		size++;
+		offset++;
+	}
+	if (has_nl)
+	{
+		*remains = replace_str(*remains, &(*store)[pos_nl + 1]);
+		(*store)[pos_nl + 1] = 0;
+		*store = replace_str(*store, *store);
+		return (1);
 	}
 	return (0);
 }
 
 char	*get_next_line(int fd)
 {
-	char	*buffer;
-	char	*store;
-	char	is_nl;
+	char static	*remains = 0;
+	char		*store;
+	char		*buffer;
 
-	buffer = alloc_str("", BUFFER_SIZE);
-	store = alloc_str("", 1);
-	if (!store || !buffer)
-		return (NULL);
+	store = 0;
+	buffer = 0;
+	if (remains)
+		store = replace_str(store, remains);
+	else
+		store = ft_calloc(1);
+	buffer = ft_calloc(BUFFER_SIZE + 1);
+	if (!buffer || !store || fd < 0 || fd > 1000 || check_nl(&store, &remains))
+		return (check_cd(store, buffer, fd));
 	while (read(fd, buffer, BUFFER_SIZE) > 0)
 	{
-		is_nl = check_nl(buffer, BUFFER_SIZE);
-		store = realloc_str(store, buffer);
-		if (!store)
-			return (NULL);
-		if (is_nl)
-			break ;
+		store = ft_strfjoin(store, buffer);
+		if (check_nl(&store, &remains))
+			return (check_cd(store, buffer, fd));
 	}
-	return (store);
+	if (remains)
+	{
+		free(remains);
+		remains = 0;
+	}
+	return (check_cd(store, buffer, fd));
 }

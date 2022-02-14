@@ -5,66 +5,97 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/10 14:12:38 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/10 15:16:35 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/14 13:48:30 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/14 13:57:52 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "get_next_line.h"
 
-char	*alloc_str(char *buffer, size_t memsize)
+void	*ft_calloc(size_t size)
 {
-	size_t	size;
-	char	*ns;
+	unsigned char	*holder;
 
-	if (memsize == 0)
-	{
-		size = 0;
-		while (buffer[size])
-			size++;
-	}
-	else
-		size = memsize ;
-	ns = malloc(sizeof(char) * (size + 1));
-	if (!ns)
+	holder = malloc(sizeof(unsigned char) * size);
+	if (!holder)
 		return (NULL);
-	size = 0;
-	while (size < memsize)
-	{
-		if (*buffer)
-			ns[size++] = *(buffer++);
-		else
-			ns[size++] = 0;
-	}
-	ns[size] = 0;
-	return (ns);
+	while (size-- > 0)
+		holder[size] = 0;
+	return ((void *) holder);
 }
 
-char	*realloc_str(char *base, char *tail)
+char	*replace_str(char *old_str, char *new_str)
 {
-	size_t	bsize;
-	size_t	tsize;
-	char	*ns;
+	size_t	size;
+	char	*temp;
 
-	bsize = 0;
+	if (!new_str)
+		return (ft_calloc(1));
+	size = 0;
+	while (new_str[size])
+		size++;
+	temp = malloc(sizeof(char) * (size + 1));
+	if (!temp)
+		return (NULL);
+	temp[size] = 0;
+	while (size-- > 0)
+	{
+		temp[size] = new_str[size];
+	}
+	if (old_str)
+		free(old_str);
+	return (temp);
+}
+
+char	*ft_strfjoin(char *head, char *tail)
+{
+	char	*p;
+	size_t	hsize;
+	size_t	tsize;
+
+	hsize = 0;
+	while (head[hsize])
+		hsize++;
 	tsize = 0;
-	while (base[bsize])
-		bsize++;
 	while (tail[tsize])
 		tsize++;
-	ns = malloc(sizeof(char) * (bsize + tsize + 1));
-	if (!ns)
+	p = malloc(sizeof(char) * (hsize + tsize + 1));
+	if (!p)
 		return (NULL);
-	bsize = 0;
-	while (base[bsize])
+	hsize = 0;
+	while (head[hsize])
 	{
-		ns[bsize] = base[bsize];
-		bsize++;
+		p[hsize] = head[hsize];
+		hsize++;
 	}
-	free (base);
-	while (*tail)
-		ns[bsize++] = *(tail++);
-	ns[bsize] = 0;
-	return (ns);
+	tsize = 0;
+	while (tail[tsize])
+		p[hsize++] = tail[tsize++];
+	p[hsize] = 0;
+	free(head);
+	return (p);
+}
+
+char	*check_cd(char *store, char *buffer, int fd)
+{
+	if (!buffer && !store)
+		return (NULL);
+	else if (!store || !*store)
+	{
+		free(buffer);
+		if (!*store)
+			free(store);
+		return (NULL);
+	}
+	else if (fd < 0 || fd > 256)
+	{
+		free(buffer);
+		free(store);
+		return (NULL);
+	}
+	else
+	{
+		free(buffer);
+		return (store);
+	}
 }

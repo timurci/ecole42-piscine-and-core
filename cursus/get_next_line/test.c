@@ -1,23 +1,32 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include "get_next_line.h"
+#include <stdio.h>
+#include <fcntl.h>
 
 int	main(int ac, char **av)
 {
-	int		read_index;
+	int		x;
 	int		fd;
-	char	*result;
+	char	*temp;
 
-	read_index = 1;
-	while (read_index < ac)
+	x = 1;
+	while (x < ac)
 	{
-		fd = open(av[read_index], O_RDONLY);
-		result = get_next_line(fd);
-		printf("%s", result);
-		free(result);
+		fd = open(av[x], O_RDONLY);
+		
+		temp = get_next_line(fd);
+		printf("%s---\n", temp);
+		if (temp)
+			free(temp);
+		temp = get_next_line(fd);
+		printf("%s---\n", temp);
+		if (temp)
+			free(temp);
+		temp = get_next_line(fd);
+		printf("%s---\n", temp);
+		if (temp)
+			free(temp);
 		close(fd);
-		read_index++;
+		x++;
 	}
 	return (0);
 }
