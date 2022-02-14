@@ -6,11 +6,18 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:48:23 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/14 14:43:21 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/14 16:51:01 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	clear_remains(char **remains)
+{
+	if (*remains)
+		free(*remains);
+	*remains = 0;
+}
 
 char	check_nl(char **store, char **remains)
 {
@@ -23,7 +30,7 @@ char	check_nl(char **store, char **remains)
 	has_nl = 0;
 	while ((*store)[offset])
 	{
-		if ((*store)[offset] == '\n' && !pos_nl)
+		if ((*store)[offset] == '\n' && !has_nl)
 		{
 			pos_nl = offset;
 			has_nl = 1;
@@ -35,9 +42,8 @@ char	check_nl(char **store, char **remains)
 		*remains = replace_str(*remains, &(*store)[pos_nl + 1]);
 		(*store)[pos_nl + 1] = 0;
 		*store = replace_str(*store, *store);
-		return (1);
 	}
-	return (0);
+	return (has_nl);
 }
 
 char	*get_next_line(int fd)
@@ -61,10 +67,6 @@ char	*get_next_line(int fd)
 		if (check_nl(&store, &remains))
 			return (check_cd(store, buffer, fd));
 	}
-	if (remains)
-	{
-		free(remains);
-		remains = 0;
-	}
+	clear_remains(&remains);
 	return (check_cd(store, buffer, fd));
 }

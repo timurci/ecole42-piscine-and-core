@@ -6,11 +6,25 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:48:30 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/14 13:57:52 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/14 17:22:00 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	ft_strcmp(char *s1, char *s2)
+{
+	if (!s1 || !s2)
+		return (-1);
+	while (*s1)
+	{
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
 
 void	*ft_calloc(size_t size)
 {
@@ -59,19 +73,18 @@ char	*ft_strfjoin(char *head, char *tail)
 	tsize = 0;
 	while (tail[tsize])
 		tsize++;
-	p = malloc(sizeof(char) * (hsize + tsize + 1));
+	p = ft_calloc(sizeof(char) * (hsize + tsize + 1));
 	if (!p)
 		return (NULL);
 	hsize = 0;
-	while (head[hsize])
+	while (head[hsize++])
+		p[hsize - 1] = head[hsize - 1];
+	hsize--;
+	while (*tail)
 	{
-		p[hsize] = head[hsize];
-		hsize++;
+		p[hsize++] = *tail;
+		*(tail++) = 0;
 	}
-	tsize = 0;
-	while (tail[tsize])
-		p[hsize++] = tail[tsize++];
-	p[hsize] = 0;
 	free(head);
 	return (p);
 }
