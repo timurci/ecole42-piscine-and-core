@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:48:23 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/16 15:48:30 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/16 17:11:56 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,23 @@ void	clear_remains(t_remains **remains, int fd)
 	{
 		if (scanner->content)
 			free(scanner->content);
+		*remains = 0;
 		if (scanner->next)
 			*remains = scanner->next;
-		else
-			*remains = 0;
 		free(scanner);
+		return ;
 	}
-	else if (scanner)
-	{
-		while (scanner->next && scanner->next->fd != fd)
-			scanner = scanner->next;
-		pivot = scanner->next;
-		if (!pivot)
-			return ;
-		scanner->next = 0;
-		if (pivot->next)
-			scanner->next = pivot->next;
-		if (pivot->content)
-			free(pivot->content);
-		free(pivot);
-	}
+	while (scanner && scanner->next && scanner->next->fd != fd)
+		scanner = scanner->next;
+	if (!scanner || !scanner->next)
+		return ;
+	pivot = scanner->next;
+	if (pivot->content)
+		free(scanner->next->content);
+	scanner->next = 0;
+	if (pivot->next)
+		scanner->next = pivot->next;
+	free(pivot);
 }
 
 char	check_nl(char **store, t_remains *remns)
