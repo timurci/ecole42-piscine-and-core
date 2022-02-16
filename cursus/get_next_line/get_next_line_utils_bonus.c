@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:48:30 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/15 13:06:03 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/16 12:51:31 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,21 +89,23 @@ char	*ft_strfjoin(char *head, char *tail)
 	return (p);
 }
 
-char	*check_cd(char *store, char *buffer, int fd)
+char	*check_cd(char *store, char *buffer, int fd, t_remains **remains)
 {
 	if (!buffer && !store)
-		return (NULL);
-	else if (!store || !*store)
 	{
-		free(buffer);
-		if (!*store)
-			free(store);
+		if (*remains)
+			free(*remains);
+		*remains = 0;
 		return (NULL);
 	}
-	else if (fd < 0 || fd > 256)
+	else if (!store || !*store || fd < 0 || fd > 256)
 	{
+		if (*remains)
+			free(*remains);
+		*remains = 0;
 		free(buffer);
-		free(store);
+		if (store)
+			free(store);
 		return (NULL);
 	}
 	else

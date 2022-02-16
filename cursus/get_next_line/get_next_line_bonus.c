@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:48:23 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/15 13:41:01 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/16 12:50:28 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,25 @@ t_remains	*check_fd(t_remains **lst, char **store, int fd)
 
 	if (!*lst)
 	{
-		*lst = add_list(*lst, 0, fd);
+		*lst = add_list(NULL, NULL, fd);
 		*store = ft_calloc(1);
+		return (*lst);
 	}
 	scanner = *lst;
 	if (scanner->fd != fd)
 	{
-		while (scanner && scanner->next && scanner->next->fd != fd)
+		while (scanner->next && scanner->next->fd != fd)
 			scanner = scanner->next;
+		if (!scanner->next)
+		{
+			scanner->next = add_list(scanner, NULL, fd);
+			*store = ft_calloc(1);
+		}
+		scanner = scanner->next;
 	}	
-	if (!scanner->next)
-	{
-		scanner->next = add_list(scanner, 0, fd);
-		*store = ft_calloc(1);
-	}
-	else if (scanner->next->content == 0)
-		*store = ft_calloc(1);
 	else
-		*store = replace_str(*store, scanner->next->content);
-	return (scanner->next);
+		*store = replace_str(*store, scanner->content);
+	return (scanner);
 }
 
 void	clear_remains(t_remains **remains, t_remains *curr_lst)
@@ -123,13 +123,13 @@ char	*get_next_line(int fd)
 	buffer = ft_calloc(BUFFER_SIZE + 1);
 	if (!buffer || !curr_lst || !store || fd < 0 || fd > 1000
 		|| check_nl(&store, curr_lst))
-		return (check_cd(store, buffer, fd));
+		return (check_cd(store, buffer, fd, &remains));
 	while (read(fd, buffer, BUFFER_SIZE) > 0)
 	{
 		store = ft_strfjoin(store, buffer);
 		if (check_nl(&store, curr_lst))
-			return (check_cd(store, buffer, fd));
+			return (check_cd(store, buffer, fd, &remains));
 	}
 	clear_remains(&remains, curr_lst);
-	return (check_cd(store, buffer, fd));
+	return (check_cd(store, buffer, fd, &remains));
 }
