@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:48:30 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/16 12:51:31 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/16 15:14:43 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,12 @@ char	*check_cd(char *store, char *buffer, int fd, t_remains **remains)
 {
 	if (!buffer && !store)
 	{
-		if (*remains)
-			free(*remains);
-		*remains = 0;
+		clear_remains(remains, fd);
 		return (NULL);
 	}
-	else if (!store || !*store || fd < 0 || fd > 256)
+	else if (!store || !*store || fd < 0)
 	{
-		if (*remains)
-			free(*remains);
-		*remains = 0;
+		clear_remains(remains, fd);
 		free(buffer);
 		if (store)
 			free(store);
@@ -110,7 +106,8 @@ char	*check_cd(char *store, char *buffer, int fd, t_remains **remains)
 	}
 	else
 	{
-		free(buffer);
+		if (buffer)
+			free(buffer);
 		return (store);
 	}
 }

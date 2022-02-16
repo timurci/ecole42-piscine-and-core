@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/14 13:48:23 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/16 12:50:28 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/02/16 15:48:30 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,29 +57,35 @@ t_remains	*check_fd(t_remains **lst, char **store, int fd)
 	return (scanner);
 }
 
-void	clear_remains(t_remains **remains, t_remains *curr_lst)
+void	clear_remains(t_remains **remains, int fd)
 {
 	t_remains	*scanner;
+	t_remains	*pivot;
 
 	scanner = *remains;
-	if (scanner == curr_lst)
+	if (scanner && scanner->fd == fd)
 	{
-		if (curr_lst->content)
-			free(curr_lst->content);
-		if (curr_lst->next)
-			*remains = curr_lst->next;
+		if (scanner->content)
+			free(scanner->content);
+		if (scanner->next)
+			*remains = scanner->next;
 		else
 			*remains = 0;
-		free(curr_lst);
+		free(scanner);
 	}
-	else
+	else if (scanner)
 	{
-		while (scanner && scanner->next != curr_lst)
+		while (scanner->next && scanner->next->fd != fd)
 			scanner = scanner->next;
-		scanner->next = curr_lst->next;
-		if (curr_lst->content)
-			free(curr_lst->content);
-		free(curr_lst);
+		pivot = scanner->next;
+		if (!pivot)
+			return ;
+		scanner->next = 0;
+		if (pivot->next)
+			scanner->next = pivot->next;
+		if (pivot->content)
+			free(pivot->content);
+		free(pivot);
 	}
 }
 
@@ -121,8 +127,7 @@ char	*get_next_line(int fd)
 	buffer = 0;
 	curr_lst = check_fd(&remains, &store, fd);
 	buffer = ft_calloc(BUFFER_SIZE + 1);
-	if (!buffer || !curr_lst || !store || fd < 0 || fd > 1000
-		|| check_nl(&store, curr_lst))
+	if (!buffer || !curr_lst || !store || fd < 0 || check_nl(&store, curr_lst))
 		return (check_cd(store, buffer, fd, &remains));
 	while (read(fd, buffer, BUFFER_SIZE) > 0)
 	{
@@ -130,6 +135,6 @@ char	*get_next_line(int fd)
 		if (check_nl(&store, curr_lst))
 			return (check_cd(store, buffer, fd, &remains));
 	}
-	clear_remains(&remains, curr_lst);
+	clear_remains(&remains, fd);
 	return (check_cd(store, buffer, fd, &remains));
 }

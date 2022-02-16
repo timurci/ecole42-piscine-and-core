@@ -1,27 +1,22 @@
-#include "get_next_line.h"
-#include <stdio.h>
+#include "get_next_line_bonus.h"
 #include <fcntl.h>
+#include <stdio.h>
 
-int	main(int ac, char **av)
+int	main(void)
 {
-	int		x;
-	int		fd;
+	int		fd1;
+	int		fd2;
 	char	*temp;
 
-	x = 1;
-	while (x < ac)
-	{
-		fd = open(av[x], O_RDONLY);
-	
-		for (char i = 0; i < 5; i++)
-		{	
-		temp = get_next_line(fd);
-		printf("%s---\n", temp);
-		if (temp)
-			free(temp);
-		}
-		close(fd);
-		x++;
-	}
-	return (0);
+	fd1 = open("file1", O_RDONLY);
+	temp = get_next_line(1000);
+	printf("%s\n", temp);
+	free(temp);
+	temp = get_next_line(fd1);
+	printf("%s\n", temp);
+	free(temp);
+	fd2 = open("file2", O_RDONLY);
+	temp = get_next_line(1001);
+	printf("%s\n", temp);
+	free(temp);
 }
