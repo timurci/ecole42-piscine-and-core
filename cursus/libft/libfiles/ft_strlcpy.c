@@ -3,36 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/02 11:48:53 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/02/08 12:44:41 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/02/18 12:41:23 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/02/18 12:41:41 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dsize)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	size_t	ssize;
 	size_t	scan;
 
-	ssize = 0;
 	scan = 0;
-	while (src[ssize])
-		ssize++;
-	if (dsize)
+	if (size > 0)
 	{
-		while (scan + 1 < dsize)
+		while (src[scan] && scan + 1 < size)
 		{
-			if (scan < ssize)
-				dst[scan] = src[scan];
-			else
-				dst[scan] = 0;
+			dst[scan] = src[scan];
 			scan++;
 		}
-		dst[dsize - 1] = 0;
+		dst[scan] = 0;
 	}
-	return (ssize);
+	while (src[scan])
+		scan++;
+	return (scan);
 }
