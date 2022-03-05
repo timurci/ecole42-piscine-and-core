@@ -9,7 +9,7 @@ int	main(void)
 
 	p = malloc(1);
 	ft_printf("hello world!\n");
-	ft_printf("%d\n", -53);
+	ft_printf("%5d\n", -53);
 	ft_printf("%c %c %c\n", 'a', 'b', 'c');
 	ft_printf("%d\n", 0);
 	ft_printf("%s\n", "lorem ipsum dolor sit amet.");

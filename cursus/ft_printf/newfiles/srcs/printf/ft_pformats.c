@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:04:20 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/05 18:11:08 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/03/05 18:30:14 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char static	*resizer(char *s, int width)
 	while (scan < (size_t) width)
 		news[scan++] = *(s++);
 	news[scan] = 0;
-	free(s);
+	free(s - ssize);
 	return (news);
 }
 
