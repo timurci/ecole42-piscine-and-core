@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:04:45 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/05 12:49:05 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/03/05 14:08:35 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_printf(const char *input, ...)
 	va_start(ap, input);
 	scan = 0;
 	mem = 0;
+	store = 0;
 	while (input[scan])
 	{
 		if (input[scan] == '%')
@@ -63,8 +64,7 @@ int	ft_printf(const char *input, ...)
 		}
 		scan++;
 	}
-	if (input[scan] == 0)
-		store = ft_strffjoin(store, ft_substr(input, mem, scan - mem));
+	store = ft_strffjoin(store, ft_substr(input, mem, scan - mem));
 	va_end(ap);
 	return (check_cd(mem, &store));
 }

@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:02:27 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/05 12:02:54 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/03/05 13:53:51 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ char	*conv_dec(long num, char type, int width);
 char	*conv_hex(unsigned int num, char type, int width);
 char	*conv_str(char *str, int width);
 
-char	ft_strcmp(char *s1, char *s2);
+char	ft_tkncmp(char *s1, char *s2);
 
 #endif

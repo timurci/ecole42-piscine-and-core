@@ -11,10 +11,10 @@ INCLUDE= -I ./includes
 PSRCS=ft_printf.c ft_pformats.c ft_joins.c ft_convs.c ft_strcmp.c
 POBJS=$(PSRCS:.c=.o)
 
-LSRCS=ft_strlen.c ft_substr.c
+LSRCS=ft_strlen.c ft_substr.c ft_isdigit.c ft_strdup.c
 LOBJS=$(LSRCS:.c=.o)
 
-OBJS=$(foreach object, $(POBJS) $(LOBJS), $(addprefix $(OPATH)/, $(object)))
+OBJS=$(foreach object, $(LOBJS) $(POBJS), $(addprefix $(OPATH)/, $(object)))
 
 NAME=libftprintf.a
 RM=rm -rf

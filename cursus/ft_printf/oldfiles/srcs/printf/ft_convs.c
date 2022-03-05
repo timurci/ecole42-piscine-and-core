@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:03:50 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/05 12:51:53 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/03/05 14:17:27 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,24 @@ char static	count_digits(long *num, unsigned char *size, char div)
 	return (sign);
 }
 
+char static	*conv_chr(long num, int width)
+{
+	char	c;
+	char	*news;
+
+	c = (char) num;
+	if (width == 0)
+		width = 1;
+	news = malloc(sizeof(char) * (width + 1));
+	if (!news)
+		return (NULL);
+	news[width] = 0;
+	news[--width] = c;
+	while (width > 0)
+		news[--width] = ' ';
+	return (news);
+}
+
 char	*conv_dec(long num, char type, int width)
 {
 	char			sign;
@@ -43,7 +61,7 @@ char	*conv_dec(long num, char type, int width)
 	char			*news;
 
 	if (type == 0)
-		num = (char) num;
+		return (conv_chr(num, width));
 	sign = count_digits(&num, &digit_size, 10);
 	if (width < digit_size + sign)
 		width = 0;
@@ -55,7 +73,7 @@ char	*conv_dec(long num, char type, int width)
 	news[digit_size + width + sign] = 0;
 	while (digit_size > 0)
 	{
-		news[--digit_size + width + sign] = num % 10;
+		news[--digit_size + width + sign] = num % 10 + 48;
 		num /= 10;
 	}
 	if (sign)
