@@ -27,7 +27,7 @@ int		ft_printf(const char *input, ...);
 char	*ft_strfjoin(char *head, char *tail);
 char	*ft_strffjoin(char *head, char *tail);
 
-size_t	pformat(const char *input, long mem, char **store, va_list ap);
+long	pformat(const char *input, long mem, char **store, va_list ap);
 
 char	*conv_dec(long num, char type);
 char	*conv_hex(unsigned long long num, char type);

@@ -74,7 +74,7 @@ static char	*resizer(char *s, int width)
 	return (news);
 }
 
-size_t	pformat(const char *input, long mem, char **store, va_list ap)
+long	pformat(const char *input, long mem, char **store, va_list ap)
 {
 	long	end;
 	int		width;
