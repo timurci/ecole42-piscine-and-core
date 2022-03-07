@@ -25,10 +25,10 @@ static char	*conv_ptr(unsigned long long num, unsigned char size)
 		return (NULL);
 	news[0] = '0';
 	news[1] = 'x';
-	news[size] = 0;
-	while (size > 2)
+	news[size + 2] = 0;
+	while (size + 2 > 2)
 	{
-		news[--size] = "0123456789abcdef"[num % 16];
+		news[--size + 2] = "0123456789abcdef"[num % 16];
 		num /= 16;
 	}
 	return (news);
