@@ -42,7 +42,7 @@ static char	*get_type(char *tn, va_list ap)
 	if (!ft_tkncmp(tn, "p"))
 		return (conv_hex(va_arg(ap, unsigned long long), 'p'));
 	else if (!ft_tkncmp(tn, "s"))
-		return (ft_strdup(va_arg(ap, char *)));
+		return (conv_str(va_arg(ap, char *)));
 	else if (!ft_tkncmp(tn, "d") || !ft_tkncmp(tn, "i") || !ft_tkncmp(tn, "c"))
 		return (conv_dec(va_arg(ap, int), *tn / 100));
 	else if (!ft_tkncmp(tn, "u"))

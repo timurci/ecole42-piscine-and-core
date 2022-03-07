@@ -8,7 +8,8 @@ OPATH=objs
 
 INCLUDE= -I ./includes
 
-PSRCS=ft_printf.c ft_pformats.c ft_joins.c dec_conv.c hex_conv.c ft_strcmp.c
+PSRCS=ft_printf.c ft_pformats.c ft_joins.c dec_conv.c hex_conv.c ft_strcmp.c \
+	  str_conv.c
 POBJS=$(PSRCS:.c=.o)
 
 LSRCS=ft_strlen.c ft_substr.c ft_isdigit.c ft_strdup.c
