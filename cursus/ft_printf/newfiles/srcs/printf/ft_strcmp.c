@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char static	ft_isspace(char c)
+static char	ft_isspace(char c)
 {
 	if ((c > 8 && c < 14) || c == ' ')
 		return (1);

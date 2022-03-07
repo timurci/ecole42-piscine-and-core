@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include "ft_printf.h"
 
-unsigned char static	count_digits(unsigned long long num, char div)
+static unsigned char	count_digits(unsigned long long num, char div)
 {
 	unsigned char	size;
 
@@ -16,7 +16,7 @@ unsigned char static	count_digits(unsigned long long num, char div)
 	return (size);
 }
 
-char static	*conv_ptr(unsigned long long num, unsigned char size)
+static char	*conv_ptr(unsigned long long num, unsigned char size)
 {
 	char	*news;
 

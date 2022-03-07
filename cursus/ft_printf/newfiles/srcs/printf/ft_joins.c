@@ -34,6 +34,7 @@ char	*ft_strfjoin(char *head, char *tail)
 	scanner--;
 	while (*tail)
 		news[scanner++] = *(tail++);
+	news[scanner] = 0;
 	return (news);
 }
 

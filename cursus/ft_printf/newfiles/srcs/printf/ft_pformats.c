@@ -14,7 +14,7 @@
 #include <stdarg.h>
 #include "ft_printf.h"
 
-char static	check_set(char c, char *set)
+static char	check_set(char c, char *set)
 {
 	while (*set)
 		if (c == *(set++))
@@ -22,7 +22,7 @@ char static	check_set(char c, char *set)
 	return (0);
 }
 
-size_t static	loc_set(char *s, char *set, size_t mem, int *width)
+static char	loc_set(char *s, char *set, size_t mem, int *width)
 {
 	while (s[mem])
 	{
@@ -37,7 +37,7 @@ size_t static	loc_set(char *s, char *set, size_t mem, int *width)
 	return (-1);
 }
 
-char static	*get_type(char *tn, va_list ap)
+static char	*get_type(char *tn, va_list ap)
 {
 	if (!ft_tkncmp(tn, "p"))
 		return (conv_hex(va_arg(ap, unsigned long long), 'p'));
@@ -54,7 +54,7 @@ char static	*get_type(char *tn, va_list ap)
 	return (NULL);
 }
 
-char static	*resizer(char *s, int width)
+static char	*resizer(char *s, int width)
 {
 	size_t	ssize;
 	size_t	scan;
@@ -74,9 +74,9 @@ char static	*resizer(char *s, int width)
 	return (news);
 }
 
-size_t	pformat(const char *input, size_t mem, char **store, va_list ap)
+size_t	pformat(const char *input, long mem, char **store, va_list ap)
 {
-	size_t	end;
+	long	end;
 	int		width;
 	char	*typeholder;
 	char	*garbage_collector;

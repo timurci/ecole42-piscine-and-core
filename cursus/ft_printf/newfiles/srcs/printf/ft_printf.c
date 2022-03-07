@@ -20,7 +20,7 @@
  *
  */
 
-int	check_cd(size_t mem, char **store)
+int	check_cd(long mem, char **store)
 {
 	int	ret_value;
 
@@ -44,7 +44,7 @@ int	ft_printf(const char *input, ...)
 {
 	va_list	ap;
 	size_t	scan;
-	size_t	mem;
+	long	mem;
 	char	*store;
 
 	va_start(ap, input);
