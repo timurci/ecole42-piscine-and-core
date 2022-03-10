@@ -20,6 +20,8 @@ static char	*conv_ptr(unsigned long long num, unsigned char size)
 {
 	char	*news;
 
+	if (num == 0)
+		return(ft_strdup("(nil)"));
 	news = malloc(sizeof(char) * (size + 3));
 	if (!news)
 		return (NULL);

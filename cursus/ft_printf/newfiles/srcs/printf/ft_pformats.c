@@ -22,8 +22,9 @@ static char	check_set(char c, char *set)
 	return (0);
 }
 
-static char	loc_set(char *s, char *set, size_t mem, int *width)
+static long	loc_set(char *s, char *set, size_t mem, int *width)
 {
+	*width = 0;
 	while (s[mem])
 	{
 		if (ft_isdigit(s[mem]))
@@ -79,7 +80,6 @@ long	pformat(const char *input, long mem, char **store, va_list ap)
 	long	end;
 	int		width;
 	char	*typeholder;
-	char	*garbage_collector;
 
 	if (input[mem] == '%')
 		mem++;
@@ -89,9 +89,8 @@ long	pformat(const char *input, long mem, char **store, va_list ap)
 	typeholder = get_type((char *) &input[end], ap);
 	if (!typeholder)
 		return (-1);
-	garbage_collector = *store;
-	*store = ft_strffjoin(ft_substr(*store, 0, mem - 1), typeholder);
-	free(garbage_collector);
-	*store = resizer(*store, width);
+	if (input[end] != '%')
+		typeholder = resizer(typeholder, width);
+	*store = ft_strffjoin(*store, typeholder);
 	return (end + 1);
 }
