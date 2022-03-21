@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:02:27 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/21 14:48:59 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:32:23 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ long	pformat(const char *input, long mem, char **store, va_list ap);
 
 char	*conv_dec(long num, char type, t_shape *shape);
 char	*conv_hex(unsigned long long num, char type);
-char	*conv_str(char *s);
+char	*conv_str(char *s, t_shape *shape);
 
 char	ft_tkncmp(char *s1, char *s2);
 
