@@ -25,58 +25,60 @@ static unsigned char	count_digits(long *num, char *sign, char div)
 	return (size);
 }
 
-static void	recondition(t_shape *shape, char *type, char *str)
+static void	recondition(t_shape *shape, char *type, size_t ssize)
 {
-	if (shape->width_0 > shape->width_1 && shape->flags & 32)
+	if (shape->w0 > shape->w1 && shape->flags & 32)
 		shape->flags |= 64;
-	if (shape->width_0 > shape->width_1)
-		swap_ints(&shape->width_0, &shape->width_1);
-	if ((size_t) shape->width_0 < ft_strlen(str))
-		shape->width_0 = ft_strlen(str);
-	if ((size_t) shape->width_1 < ft_strlen(str))
-		shape->width_1 = ft_strlen(str);
+	if (shape->w0 > shape->w1)
+		swap_ints(&shape->w0, &shape->w1);
+	if ((size_t) shape->w0 < ssize)
+		shape->w0 = ssize;
+	if ((size_t) shape->w1 < ssize)
+		shape->w1 = ssize;
 	if (*type == 'c')
 		shape->flags = shape->flags & 4;
 	else if (*type == 'u')
 		shape->flags = (shape->flags | (2 | 16)) ^ (2 | 16);
 	if (shape->flags & 32)
-		shape->flags = (shape->flags | (4 | 8)) ^ (4 | 8);
+		shape->flags = (shape->flags | 8) ^ 8;
 	if (shape->flags & 4)
 		shape->flags = (shape->flags | (8 | 16)) ^ (8 | 16);
 	if (shape->flags & (2 | 8))
 		shape->flags = (shape->flags | 16) ^ 16;
-	if ((shape->flags & 2 && shape->flags & 32 && !(shape->flags & 64))
-		|| shape->flags & 16)
-		shape->width_1++;
+	if ((shape->flags & 2 && ((shape->flags & 32 && !(shape->flags & 64))
+		|| (size_t) shape->w1 == ssize)) || shape->flags & 16)
+		shape->w1++;
 	if (shape->flags & 8 || shape->flags & 32)
 		*type = '0';
 	else
 		*type = ' ';
 }
 
-static char	*reshape(char *s, t_shape *shape, char sign, char type)
+static char	*reshape(char *s, t_shape *sh, char sign, char type)
 {
 	char	*news;
-	size_t	scan;
 
-	recondition(shape, &type, s);
-	news = ft_calloc((shape->width_1 + 1), sizeof(char));
+	recondition(sh, &type, ft_strlen(s));
+	news = ft_calloc((sh->w1 + 1), sizeof(char));
 	if (!news)
 		return (NULL);
-	scan = 0;
-	fill(news, ' ', shape->width_1);
-	if (shape->flags & 64)
-		fill(&news[shape->width_1 - shape->width_0], type, shape->width_0);
+	fill(news, ' ', sh->w1);
+	if (sh->flags & 64 && !(sh->flags & 4))
+		fill(&news[sh->w1 - sh->w0], type, sh->w0);
+	else if (sh->flags & 64 && sh->flags & 4)
+		fill(&news[sign / '-'], type, sh->w0);
 	else
-		fill(news, type, shape->width_0);
-	if (shape->flags & 2 && shape->flags & 64)
-		news[shape->width_1 - shape->width_0 - 1] = sign;
-	else if (shape->flags & 2)
+		fill(news, type, sh->w1);
+	if ((sh->flags & 6) / 5 || (sh->flags & 98) == 34 || (sh->flags & 10) / 9)
 		news[0] = sign;
-	if (shape->flags & 4)
-		ft_memcpy(&news[sign / (sign - 1)], s, ft_strlen(s));
+	else if (sh->flags & 2)
+		news[sh->w1 - sh->w0 - 1] = sign;
+	if ((sh->flags & (4 | 32 | 64)) == 36)
+		ft_memcpy(&news[sh->w1 - ft_strlen(s)], s, ft_strlen(s));
+	else if ((sh->flags & (4 | 32)) == 36 || sh->flags & 4)
+		ft_memcpy(&news[sign / '-' + sh->w0 - ft_strlen(s)], s, ft_strlen(s));
 	else
-		ft_memcpy(&news[shape->width_1 - ft_strlen(s)], s, ft_strlen(s));
+		ft_memcpy(&news[sh->w1 - ft_strlen(s)], s, ft_strlen(s));
 	free(s);
 	return (news);
 }
@@ -85,7 +87,7 @@ static char	*conv_chr(long num, t_shape *shape)
 {
 	char	*news;
 
-	shape->width_1 = 0;
+	shape->w1 = 0;
 	news = malloc(sizeof(char) * 2);
 	if (!news)
 		return (NULL);
@@ -114,5 +116,9 @@ char	*conv_dec(long num, char type, t_shape *shape)
 	}
 	if (sign == '-')
 		shape->flags |= 2;
+	if (*news == '0' && (shape-> flags & 32) && !shape->w0 && !shape->w1)
+		*news = 0;
+	else if (*news == '0' && (shape->flags & 32) && shape->w0 && !shape->w1)
+		*news = ' ';
 	return (reshape(news, shape, sign, type));
 }

@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:02:27 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/21 12:43:21 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/03/21 14:48:59 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@
 
 typedef struct s_shape
 {
-	int		width_0;
-	int		width_1;
+	int		w0;
+	int		w1;
 	char	flags;
 }				t_shape;
 

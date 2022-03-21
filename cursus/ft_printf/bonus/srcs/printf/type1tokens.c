@@ -2,8 +2,8 @@
 
 void	alter_shape(t_shape *shape, int w0, int w1, char fl)
 {
-	shape->width_0 = w0;
-	shape->width_1 = w1;
+	shape->w0 = w0;
+	shape->w1 = w1;
 	shape->flags = fl;
 }
 
@@ -24,7 +24,7 @@ static char	valid_expression(t_shape *shape, char c)
 		return (1);
 	else if (is_token && (c == 0 || (c == '.' && (shape->flags & 32))))
 		return (1);
-	else if (is_token && !shape->width_0 && !(shape->flags & 32))
+	else if (is_token && !shape->w0 && !(shape->flags & 32))
 		return (1);
 	else
 		return (0);
@@ -38,7 +38,7 @@ char	t1_checker(t_shape *shape, char c)
 		shape->flags = shape->flags | 2;
 	else if (c == '-')
 		shape->flags = shape->flags | 4;
-	else if (c == '0' && !shape->width_0 && !(shape->flags & 32))
+	else if (c == '0' && !shape->w0 && !(shape->flags & 32))
 		shape->flags = shape->flags | 8;
 	else if (c == ' ')
 		shape->flags = shape->flags | 16;
@@ -47,9 +47,9 @@ char	t1_checker(t_shape *shape, char c)
 	else if (ft_isdigit(c))
 	{
 		if (shape->flags & 32)
-			shape->width_1 = shape->width_1 * 10 + (c - 48);
+			shape->w1 = shape->w1 * 10 + (c - 48);
 		else
-			shape->width_0 = shape->width_0 * 10 + (c - 48);
+			shape->w0 = shape->w0 * 10 + (c - 48);
 	}
 	else
 		return (2);
