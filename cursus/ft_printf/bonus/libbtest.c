@@ -16,11 +16,14 @@ int	main(void)
 	ft_printf("*%-8.5d*\n", -6);
 	ft_printf("*%-8.5d*\n", 6);
 	ft_printf("*%-5d*\n", 6);
-	ft_printf("*%-5d*\n", -6);*/
+	ft_printf("*%-5d*\n", -6);
 	ft_printf("*%.0d*\n", 0);
 	ft_printf("*%.d*\n", 0);
 	ft_printf("*%5.0d*\n", 0);
 	ft_printf("*%5.d*\n", 0);
 	ft_printf("*%-5.0d*\n", 0);
-	ft_printf("*%-5.d*\n", 0);
+	ft_printf("*%-5.d*\n", 0);*/
+	ft_printf("*%c*\n", 0);
+	ft_printf("*%5c*\n", 0);
+	ft_printf("*%-5c*\n", 0);
 }

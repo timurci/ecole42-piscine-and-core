@@ -15,11 +15,14 @@ int	main(void)
 	printf("*%-8.5d*\n", -6);
 	printf("*%-8.5d*\n", 6);
 	printf("*%-5d*\n", 6);
-	printf("*%-5d*\n", -6);*/
+	printf("*%-5d*\n", -6);
 	printf("*%.0d*\n", 0);
 	printf("*%.d*\n", 0);
 	printf("*%5.0d*\n", 0);
 	printf("*%5.d*\n", 0);
 	printf("*%-5.0d*\n", 0);
-	printf("*%-5.d*\n", 0);
+	printf("*%-5.d*\n", 0);*/
+	printf("*%c*\n", 0);
+	printf("*%5c*\n", 0);
+	printf("*%-5c*\n", 0);
 }

@@ -93,6 +93,8 @@ static char	*conv_chr(long num, t_shape *shape)
 		return (NULL);
 	news[0] = (char) num;
 	news[1] = 0;
+	if (!news[0])
+		shape->w0--;
 	return (reshape(news, shape, 0, 'c'));
 }
 
