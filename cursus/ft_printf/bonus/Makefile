@@ -9,7 +9,7 @@ OPATH=objs
 INCLUDE= -I ./includes
 
 PSRCS=ft_printf.c ft_pformats.c ft_joins.c dec_conv.c hex_conv.c ft_strcmp.c \
-	  str_conv.c type1tokens.c fill.c
+	  str_conv.c type1tokens.c fill.c ft_swaps.c
 POBJS=$(PSRCS:.c=.o)
 
 LSRCS=ft_strlen.c ft_substr.c ft_isdigit.c ft_strdup.c ft_memcpy.c ft_calloc.c
@@ -22,11 +22,12 @@ RM=rm -rf
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	mkdir -p objs
+$(NAME): obj_folder $(OBJS)
 	ar rcs $(NAME) $(OBJS)
+obj_folder:
+	mkdir -p objs
 
-$(OPATH)/%.o: $(PPATH)/%.c 
+$(OPATH)/%.o: $(PPATH)/%.c
 	$(CC) $(INCLUDE) -c -o $@ $< $(CFLAGS)
 
 $(OPATH)/%.o: $(LPATH)/%.c
@@ -38,4 +39,4 @@ fclean: clean
 	$(RM) $(NAME)
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re obj_folder
