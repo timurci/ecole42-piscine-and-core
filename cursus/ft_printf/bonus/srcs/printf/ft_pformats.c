@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:04:20 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/21 17:31:34 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:30:51 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static long	loc_set(char *s, size_t mem, t_shape *shape)
 static char	*get_type(char *tn, va_list ap, t_shape *shape)
 {
 	if (!ft_tkncmp(tn, "p"))
-		return (conv_hex(va_arg(ap, unsigned long long), 'p'));
+		return (conv_hex(va_arg(ap, unsigned long long), 'p', shape));
 	else if (!ft_tkncmp(tn, "s"))
 		return (conv_str(va_arg(ap, char *), shape));
 	else if (!ft_tkncmp(tn, "d") || !ft_tkncmp(tn, "i") || !ft_tkncmp(tn, "c"))
@@ -47,7 +47,7 @@ static char	*get_type(char *tn, va_list ap, t_shape *shape)
 	else if (!ft_tkncmp(tn, "u"))
 		return (conv_dec(va_arg(ap, unsigned int), *tn, shape));
 	else if (!ft_tkncmp(tn, "x") || !ft_tkncmp(tn, "X"))
-		return (conv_hex(va_arg(ap, unsigned long long), *tn));
+		return (conv_hex(va_arg(ap, unsigned long long), *tn, shape));
 	else if (!ft_tkncmp(tn, "%"))
 		return (ft_strdup("%"));
 	return (NULL);

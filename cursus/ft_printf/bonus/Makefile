@@ -34,7 +34,7 @@ $(OPATH)/%.o: $(LPATH)/%.c
 	$(CC) $(INCLUDE) -c -o $@ $< $(CFLAGS)
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) objs
 fclean: clean
 	$(RM) $(NAME)
 re: fclean all

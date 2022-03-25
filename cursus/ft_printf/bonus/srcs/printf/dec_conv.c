@@ -54,11 +54,11 @@ static void	recondition(t_shape *shape, char *type, size_t ssize)
 		*type = ' ';
 }
 
-static char	*reshape(char *s, t_shape *sh, char sign, char type)
+static char	*reshape(char *s, t_shape *sh, char sign, char type, size_t slen)
 {
 	char	*news;
 
-	recondition(sh, &type, ft_strlen(s));
+	recondition(sh, &type, slen);
 	news = ft_calloc((sh->w1 + 1), sizeof(char));
 	if (!news)
 		return (NULL);
@@ -74,11 +74,11 @@ static char	*reshape(char *s, t_shape *sh, char sign, char type)
 	else if (sh->flags & 2)
 		news[sh->w1 - sh->w0 - 1] = sign;
 	if ((sh->flags & (4 | 32 | 64)) == 36)
-		ft_memcpy(&news[sh->w1 - ft_strlen(s)], s, ft_strlen(s));
+		ft_memcpy(&news[sh->w1 - slen], s, slen);
 	else if ((sh->flags & (4 | 32)) == 36 || sh->flags & 4)
-		ft_memcpy(&news[sign / '-' + sh->w0 - ft_strlen(s)], s, ft_strlen(s));
+		ft_memcpy(&news[sign / '-' + sh->w0 - slen], s, slen);
 	else
-		ft_memcpy(&news[sh->w1 - ft_strlen(s)], s, ft_strlen(s));
+		ft_memcpy(&news[sh->w1 - slen], s, slen);
 	free(s);
 	return (news);
 }
@@ -95,7 +95,7 @@ static char	*conv_chr(long num, t_shape *shape)
 	news[1] = 0;
 	if (!news[0])
 		shape->w0--;
-	return (reshape(news, shape, 0, 'c'));
+	return (reshape(news, shape, 0, 'c', ft_strlen(news)));
 }
 
 char	*conv_dec(long num, char type, t_shape *shape)
@@ -122,5 +122,5 @@ char	*conv_dec(long num, char type, t_shape *shape)
 		*news = 0;
 	else if (*news == '0' && (shape->flags & 32) && shape->w0 && !shape->w1)
 		*news = ' ';
-	return (reshape(news, shape, sign, type));
+	return (reshape(news, shape, sign, type, ft_strlen(news)));
 }

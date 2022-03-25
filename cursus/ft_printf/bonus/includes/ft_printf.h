@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:02:27 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/21 17:32:23 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:04:36 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
  * sp		0001 0000 (16)
  * .		0010 0000 (32)
  * swapped	0100 0000 (64)
+ * pointer	1000 0000 (128)
  */
 
 typedef struct s_shape
@@ -52,7 +53,7 @@ char	*ft_strffjoin(char *head, char *tail);
 long	pformat(const char *input, long mem, char **store, va_list ap);
 
 char	*conv_dec(long num, char type, t_shape *shape);
-char	*conv_hex(unsigned long long num, char type);
+char	*conv_hex(unsigned long long num, char type, t_shape *shape);
 char	*conv_str(char *s, t_shape *shape);
 
 char	ft_tkncmp(char *s1, char *s2);
