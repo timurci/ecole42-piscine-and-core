@@ -2,7 +2,7 @@
 
 int	main(void)
 {
-	char *s = "hello";
+	char *s = "helloworld!";
 
 	printf("*%10s*\n", s);
 	printf("*%-7.10s*\n", s);

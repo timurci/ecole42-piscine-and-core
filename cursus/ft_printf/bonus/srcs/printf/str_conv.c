@@ -4,23 +4,28 @@ static char	*reshape(char *s, t_shape *sh)
 {
 	char	*news;
 
-	if ((size_t) sh->w0 < ft_strlen(s))
+	swap_ints(&sh->w0, &sh->w1);
+	if (!(sh->flags & 32) || (size_t) sh->w0 > ft_strlen(s))
 		sh->w0 = ft_strlen(s);
-	news = malloc(sizeof(char) * (sh->w0 + 1));
+	if (sh->w1 <= sh->w0)
+		sh->w1 = sh->w0;
+	else if ((size_t) sh->w1 < ft_strlen(s) && !(sh->flags & 32))
+		sh->w1 = ft_strlen(s);
+	news = malloc(sizeof(char) * (sh->w1 + 1));
 	if (!news)
 		return (NULL);
-	news[sh->w0] = 0;
-	fill(news, ' ', sh->w0);
+	news[sh->w1] = 0;
+	fill(news, ' ', sh->w1);
 	if (sh->flags & 4)
-		ft_memcpy(news, s, ft_strlen(s));
+		ft_memcpy(news, s, sh->w0);
 	else
-		ft_memcpy(&news[sh->w0 - ft_strlen(s)], s, ft_strlen(s));
+		ft_memcpy(&news[sh->w1 - sh->w0], s, sh->w0);
 	return (news);
 }
 
 char	*conv_str(char *s, t_shape *shape)
 {
 	if (!s)
-		return (ft_strdup("(null)"));
+		return (reshape("(null)", shape));
 	return(reshape(s, shape));
 }
