@@ -64,7 +64,7 @@ static char	*reshape(char *s, t_shape *sh, char type, size_t slen)
 	else
 		ft_memcpy(&news[sh->w1 - slen], s, slen);
 	free(s);
-	return (news);
+	return (nullp_checker(news, sh, 'h'));
 }
 
 static char	*conv_ptr(unsigned long long num, t_shape *sh, unsigned char size)

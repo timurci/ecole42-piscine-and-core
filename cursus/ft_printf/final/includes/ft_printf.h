@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:02:27 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/27 12:49:09 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/03/27 14:37:29 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,6 @@ typedef struct s_shape
 
 int		ft_printf(const char *input, ...);
 
-char	*ft_strfjoin(char *head, char *tail);
-char	*ft_strffjoin(char *head, char *tail);
-
 long	pformat(const char *input, int mem, int *print_len, va_list ap);
 
 char	*conv_dec(long num, char type, t_shape *shape);
@@ -72,5 +69,6 @@ char	t1_checker(t_shape *shape, char c);
 void	fill(char *s, char c, size_t len);
 void	swap_ints(int *a, int *b);
 char	*sharp_type(t_shape *shape);
+char	*nullp_checker(char *s, t_shape *sh, char type);
 
 #endif

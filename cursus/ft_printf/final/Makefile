@@ -8,11 +8,12 @@ OPATH=objs
 
 INCLUDE= -I ./includes
 
-PSRCS=ft_printf.c ft_pformats.c ft_joins.c dec_conv.c hex_conv.c ft_strcmp.c \
-	  str_conv.c type1tokens.c fill.c ft_swaps.c sharp_type.c
+PSRCS=ft_printf.c ft_pformats.c dec_conv.c hex_conv.c ft_strcmp.c \
+	  str_conv.c type1tokens.c fill.c ft_swaps.c sharp_type.c \
+	  null_format.c
 POBJS=$(PSRCS:.c=.o)
 
-LSRCS=ft_strlen.c ft_substr.c ft_isdigit.c ft_strdup.c ft_memcpy.c ft_calloc.c
+LSRCS=ft_strlen.c ft_strdup.c ft_isdigit.c ft_memcpy.c ft_calloc.c
 LOBJS=$(LSRCS:.c=.o)
 
 OBJS=$(foreach object, $(LOBJS) $(POBJS), $(addprefix $(OPATH)/, $(object)))
