@@ -15,7 +15,10 @@ static char	*reshape(char *s, t_shape *sh)
 	if (!news)
 		return (NULL);
 	news[sh->w1] = 0;
-	fill(news, ' ', sh->w1);
+	if (*s == '%' && (sh->flags & 12) == 8 && ft_strlen(s) == 1)
+		fill(news, '0', sh->w1);
+	else
+		fill(news, ' ', sh->w1);
 	if (sh->flags & 4)
 		ft_memcpy(news, s, sh->w0);
 	else
@@ -27,10 +30,5 @@ char	*conv_str(char *s, t_shape *shape)
 {
 	if (!s)
 		return (reshape("(null)", shape));
-	if (ft_strlen(s) == 1 && *s == '%')
-	{
-		shape->w1 = 1;
-		return (ft_strdup("%"));
-	}
 	return(reshape(s, shape));
 }
