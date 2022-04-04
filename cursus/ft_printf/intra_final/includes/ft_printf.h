@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:02:27 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/27 15:29:41 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/04/04 12:08:21 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
  * sp		0001 0000 (16)
  * .		0010 0000 (32)
  * swapped	0100 0000 (64)
- * capital	1000 0000 (128)
+ * capital	1000 0000 (128)	
  */
 
 typedef struct s_shape
@@ -45,6 +45,39 @@ typedef struct s_shape
 	char	flags;
 	int		slen;
 }				t_shape;
+
+/*
+ * w0 stores width field, w1 stores precision field. if there is no
+ * width or precision field, then the variables are left in their
+ * default values which is 0.
+ *
+ * the w0 and w1 differ semantically in recondition/reshape functions used
+ * within conv_dec/conv_hex/conv_str function files. 
+ * in that case w1 represents maximum length/width for the allocated string
+ * and w0 represents the width of the target variable.
+ * 		for example: "    123" has w1 of 7 and w0 of 3.
+ * 
+ * flags will be modified by t1_checker function according to the list 
+ * provided in the flag table.
+ * 		capital is a design flaw due to the limitations of norminette.
+ * 		it is used in order to determine whether "x" is capital or not.
+ * 
+ * slen has a niche use and is a design flaw due to the limitations 
+ * of norminette. only found in dec_conv, designed in order to handle 
+ * null value in char type.
+ */
+
+/*
+ * pformat is used to scan type2tokens and check if the format is valid.
+ * if the format is valid, the variable is written to stdout and the 
+ * written amount is added to integer print_len. if the format is invalid
+ * then a negative value is returned.
+ *
+ * conv_dec/conv_hex/conv_str is used to take the appropriate variable
+ * and return a string created allocated in heap according to the format.
+ *
+ * ft_tkncmp is an alternative strcmp function to compare type2tokens
+ */
 
 int		ft_printf(const char *input, ...);
 
@@ -61,6 +94,17 @@ char	ft_tkncmp(char *s1, char *s2);
  *
  * t1_checker checks and handles type1tokens and digit operations
  * returns 1 if (char c) violates the format syntax.
+ *
+ * fill function will fill from "s" address with "c" for "len" bytes.
+ *
+ * sharp_type is used in hexadecimal operations, used to determine
+ * whether the initial letter "x" will be capitalized or not when
+ * the token is "p" or "#" has been used. returns "0x" or "0X"
+ *
+ * nullp_checker has been designed to handle null values with "c"
+ * or "xX" tokens. however, the "c" handling has been removed.
+ * "type" passed "i" if it is from decimal operation or "h" if
+ * it is from hexadecimal operation.
  */
 
 void	alter_shape(t_shape *shape, int w0, int w1, char flags);

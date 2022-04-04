@@ -6,19 +6,13 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:04:45 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/27 11:50:35 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/04/04 11:47:01 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdarg.h>
 #include <stdlib.h>
 #include "ft_printf.h"
-
-/*controls are not optimal due to norminette limitations.
- *ln14 check store && input
- *ln24 check store
- *
- */
 
 int	check_cd(int mem, int print_len)
 {
