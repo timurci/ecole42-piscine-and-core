@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 15:28:37 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/27 15:36:40 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/04/04 15:24:15 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static char	*reshape(char *s, t_shape *sh, char sign, char type)
 	else if (sh->flags & 64 && sh->flags & 4)
 		fill(&news[sign / '-'], type, sh->w0);
 	else
-		fill(news, type, sh->w1);
+		fill(&news[(sh->flags & 16) / 15], type, sh->w1);
 	if ((sh->flags & 6) / 5 || (sh->flags & 98) == 34 || (sh->flags & 10) / 9)
 		news[0] = sign;
 	else if (sh->flags & 2)
@@ -103,7 +103,7 @@ static char	*conv_chr(long num, t_shape *shape)
 	news = malloc(sizeof(char) * 2);
 	if (!news)
 		return (NULL);
-	news[0] = (char) num;
+	news[0] = (unsigned char) num;
 	news[1] = 0;
 	shape->slen = 1;
 	return (reshape(news, shape, 0, 'c'));
@@ -119,8 +119,6 @@ char	*conv_dec(long num, char type, t_shape *shape)
 		return (conv_chr(num, shape));
 	digit_size = count_digits(&num, &sign, 10);
 	news = malloc(sizeof(char) * (digit_size + 1));
-	if (!news)
-		return (NULL);
 	news[digit_size] = 0;
 	while (digit_size > 0)
 	{
@@ -129,6 +127,8 @@ char	*conv_dec(long num, char type, t_shape *shape)
 	}
 	if (sign == '-')
 		shape->flags |= 2;
+	if (shape->w0 > shape->w1)
+		shape->flags = (shape->flags | 16) ^ 16;
 	if (*news == '0' && (shape-> flags & 32) && !shape->w0 && !shape->w1)
 		*news = 0;
 	else if (*news == '0' && (shape->flags & 32) && shape->w0 && !shape->w1)

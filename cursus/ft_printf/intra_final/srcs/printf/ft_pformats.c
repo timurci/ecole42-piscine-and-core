@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 12:04:20 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/27 12:23:13 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/04/04 15:11:09 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static char	*get_type(char *tn, va_list ap, t_shape *shape)
 	else if (!ft_tkncmp(tn, "u"))
 		return (conv_dec(va_arg(ap, unsigned int), *tn, shape));
 	else if (!ft_tkncmp(tn, "x") || !ft_tkncmp(tn, "X"))
-		return (conv_hex(va_arg(ap, unsigned long long), *tn, shape));
+		return (conv_hex(va_arg(ap, unsigned int), *tn, shape));
 	else if (!ft_tkncmp(tn, "%"))
 		return (conv_str("%", shape));
 	return (NULL);
