@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 15:21:42 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/03/27 15:21:43 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/04/08 10:18:47 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ static void	recondition(t_shape *shape, char *type, size_t ssize)
 		shape->flags = (shape->flags | (8 | 16)) ^ (8 | 16);
 	if (shape->flags & 1 && (size_t) shape->w1 < ssize + 2)
 		shape->w1 = ssize + 2;
+	else if ((shape->flags & (1 | 32 | 64)) == 33)
+		shape->w1 += 2;
 	if (shape->flags & (8 | 32))
 		*type = '0';
 	else
