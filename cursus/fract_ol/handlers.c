@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handlers.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/07 18:00:37 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/05/07 18:05:05 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
 int	key_handler(int keycode, void *param)
 {
-	t_mlx *app;
+	t_mlx	*app;
 
 	app = (t_mlx *) param;
 	//printf("\x1b[1F\r\x1b[0K%d\n", keycode);
@@ -31,8 +43,6 @@ int	mouse_handler(int button, int x, int y, void *param)
 
 int	zoom_handler(t_mlx *app, int button, int x, int y)
 {
-	int	color[] = {0x00FFFFFF, 0x00000000};
-
 	if (app->mode == 0)
 		return (0);
 	if (button == 4 && app->border < 2147483597)
@@ -42,15 +52,11 @@ int	zoom_handler(t_mlx *app, int button, int x, int y)
 		app->offset_y += sign(app->size_y / 2 - y) * 40;
 	}
 	else if (app->border > 50)
-	{
 		app->border += 50;
-		//app->offset_x -= sign(app->size_x / 2 + app->offset_x - x) * 0.25;
-		//app->offset_y -= sign(app->size_y / 2 + app->offset_y - y) * 0.25;
-	}
 	if (app->mode == 9)
-		draw_item(app, in_circle, colors);
+		draw_item(app, in_circle);
 	else if (app->mode == 1)
-		draw_item(app, in_mandelbrot, colors);
+		draw_item(app, in_mandelbrot);
 	return (1);
 }
 

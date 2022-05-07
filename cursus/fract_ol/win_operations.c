@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   win_operations.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/07 18:01:30 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/05/07 18:19:27 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
 void	set_mlx(t_mlx *app)
@@ -15,19 +27,6 @@ void	set_mlx(t_mlx *app)
 	img->data = mlx_get_data_addr(img->ptr, &img->bpp, &img->s_line, &img_end);
 	paint_bg(img, app, 0x00FFFFFF);
 	app->frame = img;
-}
-
-// 2 palettes with 2 values: 1. background 2. foreground
-
-int	**init_color_palette(void)
-{
-	app->colors = malloc(sizeof(int *) * 2);
-	app->colors[0] = malloc(sizeof(int) * 2);
-	app->colors[0][0] = 0x00000000;
-	app->colors[0][1] = 0x00FFFFFF;
-	app->colors[1] = malloc(sizeof(int) * 2);
-	app->colors[1][0] = 0x003271a8;
-	app->colors[1][1] = 0x00cf9538;
 }
 
 int	destroy_win(void *param)
