@@ -2,7 +2,7 @@
 
 static t_colors	*add_palette(int bg, int fg, t_colors *head)
 {
-	t_color	*newp;
+	t_colors	*newp;
 
 	newp = malloc(sizeof(*newp));
 	newp->bg = bg;
@@ -13,7 +13,7 @@ static t_colors	*add_palette(int bg, int fg, t_colors *head)
 	return (newp);
 }
 
-t_colors	*init_colorpalette(void)
+t_colors	*init_color_palette(void)
 {
 	t_colors	*first;
 	t_colors	*pivot;

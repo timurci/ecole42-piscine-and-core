@@ -1,18 +1,32 @@
 #include "fractol.h"
 
-
+static int	in_circle(t_mlx *app, int x, int y)
+{
+	x = (x - (app->size_x / 2));
+	y = ((app->size_y / 2) - y);
+	if (x * x + y * y < app->border)
+		return (0x00000000);
+	else
+		return (0x00FFFFFF);
+}
 
 void	circle(t_mlx *app, t_img *img)
 {
-	t_vector	v;
-
-	vector_init(&v);
-	while (v.pos_y < app->size_y)
+	int		x;
+	int		y;
+	int		pixel_size;
+	
+	pixel_size = app->border * 2 / app->size_x;
+	y = 0;
+	while (y < app->size_y / 2)
 	{
-		v.pos_x = 0;
-		while (v.pos_x < app->size_x)
+		x = 0;
+		while (x < app->size_x)
 		{
+			fill_bits(img, x, y, in_circle(app, x, y));
+			x++;
 		}
-		v.pos_y++;
+		y++;
 	}
+	//fill_other_half(app, img);
 }

@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 18:00:37 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/05/07 18:05:05 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/05/08 13:02:18 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int	key_handler(int keycode, void *param)
 	if (keycode == 53)
 		destroy_win(app);
 	else if (keycode == 25)
-		call_item(app, in_circle, 9);
+		call_item(app, circle, 9);
 	else if (keycode == 18)
-		call_item(app, in_mandelbrot, 1);
+		call_item(app, mandelbrot, 1);
 	return (1);
 }
 
@@ -52,11 +52,11 @@ int	zoom_handler(t_mlx *app, int button, int x, int y)
 		app->offset_y += sign(app->size_y / 2 - y) * 40;
 	}
 	else if (app->border > 50)
-		app->border += 50;
+		app->border -= 50;
 	if (app->mode == 9)
-		draw_item(app, in_circle);
-	else if (app->mode == 1)
-		draw_item(app, in_mandelbrot);
+		draw_item(app, circle);
+	//else if (app->mode == 1)
+	//	draw_item(app, in_mandelbrot);
 	return (1);
 }
 

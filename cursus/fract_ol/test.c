@@ -1,6 +1,9 @@
 #include "mlx.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
+
+char	*ft_strdup(char *s);
 
 typedef struct	s_img
 {
@@ -59,6 +62,21 @@ void	paint_bg(t_img *img, t_mlx *app, int color)
 	app->is_modified = 100;
 }
 
+void	replace_bg(t_mlx *app, int color)
+{
+	t_img	*img;
+	t_img	*temp;
+
+	img = malloc(sizeof(*img));
+	img->ptr = mlx_new_image(app->mlx, app->size_x, app->size_y);
+	img->data = mlx_get_data_addr(img->ptr, &img->bpp, &img->s_line, &img->end);
+	paint_bg(img, app, color);
+	temp = app->frame;
+	app->frame = img;
+	mlx_destroy_image(app->mlx, img->ptr);
+	free(temp);
+}
+
 void	set_mlx(t_mlx *app)
 {
 	t_img	*img;
@@ -71,7 +89,7 @@ void	set_mlx(t_mlx *app)
 	img = malloc(sizeof(*img));
 	img->ptr = mlx_new_image(app->mlx, app->size_x, app->size_y);
 	img->data = mlx_get_data_addr(img->ptr, &img->bpp, &img->s_line, &img->end);
-	paint_bg(img, app, 0x00FFFFFF);
+	paint_bg(img, app, 0x00a1b2c3);
 	app->frame = img;
 }
 
@@ -89,25 +107,35 @@ int	sign(int n)
 		return (1);
 }
 
-int	zoom_handler(t_mlx *app, int button, int x, int y)
+int	color_bit(char c)
 {
-	int	colors[] = {0x00FFFFFF, 0x00000000};
+	if (c >= '0' && c <= '9')
+		return (c - 48);
+	else if (c >= 'a' && c <= 'f')
+		return (c - 87);
+	else if (c >= 'A' && c <= 'F')
+		return (c - 55);
+	return (0);
+}
 
-	if (app->mode == 0)
-		return (0);
-	if (button == 4 && app->border < 2147483597)
+int	get_color(void)
+{
+	int		color;
+	int		scan;
+	char	buf[7];
+
+	printf("ENTER HEX VALUE (ex. fb2ab1): ");
+	read(0, buf, 6);
+	buf[6] = 0;
+	color = 0;
+	scan = 0;
+	while (scan < 6)
 	{
-		app->border += 50;
-		app->offset_x += sign(app->size_x / 2 - x) * 20;
-		app->offset_y += sign(app->size_y / 2 - y) * 20;
+		color |= color_bit(buf[scan]);
+		color = color << 1;
+		scan++;
 	}
-	else if (app->border > 50)
-		app->border -= 50;
-	if (app->mode == 9)
-		draw_item(app, in_circle, colors);
-	else if (app->mode == 1)
-		draw_item(app, in_mandelbrot, colors);
-	return (1);
+	return (color);
 }
 
 int	key_handler(int keycode, void *param)
@@ -116,7 +144,12 @@ int	key_handler(int keycode, void *param)
 	//int	colors[] = {0x00FFFFFF, 0x00000000};
 
 	app = (t_mlx *) param;
-	printf("\x1b[1F\r\x1b[0K%d\n", keycode);
+	//printf("\x1b[1F\r\x1b[0K%d\n", keycode);
+	if (keycode == 44)
+	{
+		get_color();
+		mlx_put_image_to_window(app->mlx, app->win, app->frame, 0, 0);
+	}
 	return (1);
 }
 
@@ -129,8 +162,6 @@ int	mouse_handler(int button, int x, int y, void *param)
 	app->mouse_y = y;
 	if (button == 1)
 		printf("x: %4d\ty: %4d\n", app->mouse_x, app->mouse_y);
-	else if (button == 4 || button == 5)
-		zoom_handler(app, button, x, y);
 	return (1);
 }
 

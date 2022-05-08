@@ -16,6 +16,13 @@ typedef struct	s_img
 	int		end;
 }				t_img;
 
+typedef struct	s_colors
+{
+	int				bg;
+	int				fg;
+	struct s_colors	*next;
+}				t_colors;
+
 typedef	struct	s_mlx
 {
 	void		*mlx;
@@ -27,6 +34,8 @@ typedef	struct	s_mlx
 	char		mode;
 	int			size_x;
 	int			size_y;
+	int			center_x;
+	int			center_y;
 	int			mouse_x;
 	int			mouse_y;
 	int			border;
@@ -42,28 +51,26 @@ typedef struct	s_vector
 	int		pos_y;
 }				t_vector;
 
-typedef struct	s_colors
-{
-	int				bg;
-	int				fg;
-	struct s_colors	*next;
-}				t_colors;
+char		*ft_strdup(char *str);
+int			sign(int n);
 
-char	*ft_strdup(char *str);
-int		sign(int n);
+void		set_mlx(t_mlx *app);
+int			destroy_win(void *param);
+int			put_frame(void *param);
+int			activate_frame(void *param);
+t_colors	*init_color_palette(void);
 
-void	set_mlx(t_mlx *app);
-int		destroy_win(void *param);
-int		put_frame(void *param);
-int		activate_frame(void *param);
+int			zoom_handler(t_mlx *app, int button, int x, int y);
+int			key_handler(int keycode, void *param);
+int			mouse_handler(int button, int x, int y, void *param);
 
-int		zoom_handler(t_mlx *app, int button, int x, int y);
-int		key_handler(int keycode, void *param);
-int		mouse_handler(int button, int x, int y, void *param);
+void		fill_bits(t_img *img, int x, int y, int color);
+void		fill_other_half(t_mlx *app, t_img *img);
+void		paint_bg(t_img *img, t_mlx *app, int color);
+void		call_item(t_mlx *app, void (*f)(t_mlx *, t_img *), char mode);
+void		draw_item(t_mlx *app, void (*f)(t_mlx *, t_img *));
 
-void	fill_bits(t_img *img, int x, int y, int color);
-void	paint_bg(t_img *img, t_mlx *app, int color);
-void	call_item(t_mlx *app, void (*f)(t_mlx *, t_img *), char mode);
-void	draw_item(t_mlx *app, void (*f)(t_mlx *, t_img *));
+void		circle(t_mlx *app, t_img *img);
+void		mandelbrot(t_mlx *app, t_img *img);
 
 #endif
