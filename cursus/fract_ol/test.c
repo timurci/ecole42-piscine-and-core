@@ -144,7 +144,7 @@ int	key_handler(int keycode, void *param)
 	//int	colors[] = {0x00FFFFFF, 0x00000000};
 
 	app = (t_mlx *) param;
-	//printf("\x1b[1F\r\x1b[0K%d\n", keycode);
+	printf("\x1b[1F\r\x1b[0K%d\n", keycode);
 	if (keycode == 44)
 	{
 		get_color();

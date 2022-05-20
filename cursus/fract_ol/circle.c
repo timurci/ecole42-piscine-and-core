@@ -4,7 +4,7 @@ static int	in_circle(t_mlx *app, int x, int y)
 {
 	x = (x - (app->size_x / 2));
 	y = ((app->size_y / 2) - y);
-	if (x * x + y * y < app->border)
+	if ((size_t) x * x + y * y < app->border)
 		return (0x00000000);
 	else
 		return (0x00FFFFFF);

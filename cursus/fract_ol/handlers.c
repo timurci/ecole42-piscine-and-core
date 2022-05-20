@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 18:00:37 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/05/08 13:02:18 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:40:08 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ int	key_handler(int keycode, void *param)
 		call_item(app, circle, 9);
 	else if (keycode == 18)
 		call_item(app, mandelbrot, 1);
+	else if (keycode == 12 || keycode == 14)
+		change_itr(app, keycode);
+	else if (keycode == 13 || (keycode > -1 && keycode < 4))
+		shift_item(app, keycode);
 	return (1);
 }
 
@@ -37,26 +41,19 @@ int	mouse_handler(int button, int x, int y, void *param)
 	if (button == 1)
 		printf("x: %4d\ty: %4d\n", x, y);
 	else if (button == 4 || button == 5)
-		zoom_handler(app, button, x, y);
+		zoom_handler(app, button);
 	return (1);
 }
 
-int	zoom_handler(t_mlx *app, int button, int x, int y)
+int	zoom_handler(t_mlx *app, int button)
 {
 	if (app->mode == 0)
 		return (0);
 	if (button == 4 && app->border < 2147483597)
-	{
-		app->border += 50;
-		app->offset_x += sign(app->size_x / 2 - x) * 40;
-		app->offset_y += sign(app->size_y / 2 - y) * 40;
-	}
+		app->border *= 1.1;
 	else if (app->border > 50)
-		app->border -= 50;
-	if (app->mode == 9)
-		draw_item(app, circle);
-	//else if (app->mode == 1)
-	//	draw_item(app, in_mandelbrot);
+		app->border /= 1.1;
+	redraw(app);
 	return (1);
 }
 

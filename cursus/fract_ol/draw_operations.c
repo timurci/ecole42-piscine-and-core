@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 18:00:56 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/05/08 15:01:13 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/05/20 15:49:24 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	paint_bg(t_img *img, t_mlx *app, int color)
 
 void	call_item(t_mlx *app, void (*f)(t_mlx *, t_img *), char mode)
 {
-	app->border = 600;
-	app->offset_x = 0;
-	app->offset_y = 0;
+	app->border = 100;
+	app->center_x = app->size_x / 2;
+	app->center_y = app->size_y / 2;
 	app->mode = mode;
 	draw_item(app, f);
 }
@@ -56,10 +56,10 @@ void	draw_item(t_mlx *app, void (*f)(t_mlx *, t_img *))
 	app->is_modified = 100;
 }
 
-void	vector_init(t_vector *v)
+void	redraw(t_mlx *app)
 {
-	v->dir_x = 1;
-	v->dir_y = 1;
-	v->pos_x = 0;
-	v->pos_y = 0;
+	if (app->mode == 9)
+		draw_item(app, circle);
+	else if (app->mode == 1)
+		draw_item(app, mandelbrot);
 }

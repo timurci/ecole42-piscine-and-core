@@ -1,6 +1,6 @@
 #include "fractol.h"
 
-static int	desat_color(int color, int factor)
+static int	desat_color(int color, float factor)
 {
 	int	r;
 	int	g;
@@ -10,47 +10,45 @@ static int	desat_color(int color, int factor)
 	g = (color >> 8) & 0xFF;
 	b = (color >> 16) & 0xFF;
 	color = 0;
-	color = (color | (b * factor)) << 8;
-	color = (color | (g * factor)) << 8;
-	color = (color | (r * factor)) << 8;
-	return (color);
+	color = (color | (int) (b * factor)) << 8;
+	color = (color | (int) (g * factor)) << 8;
+	color = (color | (int) (r * factor)) << 8;
+	return (color * factor);
 }
 
-int	color_pixel(int itr)
+int	color_pixel(int itr, int max_itr)
 {
-	if (itr > 900)
+	if (itr == max_itr)
 		return (0x00000000);
 	else
-		return (desat_color(0x00a1b2c3, itr / 2));
+		return (desat_color(0x00a1b2c3, (float) itr / max_itr));
 }
 
-static int	apply_mandel(double x0, double y0)
+static int	apply_mandel(double *c, int max_iter)
 {
 	int		itr;
-	double	x;
-	double	y;
-	double	x2;
-	double	y2;
+	double	z[2];
+	double	z2[2];
 
 	itr = 0;
-	x = 0;
-	y = 0;
-	x2 = 0;
-	y2 = 0;
-	while (x2 + y2 < 4 && itr++ < 1000)
+	z[0] = 0;
+	z[1] = 0;
+	z2[0] = 0;
+	z2[1] = 0;
+	while (z2[0] + z2[1] < 4 && ++itr < max_iter)
 	{
-		y = (x + x) * y + y0;
-		x = x2 - y2 + x0;
-		x2 = x * x;
-		y2 = y * y;
+		z[1] = (z[0] + z[0]) * z[1] + c[1];
+		z[0] = z2[0] - z2[1] + c[0];
+		z2[0] = z[0] * z[0];
+		z2[1] = z[1] * z[1];
 	}
-	return (color_pixel(itr));
+	return (color_pixel(itr, max_iter));
 }
 
 void	mandelbrot(t_mlx *app, t_img *img)
 {
 	int		pos[2];
-	double	scaled[2];
+	double	c[2];
 	double	scale;
 
 	scale = (double) 1 / app->border;
@@ -60,9 +58,9 @@ void	mandelbrot(t_mlx *app, t_img *img)
 		pos[0] = 0;
 		while (pos[0] < app->size_x)
 		{
-			scaled[0] = (pos[0] - app->center_x) * scale;
-			scaled[1] = (app->center_y - pos[1]) * scale;
-			fill_bits(img, pos[0], pos[1], apply_mandel(scaled[0], scaled[1]));
+			c[0] = (pos[0] - app->center_x) * scale;
+			c[1] = (app->center_y - pos[1]) * scale;
+			fill_bits(img, pos[0], pos[1], apply_mandel(c, app->max_iter));
 			pos[0]++;
 		}
 		pos[1]++;

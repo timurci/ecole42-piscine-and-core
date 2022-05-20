@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 18:01:30 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/05/08 18:20:21 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/05/20 16:35:20 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ void	set_mlx(t_mlx *app)
 {
 	t_img	*img;
 
-	app->size_x = 800;
-	app->size_y = 800;
+	app->size_x = 600;
+	app->size_y = 400;
 	app->center_x = app->size_x / 2;
 	app->center_y = app->size_y / 2;
 	app->title = ft_strdup("Fract'ol");
 	app->border = 100;
+	app->max_iter = 30;
 	app->mode = 0;
 	app->colors = init_color_palette();
 	img = malloc(sizeof(*img));
