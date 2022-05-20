@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 18:00:37 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/05/20 16:40:08 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/05/20 19:05:39 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	key_handler(int keycode, void *param)
 		change_itr(app, keycode);
 	else if (keycode == 13 || (keycode > -1 && keycode < 4))
 		shift_item(app, keycode);
+	else if (keycode == 44)
+		printf("Border: %5zu\tCx: %5d\tCy: %5d\n", app->border, app->center_x, app->center_y);
 	return (1);
 }
 
@@ -41,18 +43,26 @@ int	mouse_handler(int button, int x, int y, void *param)
 	if (button == 1)
 		printf("x: %4d\ty: %4d\n", x, y);
 	else if (button == 4 || button == 5)
-		zoom_handler(app, button);
+		zoom_handler(app, button, x, y);
 	return (1);
 }
 
-int	zoom_handler(t_mlx *app, int button)
+int	zoom_handler(t_mlx *app, int button, int x, int y)
 {
 	if (app->mode == 0)
 		return (0);
 	if (button == 4 && app->border < 2147483597)
+	{
 		app->border *= 1.1;
+		app->center_x -= (float) sign(x - app->size_x / 2) * 1.1;
+		app->center_y -= (float) sign(y - app->size_y / 2) * 1.1;
+	}
 	else if (app->border > 50)
+	{
 		app->border /= 1.1;
+		app->center_x += (float) sign(x - app->size_x / 2) / app->border * 5000;
+		app->center_y += (float) sign(y - app->size_y / 2) / app->border * 5000;
+	}
 	redraw(app);
 	return (1);
 }

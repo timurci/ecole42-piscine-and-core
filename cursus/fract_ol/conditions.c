@@ -22,12 +22,12 @@ void	change_itr(t_mlx *app, int keycode)
 void	shift_item(t_mlx *app, int keycode)
 {
 	if (keycode == 0)
-		app->center_x += 10 * app->border / app->size_x;
+		app->center_x += 100 * app->size_x / app->border;
 	else if (keycode == 1)
-		app->center_y -= 10 * app->border / app->size_y;
+		app->center_y -= 100 * app->size_y / app->border;
 	else if (keycode == 2)
-		app->center_x -= 10 * app->border / app->size_x;
+		app->center_x -= 100 * app->size_x / app->border;
 	else if (keycode == 13)
-		app->center_y += 10 * app->border / app->size_y;
+		app->center_y += 100 * app->size_y / app->border;
 	redraw(app);
 }

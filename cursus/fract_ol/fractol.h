@@ -54,7 +54,7 @@ int			put_frame(void *param);
 int			activate_frame(void *param);
 t_colors	*init_color_palette(void);
 
-int			zoom_handler(t_mlx *app, int button);
+int			zoom_handler(t_mlx *app, int button, int x, int y);
 int			key_handler(int keycode, void *param);
 int			mouse_handler(int button, int x, int y, void *param);
 
