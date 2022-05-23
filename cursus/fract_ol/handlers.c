@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 18:00:37 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/05/20 19:05:39 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/05/23 17:10:40 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,24 @@ int	mouse_handler(int button, int x, int y, void *param)
 
 int	zoom_handler(t_mlx *app, int button, int x, int y)
 {
+	//int	mov_x;
+	//int	mov_y;
+
+	//mov_x = sign(x - app->size_x / 2);
+	//mov_y = sign(y - app->size_y / 2);
 	if (app->mode == 0)
 		return (0);
 	if (button == 4 && app->border < 2147483597)
 	{
 		app->border *= 1.1;
-		app->center_x -= (float) sign(x - app->size_x / 2) * 1.1;
-		app->center_y -= (float) sign(y - app->size_y / 2) * 1.1;
+		app->center_x -= (float) /*sign(x - mid_x)*/ 1;
+		app->center_y -= (float) /*sign(y - mid_y)*/ 1;
 	}
 	else if (app->border > 50)
 	{
 		app->border /= 1.1;
-		app->center_x += (float) sign(x - app->size_x / 2) / app->border * 5000;
-		app->center_y += (float) sign(y - app->size_y / 2) / app->border * 5000;
+		app->center_x += (float) /*sign(x - mid_x) / app->border **/x * 5000;
+		app->center_y += (float) /*sign(y - mid_y) / app->border **/y * 5000;
 	}
 	redraw(app);
 	return (1);
