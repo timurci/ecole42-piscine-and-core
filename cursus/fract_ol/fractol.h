@@ -34,11 +34,11 @@ typedef	struct	s_mlx
 	char			mode;
 	int				size_x;
 	int				size_y;
-	int				center_x;
-	int				center_y;
+	long			center_x;
+	long			center_y;
 	int				mouse_x;
 	int				mouse_y;
-	size_t			border;
+	unsigned long	border;
 	int				max_iter;
 	int				offset_x;
 	int				offset_y;
