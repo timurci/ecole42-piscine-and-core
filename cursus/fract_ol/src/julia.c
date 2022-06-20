@@ -10,9 +10,12 @@ static int	desat_color(int color, float factor)
 	g = (color >> 8) & 0xFF;
 	b = (color >> 16) & 0xFF;
 	color = 0;
-	color = (color | (int) (b * factor)) << 8;
-	color = (color | (int) (g * factor)) << 8;
-	color = (color | (int) (r * factor)) << 8;
+	r = 9 * (1 - factor) * pow(factor, 3) * 255;
+	g = 15 * pow((1 - factor), 2) * pow(factor, 2) * 255;
+	b = 8.5 * pow((1 - factor), 3) * factor * 255;
+	color = (color | (int) r) << 8;
+	color = (color | (int) g) << 8;
+	color = (color | (int) b);
 	return (color * factor);
 }
 
