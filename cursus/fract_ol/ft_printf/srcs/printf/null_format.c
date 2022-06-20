@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   null_format.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/07 18:01:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/06/20 16:49:31 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/03/27 15:22:56 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/03/27 18:34:58 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "ft_printf.h"
 
-char	*ft_strdup(const char *s)
+char	*nullp_checker(char *s, t_shape *sh, char type)
 {
-	char	*news;
-	size_t	len;
+	int		scan;
 
-	len = 0;
-	while (s[len])
-		len++;
-	news = malloc(sizeof(*news) * (len + 1));
-	if (!news)
-		return (NULL);
-	news[len] = 0;
-	while (len-- > 0)
-		news[len] = s[len];
-	return (news);
+	scan = 1;
+	if (*s == 0 && sh->w1 == 1 && type != 'i')
+	{
+		sh->w1 = 0;
+		return (s);
+	}
+	return (s);
 }

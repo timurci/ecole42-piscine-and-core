@@ -1,6 +1,7 @@
 #ifndef FRACTOL_H
 # define FRACTOL_H
 # include "mlx.h"
+# include "ft_printf.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -45,7 +46,6 @@ typedef	struct	s_mlx
 }				t_mlx;
 
 void		ft_bzero(void *s, size_t n);
-char		*ft_strdup(char *str);
 int			sign(int n);
 
 void		set_mlx(t_mlx *app);
@@ -73,5 +73,6 @@ void		mandelbrot(t_mlx *app, t_img *img);
 void		julia(t_mlx *app, t_img *img);
 
 void		put_axis(t_mlx *app);
+void		menu(t_mlx *app, int ac, char **av);
 
 #endif

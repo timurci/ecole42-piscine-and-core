@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   fill.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/07 18:01:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/06/20 16:49:31 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/03/27 15:28:56 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/03/27 15:28:56 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "ft_printf.h"
 
-char	*ft_strdup(const char *s)
+void	fill(char *s, char c, size_t len)
 {
-	char	*news;
-	size_t	len;
+	size_t	itr;
 
-	len = 0;
-	while (s[len])
-		len++;
-	news = malloc(sizeof(*news) * (len + 1));
-	if (!news)
-		return (NULL);
-	news[len] = 0;
-	while (len-- > 0)
-		news[len] = s[len];
-	return (news);
+	itr = 0;
+	while (itr < len)
+		s[itr++] = c;
 }

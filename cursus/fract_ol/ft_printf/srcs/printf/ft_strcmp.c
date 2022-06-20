@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/07 18:01:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/06/20 16:49:31 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/03/05 12:05:23 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/03/05 13:52:55 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-
-char	*ft_strdup(const char *s)
+/*static char	ft_isspace(char c)
 {
-	char	*news;
-	size_t	len;
+	if ((c > 8 && c < 14) || c == ' ')
+		return (1);
+	return (0);
+}*/
 
-	len = 0;
-	while (s[len])
-		len++;
-	news = malloc(sizeof(*news) * (len + 1));
-	if (!news)
-		return (NULL);
-	news[len] = 0;
-	while (len-- > 0)
-		news[len] = s[len];
-	return (news);
+char	ft_tkncmp(char *s1, char *s2)
+{
+	while (*s1 && *s2)
+	{
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
+	}
+	return (0);
 }

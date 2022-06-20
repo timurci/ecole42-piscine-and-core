@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
+/*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/07 18:01:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/06/20 16:49:31 by tcakmako         ###   ########.fr       */
+/*   Created: 2022/01/31 13:46:49 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/03/05 12:26:28 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft.h"
 
-char	*ft_strdup(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	char	*news;
-	size_t	len;
+	size_t	size;
 
-	len = 0;
-	while (s[len])
-		len++;
-	news = malloc(sizeof(*news) * (len + 1));
-	if (!news)
-		return (NULL);
-	news[len] = 0;
-	while (len-- > 0)
-		news[len] = s[len];
-	return (news);
+	size = 0;
+	if (!s)
+		return (0);
+	while (s[size])
+		size++;
+	return (size);
 }
