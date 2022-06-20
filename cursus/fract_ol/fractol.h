@@ -36,8 +36,8 @@ typedef	struct	s_mlx
 	int				size_y;
 	long			center_x;
 	long			center_y;
-	int				mouse_x;
-	int				mouse_y;
+	double			mouse_x;
+	double			mouse_y;
 	unsigned long	border;
 	int				max_iter;
 	int				offset_x;
@@ -70,5 +70,8 @@ void		redraw(t_mlx *app);
 
 void		circle(t_mlx *app, t_img *img);
 void		mandelbrot(t_mlx *app, t_img *img);
+void		julia(t_mlx *app, t_img *img);
+
+void		put_axis(t_mlx *app);
 
 #endif

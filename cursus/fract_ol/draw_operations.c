@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 18:00:56 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/05/20 15:49:24 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/06/20 12:25:04 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,6 @@ void	redraw(t_mlx *app)
 		draw_item(app, circle);
 	else if (app->mode == 1)
 		draw_item(app, mandelbrot);
+	else if (app->mode == 2)
+		draw_item(app, julia);
 }

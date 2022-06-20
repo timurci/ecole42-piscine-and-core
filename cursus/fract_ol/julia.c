@@ -16,7 +16,7 @@ static int	desat_color(int color, float factor)
 	return (color * factor);
 }
 
-int	color_pixel(int itr, int max_itr)
+static int	color_pixel(int itr, int max_itr)
 {
 	if (itr == max_itr)
 		return (0x00000000);
@@ -24,17 +24,17 @@ int	color_pixel(int itr, int max_itr)
 		return (desat_color(0x00a1b2c3, (float) itr / max_itr));
 }
 
-static int	apply_mandel(double *c, int max_iter)
+static int	apply_julia(t_mlx *app, double *z, int max_iter)
 {
 	int		itr;
-	double	z[2];
 	double	z2[2];
+	double	c[2];
 
 	itr = 0;
-	z[0] = 0;
-	z[1] = 0;
-	z2[0] = 0;
-	z2[1] = 0;
+	z2[0] = z[0] * z[0];
+	z2[1] = z[1] * z[1];
+	c[0] = app->mouse_x;
+	c[1] = app->mouse_y;
 	while (z2[0] + z2[1] < 4 && ++itr < max_iter)
 	{
 		z[1] = (z[0] + z[0]) * z[1] + c[1];
@@ -45,10 +45,10 @@ static int	apply_mandel(double *c, int max_iter)
 	return (color_pixel(itr, max_iter));
 }
 
-void	mandelbrot(t_mlx *app, t_img *img)
+void	julia(t_mlx *app, t_img *img)
 {
 	int		pos[2];
-	double	c[2];
+	double	z[2];
 	double	scale;
 
 	scale = (double) 1 / app->border;
@@ -58,9 +58,9 @@ void	mandelbrot(t_mlx *app, t_img *img)
 		pos[0] = 0;
 		while (pos[0] < app->size_x)
 		{
-			c[0] = (double) (pos[0] - app->center_x) * scale;
-			c[1] = (double) (app->center_y - pos[1]) * scale;
-			fill_bits(img, pos[0], pos[1], apply_mandel(c, app->max_iter));
+			z[0] = (double) (pos[0] - app->center_x) * scale;
+			z[1] = (double) (app->center_y - pos[1]) * scale;
+			fill_bits(img, pos[0], pos[1], apply_julia(app, z, app->max_iter));
 			pos[0]++;
 		}
 		pos[1]++;

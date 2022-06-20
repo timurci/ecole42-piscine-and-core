@@ -6,7 +6,7 @@
 /*   By: tcakmako tcakmako@student.42kocaeli.com.t  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/07 18:00:37 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/05/31 17:03:44 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/06/20 14:28:12 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,25 @@ int	key_handler(int keycode, void *param)
 	t_mlx	*app;
 
 	app = (t_mlx *) param;
-	//printf("\x1b[1F\r\x1b[0K%d\n", keycode);
 	if (keycode == 53)
 		destroy_win(app);
 	else if (keycode == 25)
 		call_item(app, circle, 9);
 	else if (keycode == 18)
 		call_item(app, mandelbrot, 1);
+	else if (keycode == 19)
+		call_item(app, julia, 2);
 	else if (keycode == 12 || keycode == 14)
 		change_itr(app, keycode);
 	else if (keycode == 13 || (keycode > -1 && keycode < 4))
 		shift_item(app, keycode);
+	else if (keycode == 15)
+	{
+		app->max_iter = 30;
+		redraw(app);
+	}
+	else if (keycode == 35)
+		put_axis(app);
 	else if (keycode == 44)
 		printf("Border: %5zu\tCx: %5zd\tCy: %5zd\n", app->border, app->center_x, app->center_y);
 	return (1);
@@ -38,10 +46,14 @@ int	mouse_handler(int button, int x, int y, void *param)
 	t_mlx	*app;
 
 	app = (t_mlx *) param;
-	app->mouse_x = x;
-	app->mouse_y = y;
-	if (button == 1)
-		printf("x: %4d\ty: %4d\n", x, y);
+		if (button == 1)
+	{
+		app->mouse_x = (double) (x - app->center_x) / app->border;
+		app->mouse_y = (double) (app->center_y - y) / app->border;
+		printf("x: % .4lf\ty: % .4lf\n", app->mouse_x, app->mouse_y);
+		if (app->mode == 2)
+			redraw(app);
+	}
 	else if (button == 4 || button == 5)
 		zoom_handler(app, button, x, y);
 	return (1);
