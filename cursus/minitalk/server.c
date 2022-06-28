@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/28 12:44:21 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/06/28 12:44:21 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <signal.h>
 #include <unistd.h>
-#include <stdio.h> // printf
+#include "ft_printf.h"
 
 void	ft_putstr(char *str)
 {
@@ -26,22 +38,14 @@ void	sigusr_handler(int signal)
 	static char				itr = -1;
 	static unsigned char	store = 0;
 
-	/*if (signal == SIGUSR1)
-		write(1, "1\n", 2);
-	else
-		write(1, "0\n", 2);*/
 	new_message(&itr);
-	char sig = 0;
-	if (signal == SIGUSR1)
-		sig = 1;
-	printf("sig: %d\titr: %d\tstr: %d\n", sig, itr, store);
+	store = store << 1;
 	if (signal == SIGUSR1)
 		store |= 1;
-	store = store << 1;
 	itr++;
-	if (itr == 7)
+	if (itr == 8)
 	{
-		printf("%c", store);
+		write(1, &store, 1);
 		itr = 0;
 		if (store == 0)
 			itr = -1;
@@ -57,8 +61,7 @@ int	main(void)
 	sigusr.sa_flags = SA_RESTART;
 	sigaction(SIGUSR1, &sigusr, 0);
 	sigaction(SIGUSR2, &sigusr, 0);
-	//may need to add sa_restart flag
-	printf("Server PID: %d\n", getpid());
+	ft_printf("Server PID: %d\n", getpid());
 	while (1)
 		pause();
 	return (0);
