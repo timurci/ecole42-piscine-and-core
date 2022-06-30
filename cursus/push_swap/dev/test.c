@@ -14,5 +14,7 @@ int	main(int ac, char **av)
 			print_array(a, "[SRT] a");
 		}
 	}
+	else
+		parsing_errors(0, NULL);
 	return (0);
 }
