@@ -8,11 +8,14 @@ int	main(int ac, char **av)
 	{
 		a = parse_args(av[1]);
 		print_array(a, "[UNS] a");
-		if (a->inv <= 3)
+		while (!is_sorted(a))
 		{
-			tiny_sort(a);
-			print_array(a, "[SRT] a");
+			if (a->inv <= 5) // later upgrade to 5
+				tiny_sort(a);
+			else
+				break ;
 		}
+		print_array(a, "[SRT] a");
 	}
 	else
 		parsing_errors(0, NULL);

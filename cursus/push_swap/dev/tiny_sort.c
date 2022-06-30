@@ -24,21 +24,39 @@ static void	tri_sort(t_ints *a)
 	}
 }
 
-static void	double_tiny_sort(t_ints *a, t_ints *b)
+static void	mutual_sort(t_ints *a, t_ints *b)
 {
+	int	former;
+
+	former = locate_prev(a, b->arr[b->inv - 1]);
+	if (former == b->arr[b->inv - 1])
+		former = min_element(a);
+	rotate_to_top(a, former, 'a');
+	push(a, b, "pa");
+}
+
+static void	few_sort(t_ints *a, t_ints *b)
+{
+	tri_sort(a);
+	while (b->inv > 0)
+		mutual_sort(a, b);
+	rotate_to_top(a, min_element(a), 'a');
 }
 
 void	tiny_sort(t_ints *a)
 {
 	t_ints	*b;
 
-	if (a->inv > 3)
+	if (a->inv == 2)
+		swap(a, "sa");
+	else if (a->inv == 3)
+		tri_sort(a);
+	else
 	{
 		b = dup_ints(a);
 		push(a, b, "pb");
-		push(a, b, "pb");
-		double_tiny_sort(a, b);
+		if (a->inv > 3)
+			push(a, b, "pb");
+		few_sort(a, b);
 	}
-	else
-		tri_sort(a);
 }

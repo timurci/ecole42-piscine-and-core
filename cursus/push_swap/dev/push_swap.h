@@ -13,6 +13,7 @@ typedef struct s_ints
 }			t_ints;
 
 t_ints	*parse_args(char *str);
+char	is_sorted(t_ints *list);
 
 t_ints	*dup_ints(t_ints *a);
 void	delete_ints(t_ints *list);
@@ -23,6 +24,13 @@ void	rot(t_ints *l, char *mode);
 void	rrot(t_ints *l, char *mode);
 
 void	tiny_sort(t_ints *a);
+
+void	rotate_to_top(t_ints *list, int n, char stack_name);
+int		locate_prev(t_ints *list, int n);
+int		locate_next(t_ints *list, int n);
+
+int		max_element(t_ints *list);
+int		min_element(t_ints *list);
 
 void	parsing_errors(char mode, void *param);
 

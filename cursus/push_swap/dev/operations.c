@@ -10,7 +10,7 @@ void	push(t_ints *a, t_ints *b, char *mode)
 		a = b;
 		b = tmp;
 	}
-	b->arr[b->inv - 1] = a->arr[a->inv - 1];
+	b->arr[b->inv] = a->arr[a->inv - 1];
 	b->inv++;
 	a->inv--;
 	if (*mode == 'p')

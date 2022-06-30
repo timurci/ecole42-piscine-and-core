@@ -84,3 +84,17 @@ t_ints	*parse_args(char *str)
 	rev_array(new_list);
 	return (new_list);
 }
+
+char	is_sorted(t_ints *list)
+{
+	size_t	itr;
+
+	itr = 0;
+	while (itr < list->inv - 1 && list->inv > 0)
+	{
+		if (list->arr[itr] < list->arr[itr + 1])
+			return (0);
+		itr++;
+	}
+	return (1);
+}
