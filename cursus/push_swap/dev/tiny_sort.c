@@ -4,7 +4,7 @@ static void	tri_sort(t_ints *a)
 {
 	int	*l;
 
-	l = a->array;
+	l = a->arr;
 
 	if (l[0] > l[1] && l[1] < l[2] && l[2] < l[0])
 		swap(a, "sa");
@@ -12,7 +12,7 @@ static void	tri_sort(t_ints *a)
 		rot(a, "ra");
 	else if (l[0] < l[1] && l[1] > l[2] && l[2] > l[0])
 		rrot(a, "rra");
-	else if (l[0] < l[1] && l[1] < l[2] && l[2] > l[0])
+	else if (l[0] < l[1] && l[1] < l[2] && l[2] > l[0])
 	{
 		swap(a, "sa");
 		rrot(a, "rra");
@@ -32,7 +32,7 @@ void	tiny_sort(t_ints *a)
 {
 	t_ints	*b;
 
-	if (a->size > 3)
+	if (a->inv > 3)
 	{
 		b = dup_ints(a);
 		push(a, b, "pb");

@@ -9,21 +9,22 @@ t_ints	*dup_ints(t_ints *a)
 	new_list = malloc(sizeof(*new_list));
 	if (!new_list)
 		return (NULL);
-	new_list->array = malloc(sizeof(int) * a->arr_size);
+	new_list->arr = malloc(sizeof(int) * a->max);
 	if (!new_list)
 	{
 		free(new_list);
 		return (NULL);
 	}
-	new_list->arr_size = a->arr_size;
-	new_list->inventory = 0;
+	new_list->max = a->max;
+	new_list->inv = 0;
+	return (new_list);
 }
 
 void	delete_ints(t_ints *list)
 {
 	if (!list)
 		return ;
-	if (list->array)
-		free(list->array);
+	if (list->arr)
+		free(list->arr);
 	free(list);
 }
