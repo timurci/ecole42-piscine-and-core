@@ -14,6 +14,8 @@ typedef struct s_ints
 
 t_ints	*parse_args(char *str);
 char	is_sorted(t_ints *list);
+size_t	fill_array(t_ints *list, char *str);
+void	rev_array(t_ints *list);
 
 t_ints	*dup_ints(t_ints *a);
 void	delete_ints(t_ints *list);

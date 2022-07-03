@@ -10,14 +10,19 @@ int	main(int ac, char **av)
 		print_array(a, "[UNS] a");
 		while (!is_sorted(a))
 		{
-			if (a->inv <= 5) // later upgrade to 5
+			if (a->inv <= 5)
 				tiny_sort(a);
 			else
+			{
+				printf("CANNOT SORT ARGS\n");
 				break ;
+			}	
 		}
 		print_array(a, "[SRT] a");
 	}
 	else
 		parsing_errors(0, NULL);
+	free(a->arr);
+	free(a);
 	return (0);
 }

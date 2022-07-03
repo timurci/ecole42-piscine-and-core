@@ -59,4 +59,6 @@ void	tiny_sort(t_ints *a)
 			push(a, b, "pb");
 		few_sort(a, b);
 	}
+	free(b->arr);
+	free(b);
 }
