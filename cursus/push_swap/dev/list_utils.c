@@ -53,3 +53,11 @@ void	rotate_to_top(t_ints *l, int n, char stack_name)
 			rot(l, "ra");
 	}
 }
+
+void	mvclosest_to_top(t_ints *l, int min, int max, char *mode)
+{
+	int	index;
+
+	index = locate_closest_element(l, min, max, mode[0]);
+	rotate_to_top(l, l->arr[index], mode[1]);
+}

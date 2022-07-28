@@ -27,16 +27,22 @@ static size_t	count_inv(char *str)
 	return (inv);
 }
 
-t_ints	*parse_args(char *str)
+t_ints	*parse_args(int argc, char **argv)
 {
 	t_ints	*new_list;
 	size_t	return_checker;
 
 	new_list = (t_ints *) malloc(sizeof(*new_list));
-	new_list->inv = count_inv(str);
+	if (argc > 2)
+		new_list->inv = (size_t) argc - 1;
+	else
+		new_list->inv = count_inv(argv[1]);
 	new_list->max = new_list->inv;
 	new_list->arr = (int *) malloc(sizeof(int) * new_list->inv);
-	return_checker = fill_array(new_list, str);
+	if (argc > 2)
+		return_checker = fill_array_with_args(new_list, argv + 1);
+	else
+		return_checker = fill_array(new_list, argv[1]);
 	if (return_checker != (size_t) -1)
 	{
 		free(new_list->arr);
