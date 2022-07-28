@@ -45,8 +45,7 @@ t_ints	*parse_args(int argc, char **argv)
 		return_checker = fill_array(new_list, argv[1]);
 	if (return_checker != (size_t) -1)
 	{
-		free(new_list->arr);
-		free(new_list);
+		delete_ints(new_list);
 		parsing_errors(2, &return_checker);
 	}
 	rev_array(new_list);

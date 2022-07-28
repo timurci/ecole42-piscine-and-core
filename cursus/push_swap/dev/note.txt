@@ -1,4 +1,0 @@
-parser çoklu argüman için geliştirilmeli
-
-optional:
-	* optimize dup_ints func. for custom size to prevent unnecessary allocation

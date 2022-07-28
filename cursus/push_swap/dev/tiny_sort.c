@@ -58,7 +58,6 @@ void	tiny_sort(t_ints *a)
 		if (a->inv > 3)
 			push(a, b, "pb");
 		few_sort(a, b);
+		delete_ints(b);
 	}
-	free(b->arr);
-	free(b);
 }

@@ -53,5 +53,5 @@ void	huge_sort(t_ints *a)
 		steps_to_sort--;
 	}
 	rotate_to_top(a, min_element(a), 'a');
-	free(b->arr);
+	delete_ints(b);
 }
