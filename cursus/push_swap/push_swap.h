@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:51:14 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/03 15:35:31 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/03 17:07:57 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	huge_sort(t_ints *a);
 void	mvclosest_to_top(t_ints *l, int min, int max, char *mode);
 void	rotate_to_top(t_ints *list, int n, char stack_name);
 size_t	locate_closest_element(t_ints *l, int min, int max, char mode);
-size_t	locate_prev(t_ints *list, int n);
-size_t	locate_next(t_ints *list, int n);
+int		locate_prev(t_ints *list, int n);
+int		locate_next(t_ints *list, int n);
 
 int		max_element(t_ints *list);
 int		min_element(t_ints *list);

@@ -6,13 +6,13 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:43:12 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/03 12:49:51 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/03 17:07:44 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-size_t	locate_prev(t_ints *list, int n)
+int	locate_prev(t_ints *list, int n)
 {
 	size_t	itr;
 	int		tmp;
@@ -30,7 +30,7 @@ size_t	locate_prev(t_ints *list, int n)
 	return (tmp);
 }
 
-size_t	locate_next(t_ints *list, int n)
+int	locate_next(t_ints *list, int n)
 {
 	size_t	itr;
 	int		tmp;
