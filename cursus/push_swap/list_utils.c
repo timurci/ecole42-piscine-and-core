@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/03 12:42:40 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/08/03 12:49:36 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 int	max_element(t_ints *list)
@@ -34,7 +46,7 @@ int	min_element(t_ints *list)
 
 void	rotate_to_top(t_ints *l, int n, char stack_name)
 {
-	int	index;
+	size_t	index;
 
 	index = 0;
 	while (l->arr[index] != n && index < l->inv)
