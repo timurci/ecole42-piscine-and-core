@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:42:18 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/07 17:47:49 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/10 12:54:51 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,36 @@ size_t	locate_closest_element(t_ints *l, int min, int max, char mode)
 		return (index[0]);
 	else
 		return (index[1]);
+}
+
+t_ints	*form_index(t_ints *l)
+{
+	t_ints	*new_l;
+	size_t	scan;
+	size_t	steps_left;
+	int		target;
+
+	new_l = dup_ints(l);
+	new_l->inv = l->inv;
+	steps_left = l->inv;
+	while (steps_left)
+	{
+		scan = 0;
+		if (steps_left == l->inv)
+			target = min_element(l);
+		else
+			target = locate_prev(l, target);
+		while (scan < l->inv)
+		{
+			if (l->arr[scan] == target)
+			{
+				new_l->arr[scan] = l->inv - steps_left;
+				scan = l->inv - 1;
+				steps_left--;
+			}
+			scan++;
+		}
+	}
+	delete_ints(l);
+	return (new_l);
 }

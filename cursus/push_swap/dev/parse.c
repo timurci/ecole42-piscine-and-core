@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:50:21 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/07 17:47:08 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/10 14:04:46 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_ints	*parse_args(int argc, char **argv)
 	else
 		new_list->inv = count_inv(argv[1]);
 	new_list->max = new_list->inv;
-	new_list->arr = (int *) malloc(sizeof(int) * new_list->inv);
+	new_list->arr = (int *) ft_calloc(1, sizeof(int) * new_list->inv);
 	if (argc > 2)
 		return_checker = fill_array_with_args(new_list, argv + 1);
 	else

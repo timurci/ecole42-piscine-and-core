@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:51:14 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/07 17:59:06 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/10 14:04:26 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_ints
 	size_t	max;
 }			t_ints;
 
+t_ints	*form_index(t_ints *l);
 int		parse_int(t_ints *list, size_t itr, unsigned char addition, char *sign);
 t_ints	*parse_args(int argc, char **argv);
 char	is_shift_sorted(t_ints *list);
@@ -36,6 +37,7 @@ void	rev_array(t_ints *list);
 
 t_ints	*dup_ints(t_ints *a);
 void	delete_ints(t_ints *list);
+void	*ft_calloc(size_t count, size_t size);
 
 void	push(t_ints *a, t_ints *b, char *mode);
 void	swap(t_ints *l, char *mode);
@@ -57,6 +59,7 @@ int		min_element(t_ints *list);
 
 void	parsing_errors(char mode, void *param);
 
+int		ft_pow(int base, int power);
 void	print_array(t_ints *list, char *name);
 
 #endif

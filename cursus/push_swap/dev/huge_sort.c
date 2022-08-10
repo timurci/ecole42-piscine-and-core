@@ -6,11 +6,16 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:41:41 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/07 18:03:45 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/10 13:42:22 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+static int	filter(int val, char itr)
+{
+	return (val & (0xFFFFFFFF / ft_pow(2, itr)));
+}
 
 static char	init_bound(t_ints *l)
 {
@@ -42,6 +47,8 @@ static void	move_to_b(t_ints *a, t_ints *b, char itr)
 			rot_until_top(a, a->arr[scan], 'a');
 			//rotate_to_top(a, a->arr[scan], 'a');
 			push(a, b, "pb");
+			scan = 0;
+			continue ;
 		}
 		scan++;
 	}
@@ -49,9 +56,14 @@ static void	move_to_b(t_ints *a, t_ints *b, char itr)
 
 static void	reorder_a(t_ints *a, char itr)
 {
+	size_t	size;
+
+	size = a->inv;
 	if (itr == 0)
 		return ;
-	while (a
+	while (size > 2 &&
+			filter(a->arr[size - 1], itr) > filter(a->arr[size - 2], itr))
+		rot(a, "ra");
 }
 
 void	huge_sort(t_ints *a)
@@ -66,13 +78,15 @@ void	huge_sort(t_ints *a)
 	while (itr < upper_bound)
 	{
 		move_to_b(a, b, itr);
+		reorder_a(a, itr);
 		while (b->inv)
 		{
-			//rotate_to_top(b, max_element(b), 'b');
+			rotate_to_top(b, max_element(b), 'b');
 			push(a, b, "pa");
 		}
-		//if (is_shift_sorted(a))
-		//	break ;
+		itr++;
+		if (is_sorted(a)/*is_shift_sorted(a)*/)
+			break ;
 	}
 	rotate_to_top(a, min_element(a), 'a');
 	delete_ints(b);

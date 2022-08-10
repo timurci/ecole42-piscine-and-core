@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:50:57 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/03 14:17:11 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/10 14:11:38 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ int	main(int ac, char **av)
 	if (ac == 1)
 		return (0);
 	a = parse_args(ac, av);
+	//print_array(a, "a bgn");
+	a = form_index(a);
+	//print_array(a, "a ind");
 	while (!is_sorted(a))
 	{
 		if (a->inv <= 5)
@@ -26,5 +29,6 @@ int	main(int ac, char **av)
 		else
 			huge_sort(a);
 	}
+	//print_array(a,0);
 	return (0);
 }
