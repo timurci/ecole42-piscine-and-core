@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:50:03 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/03 12:50:04 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:12:30 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_ints	*dup_ints(t_ints *a)
 	new_list = malloc(sizeof(*new_list));
 	if (!new_list)
 		return (NULL);
-	new_list->arr = malloc(sizeof(int) * a->max);
+	new_list->arr = (int *) ft_calloc(1, sizeof(int) * a->max);
 	if (!new_list)
 	{
 		free(new_list);

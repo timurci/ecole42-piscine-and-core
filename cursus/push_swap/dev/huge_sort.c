@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:41:41 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/10 13:42:22 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:35:28 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	huge_sort(t_ints *a)
 	itr = 0;
 	while (itr < upper_bound)
 	{
-		move_to_b(a, b, itr);
+		if (!is_skippable(a, itr))
+			move_to_b(a, b, itr);
 		reorder_a(a, itr);
 		while (b->inv)
 		{

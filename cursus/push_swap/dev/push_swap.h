@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:51:14 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/10 14:04:26 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:34:08 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int		max_element(t_ints *list);
 int		min_element(t_ints *list);
 
 void	parsing_errors(char mode, void *param);
+
+char	is_skippable(t_ints *l, char itr);
 
 int		ft_pow(int base, int power);
 void	print_array(t_ints *list, char *name);
