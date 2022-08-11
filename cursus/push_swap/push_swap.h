@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include "ft_printf.h"
 
-# define STEP_CONSTANT 500
+# define STEP_CONSTANT 100
 
 typedef struct s_ints
 {
@@ -28,11 +28,13 @@ typedef struct s_ints
 
 int		parse_int(t_ints *list, size_t itr, unsigned char addition, char *sign);
 t_ints	*parse_args(int argc, char **argv);
+char	is_shift_sorted(t_ints *list);
 char	is_sorted(t_ints *list);
 size_t	fill_array_with_args(t_ints *list, char **argv);
 size_t	fill_array(t_ints *list, char *str);
 void	rev_array(t_ints *list);
 
+void	*ft_calloc(size_t count, size_t size);
 t_ints	*dup_ints(t_ints *a);
 void	delete_ints(t_ints *list);
 
@@ -46,9 +48,13 @@ void	huge_sort(t_ints *a);
 
 void	mvclosest_to_top(t_ints *l, int min, int max, char *mode);
 void	rotate_to_top(t_ints *list, int n, char stack_name);
+
+t_ints	*form_index(t_ints *l);
 size_t	locate_closest_element(t_ints *l, int min, int max, char mode);
-int		locate_prev(t_ints *list, int n);
-int		locate_next(t_ints *list, int n);
+size_t	locate_index(t_ints *l, int n);
+
+int		find_prev(t_ints *list, int n);
+int		find_next(t_ints *list, int n);
 
 int		max_element(t_ints *list);
 int		min_element(t_ints *list);

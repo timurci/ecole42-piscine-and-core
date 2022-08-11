@@ -14,9 +14,6 @@
 
 char	*nullp_checker(char *s, t_shape *sh, char type)
 {
-	int		scan;
-
-	scan = 1;
 	if (*s == 0 && sh->w1 == 1 && type != 'i')
 	{
 		sh->w1 = 0;

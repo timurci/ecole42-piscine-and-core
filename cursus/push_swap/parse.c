@@ -50,7 +50,7 @@ t_ints	*parse_args(int argc, char **argv)
 	else
 		new_list->inv = count_inv(argv[1]);
 	new_list->max = new_list->inv;
-	new_list->arr = (int *) malloc(sizeof(int) * new_list->inv);
+	new_list->arr = (int *) ft_calloc(1, sizeof(int) * new_list->inv);
 	if (argc > 2)
 		return_checker = fill_array_with_args(new_list, argv + 1);
 	else
@@ -87,6 +87,35 @@ int	parse_int(t_ints *list, size_t itr, unsigned char addition, char *sign)
 		parsing_errors(3, &itr);
 	}
 	return (tmp);
+}
+
+char	is_shift_sorted(t_ints *l)
+{
+	size_t	inx[2];
+	size_t	scan;
+
+	inx[0] = locate_index(l, min_element(l));
+	inx[1] = locate_index(l, max_element(l));
+	if ((inx[0] != l->inv - 1 && inx[0] + 1 != inx[1])
+			|| (inx[0] == l->inv - 1 && inx[1] != 0))
+		return (0);
+	else 
+	{
+		scan = inx[0];
+		while (scan - 1 != inx[1])
+		{
+			if (l->arr[scan] > l->arr[scan - 1])
+				return (0);
+			if (scan - 1 == 0)
+			{
+				if (l->arr[0] > l->arr[l->inv - 1])
+					return (0);
+				scan = l->inv;
+			}
+			scan--;
+		}
+	}
+	return (1);
 }
 
 char	is_sorted(t_ints *list)

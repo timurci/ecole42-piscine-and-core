@@ -19,6 +19,7 @@ int	main(int ac, char **av)
 	if (ac == 1)
 		return (0);
 	a = parse_args(ac, av);
+	a = form_index(a);
 	while (!is_sorted(a))
 	{
 		if (a->inv <= 5)

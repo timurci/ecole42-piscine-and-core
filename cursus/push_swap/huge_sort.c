@@ -16,7 +16,7 @@ static void	mutual_sort(t_ints *a, t_ints *b)
 {
 	int	former;
 
-	former = locate_prev(a, b->arr[b->inv - 1]);
+	former = find_prev(a, b->arr[b->inv - 1]);
 	if (former == b->arr[b->inv - 1])
 		former = min_element(a);
 	rotate_to_top(a, former, 'a');
@@ -54,6 +54,8 @@ void	huge_sort(t_ints *a)
 	limits[1] = max_element(a);
 	while (steps_to_sort > 0)
 	{
+		if (is_shift_sorted(a))
+			break ;
 		if (steps_to_sort == 1 || (long) sorting_size >= (long) limits[1])
 			limits[0] = min_element(a);
 		else

@@ -54,3 +54,49 @@ size_t	locate_closest_element(t_ints *l, int min, int max, char mode)
 	else
 		return (index[1]);
 }
+
+t_ints	*form_index(t_ints *l)
+{
+	t_ints	*new_l;
+	size_t	scan;
+	size_t	steps_left;
+	int		target;
+
+	new_l = dup_ints(l);
+	new_l->inv = l->inv;
+	steps_left = l->inv;
+	while (steps_left)
+	{
+		scan = 0;
+		if (steps_left == l->inv)
+			target = min_element(l);
+		else
+			target = find_prev(l, target);
+		while (scan < l->inv)
+		{
+			if (l->arr[scan] == target)
+			{
+				new_l->arr[scan] = l->inv - steps_left;
+				scan = l->inv - 1;
+				steps_left--;
+			}
+			scan++;
+		}
+	}
+	delete_ints(l);
+	return (new_l);
+}
+
+size_t	locate_index(t_ints *l, int n)
+{
+	size_t	itr;
+
+	itr = 0;
+	while (itr < l->inv)
+	{
+		if (l->arr[itr] == n)
+			return (itr);
+		itr++;
+	}
+	return (l->max);
+}

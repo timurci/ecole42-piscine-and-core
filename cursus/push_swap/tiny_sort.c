@@ -39,7 +39,7 @@ static void	mutual_sort(t_ints *a, t_ints *b)
 {
 	int	former;
 
-	former = locate_prev(a, b->arr[b->inv - 1]);
+	former = find_prev(a, b->arr[b->inv - 1]);
 	if (former == b->arr[b->inv - 1])
 		former = min_element(a);
 	rotate_to_top(a, former, 'a');
