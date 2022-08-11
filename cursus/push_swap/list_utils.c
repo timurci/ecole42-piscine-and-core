@@ -66,7 +66,7 @@ void	rotate_to_top(t_ints *l, int n, char stack_name)
 	}
 }
 
-char	rot_type(t_ints *l, int n)
+/*char	rot_type(t_ints *l, int n)
 {
 	size_t	index;
 
@@ -108,7 +108,7 @@ void	mutual_rotation(t_ints *l1, t_ints *l2, int n1, int n2)
 			}
 		}
 	}
-}
+}*/
 
 void	mvclosest_to_top(t_ints *l, int min, int max, char *mode)
 {

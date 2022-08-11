@@ -46,6 +46,7 @@ void	rrot(t_ints *l, char *mode);
 void	tiny_sort(t_ints *a);
 void	huge_sort(t_ints *a);
 
+void	mutual_rotation(t_ints *l1, t_ints *l2, int n1, int n2);
 void	mvclosest_to_top(t_ints *l, int min, int max, char *mode);
 void	rotate_to_top(t_ints *list, int n, char stack_name);
 
