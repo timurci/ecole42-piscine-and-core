@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:50:21 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/03 15:04:53 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/13 16:24:44 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ char	is_shift_sorted(t_ints *l)
 	inx[0] = locate_index(l, min_element(l));
 	inx[1] = locate_index(l, max_element(l));
 	if ((inx[0] != l->inv - 1 && inx[0] + 1 != inx[1])
-			|| (inx[0] == l->inv - 1 && inx[1] != 0))
+		|| (inx[0] == l->inv - 1 && inx[1] != 0))
 		return (0);
-	else 
+	else
 	{
 		scan = inx[0];
 		while (scan - 1 != inx[1])

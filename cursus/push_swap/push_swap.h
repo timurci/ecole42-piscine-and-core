@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:51:14 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/03 17:07:57 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/13 16:48:33 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "ft_printf.h"
-
-# define STEP_CONSTANT 100
 
 typedef struct s_ints
 {

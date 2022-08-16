@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:41:41 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/03 12:49:14 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/13 16:44:30 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	huge_sort(t_ints *a)
 	size_t	sorting_size;
 
 	b = dup_ints(a);
-	steps_to_sort = a->inv / STEP_CONSTANT + 1;
+	steps_to_sort = a->inv / (((a->inv / 500) + 1) * 50) + 1;
 	sorting_size = a->inv / steps_to_sort;
 	limits[1] = max_element(a);
 	while (steps_to_sort > 0)

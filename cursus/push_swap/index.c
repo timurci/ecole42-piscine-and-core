@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 12:42:18 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/03 16:45:57 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/13 16:31:43 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,22 @@ t_ints	*form_index(t_ints *l)
 	new_l = dup_ints(l);
 	new_l->inv = l->inv;
 	steps_left = l->inv;
+	target = min_element(l);
 	while (steps_left)
 	{
 		scan = 0;
-		if (steps_left == l->inv)
-			target = min_element(l);
-		else
+		if (steps_left != l->inv)
 			target = find_prev(l, target);
 		while (scan < l->inv)
 		{
 			if (l->arr[scan] == target)
 			{
-				new_l->arr[scan] = l->inv - steps_left;
+				new_l->arr[scan] = l->inv - steps_left--;
 				scan = l->inv - 1;
-				steps_left--;
 			}
 			scan++;
 		}
 	}
-	delete_ints(l);
 	return (new_l);
 }
 

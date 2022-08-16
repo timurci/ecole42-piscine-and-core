@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mutual_rotation.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/13 16:24:15 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/08/13 16:24:16 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static char	rot_type(t_ints *l, int n)
@@ -26,7 +38,7 @@ void	mutual_rotation(t_ints *l1, t_ints *l2, int n1, int n2)
 		if (type[0] == 0)
 		{
 			while (l1->arr[l1->inv - 1] != n1
-					&& l2->arr[l2->inv - 1] != n2)
+				&& l2->arr[l2->inv - 1] != n2)
 			{
 				rot(l1, "rr");
 				rot(l2, "0r");
@@ -35,7 +47,7 @@ void	mutual_rotation(t_ints *l1, t_ints *l2, int n1, int n2)
 		else if (type[0] == 1)
 		{
 			while (l1->arr[l1->inv - 1] != n1
-					&& l2->arr[l2->inv - 1] != n2)
+				&& l2->arr[l2->inv - 1] != n2)
 			{
 				rrot(l1, "rrr");
 				rrot(l2, "0rr");
@@ -43,5 +55,3 @@ void	mutual_rotation(t_ints *l1, t_ints *l2, int n1, int n2)
 		}
 	}
 }
-
-
