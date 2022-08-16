@@ -21,8 +21,9 @@ static t_table	*table_init(int *opts)
 	return (table);
 }
 
-static t_philo	*philos_init( )
+static t_philo	*philos_init(t_table *table)
 {
+
 }
 
 void	philosophers(int *options)
@@ -31,4 +32,5 @@ void	philosophers(int *options)
 	t_philo	*philos;
 
 	table = table_init(options);
+	philos = philos_init(table);
 }

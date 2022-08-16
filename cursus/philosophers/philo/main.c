@@ -28,5 +28,6 @@ int	main(int argc, char **argv)
 	if (!(argc == 5 || argc == 6))
 		return (0);
 	options = options_init(argc, argv);
-
+	philosophers(options);
+	return (0);
 }
