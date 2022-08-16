@@ -6,12 +6,14 @@ typedef struct	s_table
 	pthread_mutex_t	ffork_mtx;
 	int				free_forks;
 	int				total_forks;
+	int				*options;
 } t_table;
 
 typedef struct	s_philo
 {
 	pthread_t	th;
 	char		forks;
+	int			index;
 	t_table		*table;
 } t_philo;
 
