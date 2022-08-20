@@ -1,7 +1,3 @@
-#include <pthread.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "ft_printf.h"
 #include "philo.h"
 
 static int	*options_init(int argc, char **argv)

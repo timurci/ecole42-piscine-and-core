@@ -7,11 +7,8 @@ static t_table	*table_init(int *opts)
 	table = (t_table *) malloc(sizeof(*table));
 	if (!table)
 		return (NULL);
-	if (opts[0] == 1)
-		table->total_forks = 1;
-	else
-		table->total_forks = opts[0] - 1;
-	table->free_forks = table->total_forks;
+	table->total_forks = opts[0];
+	table->free_forks = opts[0];
 	table->options = opts;
 	if (pthread_mutex_init(&table->ffork_mtx, NULL))
 	{
@@ -23,7 +20,22 @@ static t_table	*table_init(int *opts)
 
 static t_philo	*philos_init(t_table *table)
 {
+	t_philo	*philos;
+	int		itr;
 
+	philos = (t_philo *) malloc(sizeof(*philos) * table->free_forks);
+	if (!philos)
+		return (NULL);
+	itr = 0;
+	while (itr < table->total_forks)
+	{
+		philos[itr]->forks = 0;
+		philos[itr]->status = 0;
+		philos[itr]->tv_last_act = -1;
+		philos[itr]->index = itr;
+		philos[itr]->table = table;
+		itr++;
+	}
 }
 
 void	philosophers(int *options)
