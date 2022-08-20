@@ -6,11 +6,9 @@
 /*   By: tcakmako <tcakmako@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 12:08:23 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/16 15:19:23 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/08/20 16:02:44 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 char static	ft_strcmp(const char *s1, const char *s2)
 {

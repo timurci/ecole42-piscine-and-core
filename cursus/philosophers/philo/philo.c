@@ -10,7 +10,14 @@ static t_table	*table_init(int *opts)
 	table->total_forks = opts[0];
 	table->free_forks = opts[0];
 	table->options = opts;
+	table->dead_alert = 0;
+	table->n_finish = 0;
 	if (pthread_mutex_init(&table->ffork_mtx, NULL))
+	{
+		free(table);
+		return (NULL);
+	}
+	if (pthread_mutex_init(&table->finish_mtx, NULL))
 	{
 		free(table);
 		return (NULL);
@@ -29,13 +36,51 @@ static t_philo	*philos_init(t_table *table)
 	itr = 0;
 	while (itr < table->total_forks)
 	{
-		philos[itr]->forks = 0;
-		philos[itr]->status = 0;
-		philos[itr]->tv_last_act = -1;
-		philos[itr]->index = itr;
-		philos[itr]->table = table;
+		philos[itr].forks = 0;
+		philos[itr].status = 0;
+		philos[itr].has_eaten = 0;
+		philos[itr].tv_last_act = -1;
+		philos[itr].index = itr + 1;
+		philos[itr].table = table;
 		itr++;
 	}
+	return (philos);
+}
+
+static void	start_and_join_threads(t_philo *philos)
+{
+	int	itr;
+
+	itr = 0;
+	philos->table->tv_start = current_time();
+	while (itr < philos->table->options[0])
+	{
+		pthread_create(&philos[itr].th, NULL, &meal, (void *) &philos[itr]);
+		itr++;
+	}
+	itr = 0;
+	while (itr < philos->table->options[0])
+	{
+		pthread_join(philos[itr].th, NULL);
+		itr++;
+	}
+}
+
+static void	free_philos(t_philo *philos)
+{
+	int	itr;
+	int	philo_num;
+
+	philo_num = philos->table->options[0];
+	free(philos->table->options);
+	if (philos->table)
+	{
+		pthread_mutex_destroy(&philos->table->ffork_mtx);
+		pthread_mutex_destroy(&philos->table->finish_mtx);
+		free(philos->table);
+	}
+	itr = 0;
+	free(philos);
 }
 
 void	philosophers(int *options)
@@ -45,4 +90,6 @@ void	philosophers(int *options)
 
 	table = table_init(options);
 	philos = philos_init(table);
+	start_and_join_threads(philos);
+	free_philos(philos);
 }

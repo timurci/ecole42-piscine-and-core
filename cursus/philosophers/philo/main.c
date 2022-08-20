@@ -5,7 +5,7 @@ static int	*options_init(int argc, char **argv)
 	int	*opts;
 
 	opts = (int *) malloc(sizeof(int) * 5);
-	if (!ops)
+	if (!opts)
 		return (NULL);
 	opts[0] = ft_atoi(argv[1]);
 	opts[1] = ft_atoi(argv[2]);
