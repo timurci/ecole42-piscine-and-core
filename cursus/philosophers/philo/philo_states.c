@@ -5,15 +5,14 @@ char	is_dead(t_philo *philo)
 	long	time;
 
 	if (philo->table->dead_alert)
-		return (0); // 1
+		return (1);
 	time = current_time();
 	if (time - philo->tv_last_act > philo->table->options[1])
 	{
 		philo->table->dead_alert = 1;
-		ft_printf("%04u %3d died\n",
-				(unsigned int) (current_time() - philo->table->tv_start),
-				philo->index);
-		return (0); // 1
+		mtx_print(passed(time, philo->table->tv_start),
+				philo, "died");
+		return (1);
 	}
 	return (0);
 }

@@ -19,6 +19,7 @@ typedef struct	s_table
 {
 	pthread_mutex_t	ffork_mtx;
 	pthread_mutex_t	finish_mtx;
+	pthread_mutex_t	print_mtx;
 	int				free_forks;
 	int				total_forks;
 	int				*options;
@@ -48,6 +49,7 @@ void			*meal(void *param);
 long			current_time(void);
 unsigned int	passed(long n1, long n2);
 
+void			mtx_print(unsigned int time_passed, t_philo *philo, char *msg);
 int				ft_atoi(char *str);
 
 #endif

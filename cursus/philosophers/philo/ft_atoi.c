@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char static	ft_strcmp(const char *s1, const char *s2)
+static char	ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s2)
 	{

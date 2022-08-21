@@ -12,16 +12,9 @@ static t_table	*table_init(int *opts)
 	table->options = opts;
 	table->dead_alert = 0;
 	table->n_finish = 0;
-	if (pthread_mutex_init(&table->ffork_mtx, NULL))
-	{
-		free(table);
-		return (NULL);
-	}
-	if (pthread_mutex_init(&table->finish_mtx, NULL))
-	{
-		free(table);
-		return (NULL);
-	}
+	pthread_mutex_init(&table->ffork_mtx, NULL);
+	pthread_mutex_init(&table->finish_mtx, NULL);
+	pthread_mutex_init(&table->print_mtx, NULL);
 	return (table);
 }
 
@@ -68,18 +61,14 @@ static void	start_and_join_threads(t_philo *philos)
 
 static void	free_philos(t_philo *philos)
 {
-	int	itr;
-	int	philo_num;
-
-	philo_num = philos->table->options[0];
 	free(philos->table->options);
 	if (philos->table)
 	{
 		pthread_mutex_destroy(&philos->table->ffork_mtx);
 		pthread_mutex_destroy(&philos->table->finish_mtx);
+		pthread_mutex_destroy(&philos->table->print_mtx);
 		free(philos->table);
 	}
-	itr = 0;
 	free(philos);
 }
 
