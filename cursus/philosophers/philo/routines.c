@@ -30,10 +30,10 @@ static void	drop_forks(t_philo *philo)
 		if (is_dead(philo))
 			return ;
 		pthread_mutex_lock(&philo->table->ffork_mtx);
-		philo->forks -= 2;
-		philo->table->free_forks += 2;
+		philo->forks--;
+		philo->table->free_forks++;
 		mtx_print(passed(current_time(), philo->table->tv_start),
-				philo, "has dropped two forks");
+				philo, "has dropped a fork");
 		pthread_mutex_unlock(&philo->table->ffork_mtx);
 	}
 	philo_sleep(philo);
@@ -50,11 +50,11 @@ static void	eat(t_philo *philo)
 		pthread_mutex_lock(&philo->table->ffork_mtx);
 		if (philo->table->free_forks > 0)
 		{
-			philo->table->free_forks -= 2;
-			philo->forks += 2;
+			philo->table->free_forks--;
+			philo->forks++;
 			time = current_time();
 			mtx_print(passed(time, philo->table->tv_start),
-					philo, "has taken two forks");
+					philo, "has taken a fork");
 		}
 		pthread_mutex_unlock(&philo->table->ffork_mtx);
 	}
