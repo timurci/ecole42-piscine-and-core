@@ -1,4 +1,4 @@
-CC=gcc
+CC=cc
 CFLAGS=-Wall -Wextra -Werror -I ft_printf/includes
 SRCS=$(wildcard *.c)
 OBJS=$(SRCS:.c=.o)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/23 11:53:35 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/08/23 11:53:36 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static int	*options_init(int argc, char **argv)
@@ -21,6 +33,7 @@ static int	*options_init(int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	int	*options;
+
 	if (!(argc == 5 || argc == 6))
 		return (0);
 	options = options_init(argc, argv);

@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/23 11:55:17 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/08/23 11:55:18 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
-#include "ft_printf.h"
-#include <pthread.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/time.h>
+# include "ft_printf.h"
+# include <pthread.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/time.h>
 
 /*
  * status 0 initial
@@ -15,7 +27,7 @@
  * status 4 thinking
  */
 
-typedef struct	s_table
+typedef struct s_table
 {
 	pthread_mutex_t	ffork_mtx;
 	pthread_mutex_t	finish_mtx;
@@ -26,9 +38,9 @@ typedef struct	s_table
 	long			tv_start;
 	char			dead_alert;
 	int				n_finish;
-} t_table;
+}	t_table;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	pthread_t	th;
 	char		forks;
@@ -37,7 +49,7 @@ typedef struct	s_philo
 	int			index;
 	int			has_eaten;
 	t_table		*table;
-} t_philo;
+}	t_philo;
 
 void			philosophers(int *options);
 

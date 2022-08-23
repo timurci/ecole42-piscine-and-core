@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_states.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/23 11:55:31 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/08/23 11:55:32 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 char	is_dead(t_philo *philo)
@@ -11,7 +23,7 @@ char	is_dead(t_philo *philo)
 	{
 		philo->table->dead_alert = 1;
 		mtx_print(passed(time, philo->table->tv_start),
-				philo, "died");
+			philo, "died");
 		return (1);
 	}
 	return (0);
