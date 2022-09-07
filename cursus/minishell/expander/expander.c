@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/07 11:35:20 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/09/07 12:33:59 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expander.h"
 
 static char	*combine_and_free(char *s1, char *s2, char *s3)
@@ -27,6 +39,8 @@ static char	*check_var(/*t_shell *shell, */t_token *token, char *scan)
 		scan++;
 	tmp = ft_substr(check_p, 1, scan - check_p - 1);
 	replace = /*find_token(shell->var_list, tmp)*/ NULL;
+	if (!replace)
+		replace = /*find_token(shell->env_list, tmp)*/ NULL;
 	free(tmp);
 	if (!replace)
 		replace = ft_strdup("");
