@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 11:53:35 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/08/23 11:53:36 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/09/07 14:29:47 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int	main(int argc, char **argv)
 		return (0);
 	options = options_init(argc, argv);
 	philosophers(options);
+	free(options);
 	return (0);
 }
