@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 11:55:17 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/09 14:25:41 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/09/09 14:50:08 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ t_philo			*philos_init(t_table *table);
 void			philosophers(int *options);
 
 char			is_dead(t_philo *philo);
-char			is_finished(t_philo *philo);
-void			philo_eating_status(t_philo *philo);
+char			is_finished(t_philo *philo, char is_monitor);
 void			*meal(void *param);
 void			*monitor(void *param);
 

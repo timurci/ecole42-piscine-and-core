@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 11:55:31 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/07 17:37:57 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/09/09 14:49:06 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ char	is_dead(t_philo *philo)
 	return (0);
 }
 
-char	is_finished(t_philo *philo)
+char	is_finished(t_philo *philo, char is_monitor)
 {
 	if (philo->table->options[4] == -1)
 		return (0);
-	if (philo->has_eaten == philo->table->options[4])
+	if (!is_monitor && philo->has_eaten == philo->table->options[4])
 	{
 		pthread_mutex_lock(&philo->table->finish_mtx);
 		philo->table->finish_count++;
@@ -37,10 +37,4 @@ char	is_finished(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->table->finish_mtx);
 	return (0);
-}
-
-void	philo_eating_status(t_philo *philo)
-{
-	philo->status = 2;
-	philo->has_eaten++;
 }

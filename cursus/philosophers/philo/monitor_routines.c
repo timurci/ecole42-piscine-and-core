@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 17:44:54 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/07 17:44:56 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/09/09 14:49:51 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*monitor(void *param)
 
 	usleep(50);
 	monitor = (t_monitor *) param;
-	while (!monitor->table->dead_alert)
+	while (!monitor->table->dead_alert && !is_finished(monitor->philos, 1))
 	{
 		check_death(monitor->philos);
 		usleep(1000);

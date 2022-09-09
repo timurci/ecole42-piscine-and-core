@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 11:59:06 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/09 14:24:25 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/09/09 14:49:35 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	philo_sleep(t_philo *philo)
 
 static void	drop_forks(t_philo *philo)
 {
-	philo->tv_last_act = current_time();
 	philo->status = 4;
 	if (is_dead(philo))
 		return ;
@@ -70,7 +69,8 @@ static void	eat(t_philo *philo)
 		try_to_get_fork(philo, philo->table_forks->prev);
 	}
 	mtx_print(philo, "is eating");
-	philo_eating_status(philo);
+	philo->status = 2;
+	philo->has_eaten++;
 	usleep(philo->table->options[2] * 1000);
 	philo->tv_last_act = current_time();
 	drop_forks(philo);
@@ -87,11 +87,11 @@ void	*meal(void	*param)
 		eat(philo);
 	else
 		philo_sleep(philo);
-	while (!is_dead(philo) && !is_finished(philo))
+	while (!is_dead(philo) && !is_finished(philo, 0))
 	{
 		time = current_time();
 		if (time - philo->tv_last_act > 50 * 1000
-			|| (time - philo->table->tv_start) > philo->table->options[1] / 2)
+			|| (time - philo->tv_last_act) > philo->table->options[1] / 10)
 			eat(philo);
 		else if (philo->status == 3
 			&& (time - philo->table->tv_start) > philo->table->options[3])
