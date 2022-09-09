@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 11:59:06 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/07 16:52:12 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/09/09 14:24:25 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static void	drop_forks(t_philo *philo)
 	philo->table_forks->exists++;
 	mtx_print(philo, "has dropped a fork");
 	pthread_mutex_unlock(&philo->table_forks->mutex);
-	usleep(DELAY);
 	if (is_dead(philo))
 		return ;
 	pthread_mutex_lock(&philo->table_forks->prev->mutex);
@@ -44,7 +43,6 @@ static void	drop_forks(t_philo *philo)
 	philo->table_forks->prev->exists++;
 	mtx_print(philo, "has dropped a fork");
 	pthread_mutex_unlock(&philo->table_forks->prev->mutex);
-	usleep(DELAY);
 	philo_sleep(philo);
 }
 
@@ -60,7 +58,6 @@ static void	try_to_get_fork(t_philo *philo, t_fork *fork)
 		mtx_print(philo, "has taken a fork");
 	}
 	pthread_mutex_unlock(&fork->mutex);
-	usleep(DELAY);
 }
 
 static void	eat(t_philo *philo)
@@ -72,10 +69,10 @@ static void	eat(t_philo *philo)
 		try_to_get_fork(philo, philo->table_forks);
 		try_to_get_fork(philo, philo->table_forks->prev);
 	}
-	philo->tv_last_act = current_time();
 	mtx_print(philo, "is eating");
 	philo_eating_status(philo);
 	usleep(philo->table->options[2] * 1000);
+	philo->tv_last_act = current_time();
 	drop_forks(philo);
 }
 
@@ -94,14 +91,13 @@ void	*meal(void	*param)
 	{
 		time = current_time();
 		if (time - philo->tv_last_act > 50 * 1000
-			|| (time - philo->table->tv_start) > philo->table->options[1] / 1.5)
+			|| (time - philo->table->tv_start) > philo->table->options[1] / 2)
 			eat(philo);
 		else if (philo->status == 3
 			&& (time - philo->table->tv_start) > philo->table->options[3])
 		{
 			mtx_print(philo, "is thinking");
 			philo->status = 4;
-			usleep(DELAY);
 		}
 	}	
 	return (NULL);

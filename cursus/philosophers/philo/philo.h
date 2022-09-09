@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 11:55:17 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/07 17:44:04 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/09/09 14:25:41 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/time.h>
-
-# define DELAY 15000
 
 /*
  * status 0 initial
