@@ -3,24 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 11:35:24 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/07 11:35:25 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:55:07 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "shell.h"
 #include "lexer.h"
+#include "executor.h"
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-static void	print_env(char **env)
+void	foo(int argc, char **argv)
 {
-	while (*env)
-		printf("%s\n", *(env++));
+	argc = 0;
+	argv = NULL;
+	if (argc || argv)
+		return ;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -29,25 +32,16 @@ int	main(int argc, char **argv, char **env)
 	char	*line;
 
 	//sil
-	if (argc == 1)
-		argv = NULL;
+	foo(argc, argv);
 	//sil
-	shell = shell_init(NULL);
-	print_env(env);
+	shell = shell_init(env);
 	while (1)
 	{
 		line = readline(shell->prompt);
 		if (!line)
 			return (1);
 		add_history(line);
-		//execute(line);
-		if (ft_strcmp(line, "exit"))
-			printf("%s\n", line); //remove this line after implementing execute()
-		else
-		{
-			free(line);
-			return (0);
-		}
+		executor(line, shell);
 		free(line);
 	}
 	return (0);

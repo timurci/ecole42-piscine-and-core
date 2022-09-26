@@ -15,7 +15,7 @@
 
 // example : *s = ",,hello,,,world,," c = ','
 
-size_t	static	cword(char const *s, char c)
+static size_t	cword(char const *s, char c)
 {
 	char	is_word;
 	size_t	w_count;
@@ -36,7 +36,7 @@ size_t	static	cword(char const *s, char c)
 	return (w_count);
 }
 
-char static	*wgrab(char **strs, char const *s, char c)
+static char	*wgrab(char **strs, char const *s, char c)
 {
 	size_t	ssize;
 	char	*news;
@@ -55,7 +55,7 @@ char static	*wgrab(char **strs, char const *s, char c)
 	return ((char *) s);
 }
 
-void static	freelist(char ***strs, size_t *loop_element, size_t max)
+static void	freelist(char ***strs, size_t *loop_element, size_t max)
 {
 	char	**scan;
 

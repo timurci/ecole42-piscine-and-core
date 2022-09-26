@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-char static	cdigits(int n)
+static char	cdigits(int n)
 {
 	char	digits;
 
@@ -28,7 +28,7 @@ char static	cdigits(int n)
 	return (digits);
 }
 
-unsigned int	pow10(char power)
+unsigned int	ft_ft_pow10(char power)
 {
 	unsigned int	result;
 
@@ -38,12 +38,12 @@ unsigned int	pow10(char power)
 	return (result);
 }
 
-void static	build_str(int n, char is_neg, char *str, char digits)
+static void	build_str(int n, char is_neg, char *str, char digits)
 {
 	if (is_neg)
 		*(str++) = '-';
 	while (digits > 0)
-		*(str++) = (n / pow10(digits-- - 1) % 10) + 48;
+		*(str++) = (n / ft_ft_pow10(digits-- - 1) % 10) + 48;
 	*str = 0;
 }
 

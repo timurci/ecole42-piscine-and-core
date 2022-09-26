@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "libft.h"
 
-char static	setcmp(char c, char const *set)
+static char	setcmp(char c, char const *set)
 {
 	while (*set)
 	{

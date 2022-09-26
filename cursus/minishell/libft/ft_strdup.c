@@ -18,6 +18,8 @@ char	*ft_strdup(const char *s1)
 	size_t	ssize;
 	char	*dup;
 
+	if (!s1)
+		return (NULL);
 	ssize = 0;
 	while (s1[ssize])
 		ssize++;

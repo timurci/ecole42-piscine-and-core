@@ -1,0 +1,98 @@
+#include "builtins.h"
+
+char	*assignment_key_dup(char *expr)
+{
+	char	*assign;
+	char	*key;
+
+	if (!expr)
+		return (NULL);
+	assign = ft_strchr(expr);
+	if (!assign)
+		return (NULL);
+	*assign = 0;
+	key = ft_strdup(expr);
+	*assign = '=';
+	return (key);
+}
+
+char	*assignment_val_dup(char *expr)
+{
+	t_dict	*assign;
+	char	*value;
+
+	if (!expr)
+		return (NULL);
+	assign = ft_strchr(expr);
+	if (!assign)
+		return (NULL);
+	value = ft_strdup(assign + 1);
+	return (value);
+}
+
+int	builtin_assign(t_shell *shell, char **argv)
+{
+	t_dict	*entry;
+	char	*key;
+	char	*value;
+
+	while (*argv)
+	{
+		key = assignment_key_dup(*argv);
+		value = assignment_val_dup(*argv);
+		entry = lst_find_entry(shell->env_list, key);
+		if (!entry)
+			entry = lst_find_entry(shell->var_list, key);
+		if (entry)
+		{
+			free(key);
+			if (entry->value)
+				free(entry->value);
+			entry->value = value;
+		}
+		else
+			lst_add_back(&shell->var_list, key, value);
+		argv++;
+	}
+	return (0);
+}
+
+int	builtin_single_assign(t_shell *shell, char *expr)
+{
+	t_token	*entry;
+	char	*key;
+	char	*value;
+
+	key = assignment_key_dup(expr);
+	value = assignment_val_dup(expr);
+	entry = lst_find_entry(shell->env_list, key);
+	if (!entry)
+		entry = lst_find_entry(shell->var_list, key);
+	if (entry)
+	{
+		free(key);
+		if (entry->value)
+			free(entry->value);
+		entry->value = value;
+	}
+	else
+		lst_add_back(&shell->var_list, key, value);
+	return (0);
+}
+
+int	builtin_num_assign(t_shell *shell, char *key, int value)
+{
+	char	*new_value;
+	char	*expr;
+	char	*head;
+	int		ret_val;
+
+	new_value = ft_itoa(value);
+	head = ft_strjoin(key, '=');
+	expr = ft_strjoin(head, new_value);
+	free(head);
+	free(new_value);
+	ret_val = builtin_single_assign(shell, expr);
+	free(expr);
+	return (ret_val);
+}

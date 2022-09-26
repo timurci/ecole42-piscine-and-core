@@ -22,7 +22,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	dp = (unsigned char *) dst;
 	sp = (unsigned char *) src;
 	scan = 0;
-	if ((unsigned int) dst < (unsigned int) src)
+	if ((unsigned long long) dst < (unsigned long long) src)
 	{
 		while (scan < len)
 		{
@@ -30,7 +30,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 			scan++;
 		}
 	}
-	else if ((unsigned int) dst > (unsigned int) src)
+	else if ((unsigned long long) dst > (unsigned long long) src)
 	{
 		scan = len;
 		while (scan > 0)

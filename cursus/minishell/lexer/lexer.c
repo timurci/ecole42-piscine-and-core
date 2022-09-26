@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:30:07 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/01 16:09:54 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/09/12 14:35:19 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,47 @@ static char	*skip_all_quotes(char *input)
 	return (input);
 }
 
+static char	*find_special(char *input)
+{
+	char	*init;
+
+	init = input;
+	if (!ft_strncmp(input, ">>", 2) || !ft_strncmp(input, "<<", 2))
+		input += 2;
+	else if (*input == '<' || *input == '>')
+		input++;
+	else if (!ft_strncmp(input, "&&", 2) || !ft_strncmp(input, "||", 2))
+		input += 2;
+	else if (*input == '|')
+		input++;
+	if (init != input)
+		return (input);
+	return (NULL);
+}
+
 static int	count_tokens(char *input)
 {
 	int		count;
 
 	count = 0;
-	if (!count && *input)
-	{
+	if (!ft_isspace(*input) && *input != '\'' && *input != '\"')
 		count++;
+	if (!ft_isspace(*input) && *input != '\'' && *input != '\"')
 		input++;
-	}
 	while (*input)
 	{
+		count++;
 		if (*input == '\"' || *input == '\'')
+			input = skip_all_quotes(input) - 1;
+		else if (find_special(input))
 		{
-			if (ft_isspace(*(input - 1)))
+			if (*find_special(input) && !ft_isspace(*find_special(input)))
 				count++;
-			input = skip_quote(input);
 		}
-		else if (ft_isspace(*(input - 1)) && !ft_isspace(*input))
-			count++;
+		else if (!ft_isspace(*input) && ft_isspace(*(input - 1)))
+			;
+		else
+			count--;
 		if (*input)
 			input++;
 	}
@@ -75,15 +96,15 @@ char	**split_tokens(char *input)
 		while (ft_isspace(*input))
 			input++;
 		check_p = input;
-		while (*input && !ft_isspace(*input))
+		while (*input && !ft_isspace(*input) && !find_special(input))
 		{
 			if (*input == '\"' || *input == '\'')
 				input = skip_all_quotes(input);
-			else
-				while (*input && !ft_isspace(*input)
-					&& *input != '\"' && *input != '\'')
-					input++;
+			else if (*input && !ft_isspace(*input))
+				input++;
 		}
+		if (check_p == input && find_special(input))
+			input = find_special(input);
 		strs[itr++] = ft_substr(check_p, 0, input - check_p);
 	}
 	strs[itr] = NULL;
