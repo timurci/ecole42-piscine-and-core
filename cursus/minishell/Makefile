@@ -2,9 +2,11 @@ CC=cc
 HEADERS=-I include -I libft
 CFLAGS=-Wall -Wextra -Werror $(HEADERS) -g
 LIBFT=-L libft -l ft
-READLINE=-l readline
+READLINE=-lreadline
+#-L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
 SRCS=$(wildcard lexer/*.c) $(wildcard expander/*.c) $(wildcard shell/*.c) \
-	 $(wildcard parser/*.c) $(wildcard errors/*.c) $(wildcard executor/*.c)
+	 $(wildcard parser/*.c) $(wildcard errors/*.c) $(wildcard executor/*.c) \
+	 $(wildcard builtin/*.c)
 OBJS=$(SRCS:.c=.o)
 MAINOBJ=main.o
 SRCTEST=$(wildcard test/*.c)
@@ -15,7 +17,7 @@ TESTNAME=custom_test
 all: $(NAME)
 
 $(NAME): libft $(MAINOBJ) $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) $(MAINOBJ) $(LIBFT) $(READLINE)
+	$(CC) $(CFLAGS) signals/signals.c -o $@ $(OBJS) $(MAINOBJ) $(LIBFT) $(READLINE)
 
 %.o:%.c
 	$(CC) $(CFLAGS) -o $@ -c $^

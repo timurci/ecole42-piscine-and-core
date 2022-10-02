@@ -17,7 +17,7 @@
 # include "errors.h"
 # include "lexer.h"
 # include "libft.h"
-# include <readline/readline.h>
+# include "signals.h"
 # include <fcntl.h>
 
 # define TTYPE_EMPTY -100
@@ -54,7 +54,6 @@ void	rescan_tokens(t_token *tokens);
 
 void	check_syntax(t_shell *shell);
 t_cmd	*split_cmds(t_shell *shell, t_token *tokens);
-void	cmds_destroy(t_cmd *cmds);
 void	heredoc_handler(t_shell *shell, t_cmd *cmd, t_token *token);
 
 /*

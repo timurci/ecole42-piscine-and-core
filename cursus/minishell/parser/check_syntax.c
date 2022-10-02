@@ -39,6 +39,9 @@ void	check_syntax(t_shell *shell)
 		if (tokens->type == TTYPE_REDIR && !ft_strcmp(tokens->value, ">>")
 			&& !tokens->next)
 			errors(shell, ERR_TOKEN, (void *) "newline");
+		if (*tokens->value != '\'' && *tokens->value != '\"'
+			&& ft_strchr(tokens->value, ';'))
+			errors(shell, ERR_COLUMN, NULL);
 		tokens = tokens->next;
 	}
 }

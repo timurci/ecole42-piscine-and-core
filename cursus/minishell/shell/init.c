@@ -26,7 +26,10 @@ char	*get_prompt(t_shell *shell)
 		return (ft_strdup("minishell / > "));
 	else
 	{
-		latter_dir = ft_strjoin(latter_dir + 1, " > ");
+		if (ft_strcmp(shell->cwd, getenv("HOME")))
+			latter_dir = ft_strjoin(latter_dir + 1, " > ");
+		else
+			latter_dir = ft_strjoin("~", " > ");
 		prompt = ft_strjoin("minishell ", latter_dir);
 		free(latter_dir);
 		return (prompt);
@@ -46,13 +49,14 @@ t_shell	*shell_init(char **env)
 	shell->var_list = NULL;
 	shell->env_list = NULL;
 	shell->cmds = NULL;
+	shell->line = NULL;
 	shell->raised_error = 0;
 	if (env)
 		shell->env_list = env_to_list(env);
 	return (shell);
 }
 
-static void	tokens_destroy(t_token *tokens)
+void	tokens_destroy(t_token *tokens)
 {
 	if (tokens)
 	{
@@ -83,6 +87,8 @@ void	shell_destroy(t_shell *shell)
 {
 	if (!shell)
 		return ;
+	if (shell->line)
+		free(shell->line);
 	if (shell->cwd)
 		free(shell->cwd);
 	if (shell->prompt)
@@ -93,5 +99,7 @@ void	shell_destroy(t_shell *shell)
 		list_destroy(shell->var_list);
 	if (shell->tokens)
 		tokens_destroy(shell->tokens);
+	if (shell->cmds)
+		cmds_destroy(shell->cmds);
 	free(shell);
 }

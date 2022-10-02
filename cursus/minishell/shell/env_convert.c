@@ -64,7 +64,7 @@ char	**list_to_env(t_dict *lst)
 	itr = 0;
 	while (lst)
 	{
-		news = malloc(sizeof(*news)
+		news = calloc(1, sizeof(char)
 				* (ft_strlen(lst->key) + ft_strlen(lst->value) + 2));
 		ft_strlcat(news, lst->key,
 			ft_strlen(news) + ft_strlen(lst->key) + 1);

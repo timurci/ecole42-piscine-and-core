@@ -33,6 +33,8 @@ static void	syntax_errors(char mode, void *param)
 {
 	if (mode == ERR_QUOTE)
 		custom_perror(ERR_SHELL, ERR_QUOTE_MSG, NULL);
+	else if (mode == ERR_COLUMN)
+		custom_perror(ERR_SHELL, ERR_COLUMN_MSG, NULL);
 	else if (mode == ERR_TOKEN)
 		custom_perror(ERR_SHELL, ERR_TOKEN_MSG, (char *) param);
 }

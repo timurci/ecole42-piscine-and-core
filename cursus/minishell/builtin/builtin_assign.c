@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_assign.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/02 17:24:03 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/10/02 17:24:06 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
 char	*assignment_key_dup(char *expr)
@@ -7,7 +19,7 @@ char	*assignment_key_dup(char *expr)
 
 	if (!expr)
 		return (NULL);
-	assign = ft_strchr(expr);
+	assign = ft_strchr(expr, '=');
 	if (!assign)
 		return (NULL);
 	*assign = 0;
@@ -18,12 +30,12 @@ char	*assignment_key_dup(char *expr)
 
 char	*assignment_val_dup(char *expr)
 {
-	t_dict	*assign;
+	char	*assign;
 	char	*value;
 
 	if (!expr)
 		return (NULL);
-	assign = ft_strchr(expr);
+	assign = ft_strchr(expr, '=');
 	if (!assign)
 		return (NULL);
 	value = ft_strdup(assign + 1);
@@ -59,7 +71,7 @@ int	builtin_assign(t_shell *shell, char **argv)
 
 int	builtin_single_assign(t_shell *shell, char *expr)
 {
-	t_token	*entry;
+	t_dict	*entry;
 	char	*key;
 	char	*value;
 
@@ -80,18 +92,18 @@ int	builtin_single_assign(t_shell *shell, char *expr)
 	return (0);
 }
 
-int	builtin_num_assign(t_shell *shell, char *key, int value)
+//the key will not be free, but the value will be freed.
+int	builtin_sep_assign(t_shell *shell, char *key, char *value)
 {
-	char	*new_value;
 	char	*expr;
 	char	*head;
 	int		ret_val;
 
-	new_value = ft_itoa(value);
-	head = ft_strjoin(key, '=');
-	expr = ft_strjoin(head, new_value);
+	head = ft_strjoin(key, "=");
+	expr = ft_strjoin(head, value);
 	free(head);
-	free(new_value);
+	if (value)		//updated
+		free(value);
 	ret_val = builtin_single_assign(shell, expr);
 	free(expr);
 	return (ret_val);

@@ -82,6 +82,7 @@ void	lst_destroy_entry(t_dict **list, char *key)
 		if (i != 0)
 			back = back->next;
 		tmp = tmp->next;
+        i++;
 	}
 	back->next = tmp->next;
 	free(tmp->key);

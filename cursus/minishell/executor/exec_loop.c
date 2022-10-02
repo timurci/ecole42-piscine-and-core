@@ -6,7 +6,7 @@
 /*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 17:55:52 by ademirci          #+#    #+#             */
-/*   Updated: 2022/09/25 14:28:44 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/09/27 00:21:16 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	count_proccess(t_cmd *cmds)
 	int	i;
 
 	i = 0;
-	while (cmds[i].is_last != 1 && cmds[i].cmd != NULL)
+	while (cmds[i].is_last != 1)
 		i++;
 	return (i);
 }
@@ -86,15 +86,28 @@ void	exec_func(t_shell *shell, int i, int c_proccess)
 			perror("dup2 output");
 	if (command_check(shell, i))
 	{
+		if (is_builtin(&shell->cmds[i]))
+		{
+			if (exec_builtin(shell, &shell->cmds[i]))
+				exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
+		}
+		if (is_assignment(&shell->cmds[i]))
+		{
+			if (builtin_assign(shell, shell->cmds[i].argv))
+				exit(EXIT_FAILURE);
+			exit(EXIT_SUCCESS);
+		}
 		argv_path(&shell->cmds[i]);
 		execve(shell->cmds[i].argv[0], shell->cmds[i].argv, NULL);
 	}
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 void	exec_loop(t_shell *shell)
 {
 	int	c_proccess;
+	int	exit;
 	int	i;
 
 	i = -1;
@@ -111,7 +124,11 @@ void	exec_loop(t_shell *shell)
 		if (i != c_proccess - 1)
 			close(shell->cmds[i].fd[1]);
 		if (is_wait(shell->cmds[i + 1]))
-			waitpid(shell->cmds[i].pid, &shell->cmds[i].is_sucex, 0);
+		{
+			waitpid(shell->cmds[i].pid, &exit, 0);
+			shell->cmds[i].exit_status = WEXITSTATUS(exit);
+		}
+		builtin_main_update(shell, i, c_proccess);
 	}
 	wait_list(shell, i);
 }

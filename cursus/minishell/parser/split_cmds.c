@@ -61,7 +61,7 @@ static t_token	*fill_one_cmd(t_shell *shell, t_cmd *cmd, t_token *tokens)
 	int	itr_args;
 
 	cmd->wait_ctrl = -1;
-	cmd->is_sucex = -1;
+	cmd->exit_status = -1;
 	if (tokens->type == TTYPE_CTRL || tokens->type == TTYPE_PIPE)
 	{
 		if (!ft_strcmp(tokens->value, "||"))

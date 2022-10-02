@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/02 17:24:24 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/10/02 17:24:25 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "builtins.h"
 
-int	builtin_echo(t_shell *shell, char **argv)
+int	builtin_echo(char **argv)
 {
 	char	trail;
 
@@ -11,10 +23,13 @@ int	builtin_echo(t_shell *shell, char **argv)
 		trail = 0;
 		argv++;
 	}
-	else if (*argv)
+	while (*argv)
+	{
+		write(1, *argv, ft_strlen(*argv));
+		if (*(argv + 1))
+			write(1, " ", 1);
 		argv++;
-	if (*argv)
-		write(1, *argv, ft_strlen(argv));
+	}
 	if (trail)
 		write(1, "\n", 1);
 	return (0);

@@ -59,7 +59,7 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	shell = shell_init(env);
 	//shell->tokens = tokenize(split_tokens("x=>file2 ~/Desktop '$USER' $SHELL \"$USER\""));
-	shell->tokens = tokenize(split_tokens("x=a y=b export z=c && export k=m"));
+	shell->tokens = tokenize(split_tokens("env"));
 	print_tokens(shell->tokens);
 	printf("--------\n");
 	parse(shell->tokens);

@@ -22,7 +22,6 @@ typedef struct s_cmd
 {
 	int		fd[2];
 	int		pid;
-	int		is_sucex;
 	char	**env;
 	char	*cmd;
 	char	cmd_replaced;
@@ -31,6 +30,7 @@ typedef struct s_cmd
 	char	input_type;
 	char	*redir_output;
 	char	output_type;
+	char	exit_status;
 	char	wait_ctrl;
 	char	is_last;
 }	t_cmd;
@@ -45,6 +45,7 @@ typedef struct s_dict
 typedef struct s_shell
 {
 	char	*prompt;
+	char	*line;
 	char	*cwd;
 	t_token	*tokens;
 	t_dict	*var_list;
@@ -53,10 +54,11 @@ typedef struct s_shell
 	char	raised_error;
 }	t_shell;
 
+char	*get_prompt(t_shell *shell);
 t_shell	*shell_init(char **evn);
 void	shell_destroy(t_shell *shell);
-
-char	*get_prompt(t_shell *shell);
+void	tokens_destroy(t_token *tokens);
+void	cmds_destroy(t_cmd *cmds);
 
 //env_convert.c
 t_dict	*env_to_list(char **env);
