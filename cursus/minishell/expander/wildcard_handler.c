@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 11:50:03 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/22 14:50:31 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/05 21:22:44 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	is_match(char *wcard, char *filename, int *count_p)
 	char	last_char;
 	char	*scan;
 
-	if (!ft_strcmp(filename, ".") || !ft_strcmp(filename, ".."))
+	if (*filename == '.' && *wcard != '.')
 		return (0);
 	last_char = -1;
 	scan = filename;
@@ -46,7 +46,7 @@ static t_token	*clear_and_return(t_token *tks, t_token *n_tks)
 	{
 		clear_and_return(tks, n_tks->next);
 		if (n_tks->value)
-			free(n_tks);
+			free(n_tks->value);
 		free(n_tks);
 	}
 	return (tks);

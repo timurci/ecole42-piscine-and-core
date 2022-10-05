@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:24:33 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/02 17:24:36 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:39:39 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include <stdbool.h>
 
 static void	print_info(t_shell *shell)
 {
@@ -24,13 +25,27 @@ static void	print_info(t_shell *shell)
 	}
 }
 
-static void	export_with_assign(t_shell *shell, char *expr)
+static void	handle_error(t_shell *shell, void *to_free, char *expr, void *param)
+{
+	if (to_free)
+		free(to_free);
+	if (param)
+		errors(shell, ERR_ASSIGN, expr);
+	shell->raised_error = 1;
+}
+
+static void	export_with_assign(t_shell *shell, char *expr, void *param)
 {
 	t_dict	*entry;
 	char	*key;
 	char	*value;
 
 	key = assignment_key_dup(expr);
+	if (key && !ft_strcmp(key, ""))
+	{
+		handle_error(shell, key, expr, param);
+		return ;
+	}
 	value = assignment_val_dup(expr);
 	entry = lst_find_entry(shell->var_list, key);
 	if (entry)
@@ -66,7 +81,7 @@ static void	export_wout_assign(t_shell *shell, char *expr)
 	}
 }
 
-int	builtin_export(t_shell *shell, char **argv)
+int	builtin_export(t_shell *shell, char **argv, void *param)
 {
 	char	*assign;
 
@@ -79,9 +94,11 @@ int	builtin_export(t_shell *shell, char **argv)
 	{
 		assign = ft_strchr(*argv, '=');
 		if (assign)
-			export_with_assign(shell, *argv);
+			export_with_assign(shell, *argv, param);
 		else
 			export_wout_assign(shell, *argv);
+		if (shell->raised_error)
+			return (1);
 		argv++;
 	}
 	return (0);

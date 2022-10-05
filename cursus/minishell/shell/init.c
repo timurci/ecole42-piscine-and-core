@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 11:34:18 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/22 11:57:11 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/03 18:30:25 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_shell	*shell_init(char **env)
 	shell->cmds = NULL;
 	shell->line = NULL;
 	shell->raised_error = 0;
+	shell->child_pid = -1;
 	if (env)
 		shell->env_list = env_to_list(env);
 	return (shell);

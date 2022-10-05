@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:24:03 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/02 17:24:06 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/03 13:42:28 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	builtin_sep_assign(t_shell *shell, char *key, char *value)
 	head = ft_strjoin(key, "=");
 	expr = ft_strjoin(head, value);
 	free(head);
-	if (value)		//updated
+	if (value)
 		free(value);
 	ret_val = builtin_single_assign(shell, expr);
 	free(expr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:25:17 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/22 16:09:36 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/04 16:38:55 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static void	syntax_errors(char mode, void *param)
 		custom_perror(ERR_SHELL, ERR_COLUMN_MSG, NULL);
 	else if (mode == ERR_TOKEN)
 		custom_perror(ERR_SHELL, ERR_TOKEN_MSG, (char *) param);
+	else if (mode == ERR_ASSIGN)
+		custom_perror(ERR_SHELL, ERR_ASSIGN_MSG, (char *) param);
 }
 
 static void	file_errors(char mode, void *param)
@@ -45,6 +47,8 @@ static void	file_errors(char mode, void *param)
 		custom_perror("*", ERR_REDIR_MSG, NULL);
 	else if (mode == ERR_DIR)
 		perror((const char *) param);
+	else if (mode == ERR_PATH)
+		custom_perror(ERR_SHELL, ERR_PATH_MSG, (char *) param);
 }
 
 void	errors(t_shell *shell, char mode, void *param)

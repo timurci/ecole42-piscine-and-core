@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 11:51:38 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/22 15:06:52 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/03 19:06:22 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	check_syntax(t_shell *shell)
 			errors(shell, ERR_TOKEN, (void *) tokens->next->value);
 		else if (tokens->type == TTYPE_REDIR && tokens->next
 			&& (tokens->next)->type != TTYPE_ARG
+			&& (tokens->next)->type != TTYPE_WCARD
 			&& (tokens->next)->type != TTYPE_EMPTY)
 			errors(shell, ERR_TOKEN, (void *) tokens->next->value);
 		if (tokens->type == TTYPE_REDIR && !ft_strcmp(tokens->value, ">>")

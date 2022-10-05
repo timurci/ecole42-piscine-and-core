@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/03 15:40:42 by ademirci          #+#    #+#             */
+/*   Updated: 2022/10/04 15:35:10 by ademirci         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "signals.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdio.h>
-t_shell	*shell;
+
+extern t_shell	*g_shell;
 
 static void	kill_all(t_cmd *cmds, int i)
 {
@@ -11,9 +24,7 @@ static void	kill_all(t_cmd *cmds, int i)
 
 	j = -1;
 	while (++j <= i)
-	{
 		kill(cmds[i].pid, SIGTERM);
-	}
 }
 
 static int	has_child(t_cmd *cmds, int *current_child)
@@ -52,16 +63,22 @@ void	sig_ctrlc(int sig)
 	(void)sig;
 	current_child = 0;
 	is_redisplay = 0;
-	if (shell->cmds && has_child(shell->cmds, &current_child))
+	if (g_shell->cmds && has_child(g_shell->cmds, &current_child))
 	{
-		kill_all(shell->cmds, current_child);
+		kill_all(g_shell->cmds, current_child);
 		is_redisplay = 1;
-		free_mem(shell);
+		free_mem(g_shell);
+		g_shell->raised_error = 1;
+	}
+	if (g_shell->doc_open)
+	{
+		if (!g_shell->child_pid)
+			exit(EXIT_SUCCESS);
+		g_shell->raised_error = 1;
 	}
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	if (is_redisplay == 0)
+	if (is_redisplay == 0 && !g_shell->doc_open)
 		rl_redisplay();
 }
-

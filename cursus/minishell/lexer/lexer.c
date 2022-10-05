@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:30:07 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/12 14:35:19 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/03 16:45:57 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,31 @@ static char	*find_special(char *input)
 	return (NULL);
 }
 
-static int	count_tokens(char *input)
+static int	count_tokens(char *in)
 {
 	int		count;
 
 	count = 0;
-	if (!ft_isspace(*input) && *input != '\'' && *input != '\"')
+	if (!ft_isspace(*in) && *in != '\'' && *in != '\"')
 		count++;
-	if (!ft_isspace(*input) && *input != '\'' && *input != '\"')
-		input++;
-	while (*input)
+	if (find_special(in) && *find_special(in) && !ft_isspace(*find_special(in)))
+		count++;
+	if (!ft_isspace(*in) && *in != '\'' && *in != '\"')
+		in++;
+	while (*in)
 	{
 		count++;
-		if (*input == '\"' || *input == '\'')
-			input = skip_all_quotes(input) - 1;
-		else if (find_special(input))
-		{
-			if (*find_special(input) && !ft_isspace(*find_special(input)))
+		if (*in == '\"' || *in == '\'')
+			in = skip_all_quotes(in) - 1;
+		else if (find_special(in)
+			&& *find_special(in) && !ft_isspace(*find_special(in)))
 				count++;
-		}
-		else if (!ft_isspace(*input) && ft_isspace(*(input - 1)))
+		else if (!ft_isspace(*in) && ft_isspace(*(in - 1)))
 			;
 		else
 			count--;
-		if (*input)
-			input++;
+		if (*in)
+			in++;
 	}
 	return (count);
 }
@@ -89,12 +89,14 @@ char	**split_tokens(char *input)
 	char	*check_p;
 	char	**strs;
 
-	strs = (char **) malloc(sizeof(*strs) * (count_tokens(input) + 1));
+	strs = (char **) ft_calloc(1, sizeof(*strs) * (count_tokens(input) + 1));
 	itr = 0;
 	while (*input)
 	{
 		while (ft_isspace(*input))
 			input++;
+		if (!*input)
+			break ;
 		check_p = input;
 		while (*input && !ft_isspace(*input) && !find_special(input))
 		{
@@ -107,6 +109,5 @@ char	**split_tokens(char *input)
 			input = find_special(input);
 		strs[itr++] = ft_substr(check_p, 0, input - check_p);
 	}
-	strs[itr] = NULL;
 	return (strs);
 }

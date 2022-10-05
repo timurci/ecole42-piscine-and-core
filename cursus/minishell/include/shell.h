@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 11:33:55 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/22 19:51:59 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/03 18:30:05 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct s_shell
 	t_dict	*env_list;
 	t_cmd	*cmds;
 	char	raised_error;
+	char	doc_open;
+	int		child_pid;
 }	t_shell;
 
 char	*get_prompt(t_shell *shell);

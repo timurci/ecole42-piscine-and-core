@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:24:49 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/02 17:24:51 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/04 15:36:54 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,31 @@ static void	update_env(t_shell *shell, char *oldpwd, char *newpwd)
 		builtin_sep_assign(shell, "OLDPWD", n_oldpwd);
 }
 
-int	builtin_cd(t_shell *shell, char **argv)
+static int	extend_chdir(t_shell *shell, char *path, void *param)
+{
+	if (chdir(path))
+	{
+		if (param)
+			errors(shell, ERR_DIR, (void *) path);
+		shell->raised_error = 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	builtin_cd(t_shell *shell, char **argv, void *param)
 {
 	char	*oldpwd;
 
 	argv++;
-	if (chdir(*argv))
-	{
-		errors(shell, ERR_DIR, (void *) *argv);
+	if (*argv && ft_strlen(*argv) == 1 && **argv == '-'
+		&& !extend_chdir(shell,
+			lst_find_value(shell->env_list, "OLDPWD"), param))
+		;
+	else if (*argv && extend_chdir(shell, *argv, param))
 		return (1);
-	}
+	else if (!*argv && extend_chdir(shell, getenv("HOME"), param))
+		return (1);
 	oldpwd = shell->cwd;
 	shell->cwd = getcwd(NULL, 0);
 	update_env(shell, oldpwd, shell->cwd);

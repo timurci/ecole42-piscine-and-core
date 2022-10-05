@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 11:49:57 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/24 18:08:44 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/04 18:10:25 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*check_var(t_shell *shell, t_token *token, char *scan)
 	size_t	hanger_size;
 
 	check_p = scan++;
-	while (*scan && *scan != '\"' && *scan != '\''
+	while (*scan && *scan != '\"' && *scan != '\'' && *scan != '$'
 		&& !ft_isspace(*scan))
 		scan++;
 	tmp = ft_substr(check_p, 1, scan - check_p - 1);

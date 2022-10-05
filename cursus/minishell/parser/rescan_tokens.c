@@ -6,7 +6,7 @@
 /*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 11:55:32 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/24 18:21:59 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/03 16:51:31 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 static char	is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "cd")
-	|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "unset")
-	|| !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit"))
+		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "unset")
+		|| !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "exit"))
 		return (1);
 	return (0);
 }
@@ -69,9 +69,13 @@ static void	reset_cmd(t_token *token, t_scanflag *flags)
 
 static t_token	*reset_types(t_token *tokens, t_token *scan, t_scanflag *flags)
 {
+	t_token	*start;
+
+	start = tokens;
 	while (tokens && tokens != scan)
 	{
-		if (tokens->type == TTYPE_ASSIGN || tokens->type == TTYPE_ARG)
+		if (tokens->type == TTYPE_ASSIGN || tokens->type == TTYPE_ARG
+			|| (tokens->type == TTYPE_CMD && tokens != start))
 		{
 			if (flags->has_cmd || flags->force_ignore)
 				tokens->type = TTYPE_IGNORE;

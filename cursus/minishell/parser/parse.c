@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 18:20:44 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/22 11:52:53 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/03 19:21:03 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,18 @@ static char	is_redirection(t_token *itr)
 	return (0);
 }
 
-static char	is_ctrl(t_token *itr)
+static char	is_wcard(t_token *tokens, t_token *itr)
 {
-	char	*val;
+	t_token	*prev;
 
-	if (itr->type == TTYPE_CONV)
-		return (0);
-	val = itr->value;
-	if (!ft_strcmp(val, "&&") || !ft_strcmp(val, "||"))
-		return (1);
+	prev = token_find_offset(tokens, itr, -1);
+	if (ft_strchr(itr->value, '*'))
+	{
+		if (itr->type != TTYPE_CONV
+			&& !(prev && prev->type == TTYPE_REDIR
+				&& !ft_strcmp(prev->value, "<<")))
+			return (1);
+	}
 	return (0);
 }
 
@@ -74,9 +77,10 @@ void	parse(t_token *tokens)
 			itr->type = TTYPE_REDIR;
 		else if (itr->type != TTYPE_CONV && !ft_strcmp(itr->value, "|"))
 			itr->type = TTYPE_PIPE;
-		else if (is_ctrl(itr))
+		else if (itr->type != TTYPE_CONV
+			&& (!ft_strcmp(itr->value, "&&") || !ft_strcmp(itr->value, "||")))
 			itr->type = TTYPE_CTRL;
-		else if (itr->type != TTYPE_CONV && ft_strchr(itr->value, '*'))
+		else if (is_wcard(tokens, itr))
 			itr->type = TTYPE_WCARD;
 		else if (is_command(tokens, itr))
 			itr->type = TTYPE_CMD;

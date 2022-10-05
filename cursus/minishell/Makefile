@@ -1,23 +1,21 @@
 CC=cc
-HEADERS=-I include -I libft
+HEADERS=-I include -I libft -I /goinfre/ademirci/.brew/Cellar/readline/8.1.2/include
 CFLAGS=-Wall -Wextra -Werror $(HEADERS) -g
 LIBFT=-L libft -l ft
-READLINE=-lreadline
+READLINE=-L /goinfre/ademirci/.brew/Cellar/readline/8.1.2/lib -lreadline
+#-lreadline
 #-L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
 SRCS=$(wildcard lexer/*.c) $(wildcard expander/*.c) $(wildcard shell/*.c) \
 	 $(wildcard parser/*.c) $(wildcard errors/*.c) $(wildcard executor/*.c) \
-	 $(wildcard builtin/*.c)
+	 $(wildcard builtin/*.c) $(wildcard signals/*.c)
 OBJS=$(SRCS:.c=.o)
 MAINOBJ=main.o
-SRCTEST=$(wildcard test/*.c)
-OBJTEST=$(SRCTEST:.c=.o)
 NAME=minishell
-TESTNAME=custom_test
 
 all: $(NAME)
 
 $(NAME): libft $(MAINOBJ) $(OBJS)
-	$(CC) $(CFLAGS) signals/signals.c -o $@ $(OBJS) $(MAINOBJ) $(LIBFT) $(READLINE)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(MAINOBJ) $(LIBFT) $(READLINE)
 
 %.o:%.c
 	$(CC) $(CFLAGS) -o $@ -c $^
@@ -37,29 +35,24 @@ expander/%.o: expander/%.c
 errors/%.o: errors/%.c
 	$(CC) $(CFLAGS) -o $@ -c $^
 
-test/%.o: test/%.c
+signals/%.o: signals/%.c
 	$(CC) $(CFLAGS) -o $@ -c $^
+
 libft:
 	make -C libft
 
 clean:
 	rm -rf $(OBJS)
-	rm -rf $(OBJTEST)
 	rm -rf $(MAINOBJ)
 	make -C libft clean
 
 fclean:
 	rm -rf $(OBJS)
-	rm -rf $(OBJTEST)
 	rm -rf $(MAINOBJ)
 	rm -rf $(NAME)
-	rm -rf $(TESTNAME)
 	rm -rf 
 	make -C libft fclean
 
 re: fclean all
 
-test: libft $(OBJTEST) $(OBJS)
-	$(CC) $(CFLAGS) -o $(TESTNAME) $(OBJTEST) $(OBJS) $(LIBFT) $(READLINE)
-
-.PHONY: all libft clean fclean re test
+.PHONY: all libft clean fclean re

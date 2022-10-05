@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 18:20:39 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/22 15:20:27 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/05 21:13:16 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "libft.h"
 # include "signals.h"
 # include <fcntl.h>
+# include <unistd.h>
+# include <sys/wait.h>
 
 # define TTYPE_EMPTY -100
 # define TTYPE_IGNORE -3

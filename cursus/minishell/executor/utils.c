@@ -6,60 +6,29 @@
 /*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 18:02:12 by ademirci          #+#    #+#             */
-/*   Updated: 2022/09/27 00:02:07 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/02 22:04:55 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 
-int	operator_or(t_shell *shell, int i)
+int	is_wait(t_cmd *cmd)
 {
-	int	j;
-	int	c;
-
-	j = -1;
-	c = i;
-	while (--c > 0)
-		if (shell->cmds[c].wait_ctrl == 0)
-			break ;
-	j = c - 1;
-	while (++j < i)
-		if (shell->cmds[j].exit_status == 0)
-			return (0);
-	return (1);
+	if (cmd->wait_ctrl == 1 || cmd->wait_ctrl == 0)
+		return (1);
+	return (0);
 }
 
-int	operator_and(t_shell *shell, int i)
+void	wait_func(t_shell *shell, t_cmd *cmd)
 {
-	int	j;
+	int	exit;
 
-	j = -1;
-	while (++j < i)
+	waitpid(cmd->pid, &exit, 0);
+	if (!shell->raised_error)
 	{
-		if (shell->cmds[j].exit_status == 0)
-			return (1);
+		cmd->exit_status = WEXITSTATUS(exit);
+		builtin_sep_assign(shell, "?", ft_itoa(cmd->exit_status));
 	}
-	return (0);
-}
-
-int	command_check(t_shell *shell, int i)
-{
-	if (shell->cmds[i].cmd != NULL && !is_wait(shell->cmds[i]))
-		return (1);
-	if (shell->cmds[i].cmd != NULL && shell->cmds[i].wait_ctrl == 0)
-		return (operator_and(shell, i));
-	if (shell->cmds[i].cmd != NULL && shell->cmds[i].wait_ctrl == 1)
-		return (operator_or(shell, i));
-	if (is_assignment(&shell->cmds[i]))
-		return (1);
-	return (0);
-}
-
-int	is_wait(t_cmd cmd)
-{
-	if (cmd.wait_ctrl == 1 || cmd.wait_ctrl == 0)
-		return (1);
-	return (0);
 }
 
 void	wait_list(t_shell *shell, int last)
@@ -67,6 +36,6 @@ void	wait_list(t_shell *shell, int last)
 	int	i;
 
 	i = -1;
-	while (++i < last)
-		waitpid(shell->cmds[i].pid, NULL, 0);
+	while (++i < last && shell->cmds)
+		wait_func(shell, &shell->cmds[i]);
 }

@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 11:35:20 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/22 14:42:53 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/05 21:15:29 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ void	expand(t_shell *shell)
 	while (tokens && !shell->raised_error)
 	{
 		scan = tokens->value;
-		while (tokens->type != TTYPE_WCARD && *scan)
+		while (!shell->raised_error && tokens->type != TTYPE_WCARD && *scan)
 		{
-			if (*scan == '$')
+			if (*scan == '$' && !*(scan + 1))
+				;
+			else if (*scan == '$')
 				scan = check_var(shell, tokens, scan);
 			else if (scan == tokens->value && *scan == '~')
 				scan = check_path(tokens, scan);

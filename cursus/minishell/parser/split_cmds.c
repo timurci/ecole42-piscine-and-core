@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 18:20:44 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/24 18:26:35 by alperdemirci     ###   ########.fr       */
+/*   Updated: 2022/10/02 21:10:56 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ static t_token	*fill_one_cmd(t_shell *shell, t_cmd *cmd, t_token *tokens)
 {
 	int	itr_args;
 
-	cmd->wait_ctrl = -1;
-	cmd->exit_status = -1;
 	if (tokens->type == TTYPE_CTRL || tokens->type == TTYPE_PIPE)
 	{
 		if (!ft_strcmp(tokens->value, "||"))
@@ -108,7 +106,13 @@ t_cmd	*split_cmds(t_shell *shell, t_token *tokens)
 	cmds = (t_cmd *) ft_calloc(count_procs(tokens) + 1, sizeof(*cmds));
 	itr = 0;
 	while (tokens)
+	{
+		cmds[itr].exit_status = -1;
+		cmds[itr].wait_ctrl = -1;
 		tokens = fill_one_cmd(shell, &cmds[itr++], tokens);
+	}
+	cmds[itr].exit_status = -1;
+	cmds[itr].wait_ctrl = -1;
 	cmds[itr].is_last = 1;
 	return (cmds);
 }
