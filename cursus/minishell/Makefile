@@ -1,8 +1,8 @@
 CC=cc
-HEADERS=-I include -I libft -I /goinfre/ademirci/.brew/Cellar/readline/8.1.2/include
+HEADERS=-I include -I libft
 CFLAGS=-Wall -Wextra -Werror $(HEADERS) -g
 LIBFT=-L libft -l ft
-READLINE=-L /goinfre/ademirci/.brew/Cellar/readline/8.1.2/lib -lreadline
+READLINE=-l readline
 #-lreadline
 #-L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
 SRCS=$(wildcard lexer/*.c) $(wildcard expander/*.c) $(wildcard shell/*.c) \
