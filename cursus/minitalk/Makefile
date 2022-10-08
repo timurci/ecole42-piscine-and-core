@@ -5,13 +5,13 @@ all: client server
 client:
 	$(CC) $(CFLAGS) client.c ft_atoi.c -o client
 server: print
-	$(CC) $(CFLAGS) $(PLIB) server.c -o server
+	$(CC) $(CFLAGS) server.c -o server $(PLIB)
 print:
 	make -C ft_printf
 clean:
 	make -C ft_printf clean
 fclean: 
 	make -C ft_printf fclean
-	rm client
-	rm server
+	rm -f client
+	rm -f server
 re: fclean all
