@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 18:20:44 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/02 21:10:56 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/11 20:45:28 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	count_args(t_token *tokens)
 	while (scan_p && scan_p->type != TTYPE_PIPE && scan_p->type != TTYPE_CTRL)
 	{
 		prev = token_find_offset(tokens, scan_p, -1);
-		if (scan_p->type == TTYPE_ARG && prev->type != TTYPE_REDIR)
+		if (scan_p->type == TTYPE_ARG && prev && prev->type != TTYPE_REDIR)
 			itr++;
 		else if (scan_p->type == TTYPE_ASSIGN)
 			itr++;
@@ -56,11 +56,11 @@ static t_token	*set_redir(t_shell *shell, t_cmd *cmd, t_token *tokens)
 	return (tokens->next);
 }
 
-static t_token	*fill_one_cmd(t_shell *shell, t_cmd *cmd, t_token *tokens)
+t_token	*fill_one_cmd(t_shell *shell, t_cmd *cmds, t_cmd *cmd, t_token *tokens)
 {
 	int	itr_args;
 
-	if (tokens->type == TTYPE_CTRL || tokens->type == TTYPE_PIPE)
+	while (is_cmd_end(tokens))
 	{
 		if (!ft_strcmp(tokens->value, "||"))
 			cmd->wait_ctrl = 1;
@@ -68,9 +68,10 @@ static t_token	*fill_one_cmd(t_shell *shell, t_cmd *cmd, t_token *tokens)
 			cmd->wait_ctrl = 0;
 		tokens = tokens->next;
 	}
+	tokens = check_brackets(cmds, cmd, tokens);
 	cmd->argv = (char **) ft_calloc(count_args(tokens) + 1, sizeof(char *));
 	itr_args = 0;
-	while (tokens && tokens->type != TTYPE_PIPE && tokens->type != TTYPE_CTRL)
+	while (tokens && !is_cmd_end(tokens))
 	{
 		if (tokens->type == TTYPE_CMD)
 			cmd->cmd = tokens->value;
@@ -109,7 +110,11 @@ t_cmd	*split_cmds(t_shell *shell, t_token *tokens)
 	{
 		cmds[itr].exit_status = -1;
 		cmds[itr].wait_ctrl = -1;
-		tokens = fill_one_cmd(shell, &cmds[itr++], tokens);
+		if (!(!tokens->next
+				&& tokens->type != TTYPE_CMD && tokens->type != TTYPE_ASSIGN))
+			tokens = fill_one_cmd(shell, cmds, &cmds[itr++], tokens);
+		else
+			tokens = tokens->next;
 	}
 	cmds[itr].exit_status = -1;
 	cmds[itr].wait_ctrl = -1;

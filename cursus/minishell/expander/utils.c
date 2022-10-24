@@ -6,7 +6,7 @@
 /*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 11:49:57 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/04 18:10:25 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/06 20:25:47 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*scan_quote(t_shell *shell, t_token *token, char *scan)
 	check_p = scan++;
 	while (*scan && *scan != '\"')
 	{
-		if (*scan == '$')
+		if (*scan == '$' && *(scan + 1) != '\"' && !ft_isspace(*(scan + 1)))
 		{
 			scan = check_var(shell, token, scan);
 			check_p = token->value;

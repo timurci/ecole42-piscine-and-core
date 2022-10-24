@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rescan_tokens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 11:55:32 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/03 16:51:31 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/09 15:02:40 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,21 +69,26 @@ static void	reset_cmd(t_token *token, t_scanflag *flags)
 
 static t_token	*reset_types(t_token *tokens, t_token *scan, t_scanflag *flags)
 {
-	t_token	*start;
+	t_token	*prev;
 
-	start = tokens;
+	prev = NULL;
 	while (tokens && tokens != scan)
 	{
-		if (tokens->type == TTYPE_ASSIGN || tokens->type == TTYPE_ARG
-			|| (tokens->type == TTYPE_CMD && tokens != start))
+		if (tokens->type == TTYPE_ASSIGN || tokens->type == TTYPE_ARG)
 		{
-			if (flags->has_cmd || flags->force_ignore)
+			if (!(prev && prev->type == TTYPE_REDIR)
+				&& (flags->has_cmd || flags->force_ignore || (!flags->has_cmd
+						&& !flags->has_prev_cmd && !ft_strlen(tokens->value))))
 				tokens->type = TTYPE_IGNORE;
 			else if (flags->has_prev_cmd)
 				tokens->type = TTYPE_ARG;
+			else if (!flags->has_cmd && !flags->has_prev_cmd
+				&& prev && prev->type == TTYPE_IGNORE)
+				tokens->type = TTYPE_CMD;
 		}
-		else if (tokens->type == TTYPE_CMD)
+		if (tokens->type == TTYPE_CMD)
 			reset_cmd(tokens, flags);
+		prev = tokens;
 		tokens = tokens->next;
 	}
 	reset_flags(flags);

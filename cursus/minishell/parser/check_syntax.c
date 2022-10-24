@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 11:51:38 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/03 19:06:22 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/23 15:00:04 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+static void	check_bracket_complement(t_shell *shell)
+{
+	t_token	*tokens;
+	int		lbracket;
+	int		rbracket;
+
+	tokens = shell->tokens;
+	lbracket = 0;
+	rbracket = 0;
+	while (tokens)
+	{
+		if (tokens->type == TTYPE_LBRACKET)
+			lbracket++;
+		else if (tokens->type == TTYPE_RBRACKET)
+			rbracket++;
+		if (rbracket > lbracket)
+		{
+			errors(shell, ERR_TOKEN, ")");
+			return ;
+		}
+		tokens = tokens->next;
+	}
+	if (lbracket < rbracket)
+		errors(shell, ERR_TOKEN, ")");
+	else if (lbracket > rbracket)
+		errors(shell, ERR_TOKEN, "(");
+}
 
 static char	is_operator(t_token *token)
 {
@@ -18,6 +46,32 @@ static char	is_operator(t_token *token)
 		return (0);
 	if (token->type == TTYPE_PIPE || token->type == TTYPE_CTRL)
 		return (1);
+	return (0);
+}
+
+static char	*check_bracket(t_shell *shell, t_token *token)
+{
+	t_token	*prev;
+
+	prev = token_find_offset(shell->tokens, token, -1);
+	if (token->type == TTYPE_LBRACKET
+		&& (!token->next || (token->next->type != TTYPE_CMD
+				&& token->next->type != TTYPE_LBRACKET)))
+	{
+		if (token->next)
+			return (token->next->value);
+		errors(shell, ERR_TOKEN, "newline");
+		return (NULL);
+	}
+	else if (token->type == TTYPE_RBRACKET && prev
+		&& prev->type != TTYPE_CMD && prev->type != TTYPE_ARG
+		&& prev->type != TTYPE_ASSIGN && prev->type != TTYPE_RBRACKET)
+		return (token->next->value);
+	else if (token->type == TTYPE_RBRACKET && token->next
+		&& token->next->type != TTYPE_PIPE
+		&& token->next->type != TTYPE_CTRL
+		&& token->next->type != TTYPE_RBRACKET)
+		return (token->next->value);
 	return (0);
 }
 
@@ -43,6 +97,9 @@ void	check_syntax(t_shell *shell)
 		if (*tokens->value != '\'' && *tokens->value != '\"'
 			&& ft_strchr(tokens->value, ';'))
 			errors(shell, ERR_COLUMN, NULL);
+		if (check_bracket(shell, tokens))
+			errors(shell, ERR_TOKEN, check_bracket(shell, tokens));
 		tokens = tokens->next;
 	}
+	check_bracket_complement(shell);
 }

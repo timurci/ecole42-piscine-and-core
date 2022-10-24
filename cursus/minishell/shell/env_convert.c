@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 18:20:52 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/09/22 15:24:24 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/06 20:31:27 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static int	count_items(t_dict *lst)
 	count = 0;
 	while (lst)
 	{
-		count++;
+		if (lst->value)
+			count++;
 		lst = lst->next;
 	}
 	return (count);
@@ -58,21 +59,22 @@ char	**list_to_env(t_dict *lst)
 	char	*news;
 	int		itr;
 
-	if (!lst)
-		return (NULL);
 	env = malloc(sizeof(*env) * (count_items(lst) + 1));
 	itr = 0;
 	while (lst)
 	{
-		news = calloc(1, sizeof(char)
-				* (ft_strlen(lst->key) + ft_strlen(lst->value) + 2));
-		ft_strlcat(news, lst->key,
-			ft_strlen(news) + ft_strlen(lst->key) + 1);
-		ft_strlcat(news, "=",
-			ft_strlen(news) + 2);
-		ft_strlcat(news, lst->value,
-			ft_strlen(news) + ft_strlen(lst->value) + 1);
-		env[itr++] = news;
+		if (lst->value)
+		{
+			news = calloc(1, sizeof(char)
+					* (ft_strlen(lst->key) + ft_strlen(lst->value) + 2));
+			ft_strlcat(news, lst->key,
+				ft_strlen(news) + ft_strlen(lst->key) + 1);
+			ft_strlcat(news, "=",
+				ft_strlen(news) + 2);
+			ft_strlcat(news, lst->value,
+				ft_strlen(news) + ft_strlen(lst->value) + 1);
+			env[itr++] = news;
+		}
 		lst = lst->next;
 	}
 	env[itr] = NULL;

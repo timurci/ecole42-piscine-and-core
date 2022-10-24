@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ademirci <ademirci@student.42kocaeli.co    +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 20:27:07 by ademirci          #+#    #+#             */
-/*   Updated: 2022/10/02 21:07:02 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:01:03 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ void	exec_loop(t_shell *shell);
 
 //utils.c
 int		is_wait(t_cmd *cmd);
+int		exit_condition(t_shell *shell, int i);
 int		count_proccess(t_cmd *cmds);
 int		error_check(t_shell *shell, int i);
 void	wait_list(t_shell *shell, int last);
-void	wait_func(t_shell *shell, t_cmd *cmd);
+int		wait_func(t_shell *shell, t_cmd *cmd);
 
 //command_check.c
 int		operator_or(t_shell *shell, int i);

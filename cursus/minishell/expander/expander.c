@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 11:35:20 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/05 21:15:29 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/09 14:27:37 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	expand(t_shell *shell)
 		scan = tokens->value;
 		while (!shell->raised_error && tokens->type != TTYPE_WCARD && *scan)
 		{
-			if (*scan == '$' && !*(scan + 1))
+			if (*scan == '$' && *(scan + 1) == 0)
 				;
 			else if (*scan == '$')
 				scan = check_var(shell, tokens, scan);

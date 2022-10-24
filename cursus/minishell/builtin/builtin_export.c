@@ -6,7 +6,7 @@
 /*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 17:24:33 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/04 16:39:39 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/06 20:33:20 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static void	print_info(t_shell *shell)
 	env = shell->env_list;
 	while (env)
 	{
-		printf("declare -x %s=\"%s\"\n", env->key, env->value);
+		if (env->value)
+			printf("declare -x %s=\"%s\"\n", env->key, env->value);
+		else
+			printf("declare -x %s\n", env->key);
 		env = env->next;
 	}
 }
@@ -78,6 +81,11 @@ static void	export_wout_assign(t_shell *shell, char *expr)
 		value = ft_strdup(entry->value);
 		lst_destroy_entry(&shell->var_list, expr);
 		lst_add_back(&shell->env_list, key, value);
+	}
+	else
+	{
+		key = ft_strdup(expr);
+		lst_add_back(&shell->env_list, key, NULL);
 	}
 }
 

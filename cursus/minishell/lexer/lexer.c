@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 16:30:07 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/03 16:45:57 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:58:43 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ static char	*find_special(char *input)
 	char	*init;
 
 	init = input;
-	if (!ft_strncmp(input, ">>", 2) || !ft_strncmp(input, "<<", 2))
+	if (*input == '(' || *input == ')')
+		input++;
+	else if (!ft_strncmp(input, ">>", 2) || !ft_strncmp(input, "<<", 2))
 		input += 2;
 	else if (*input == '<' || *input == '>')
 		input++;
@@ -70,8 +72,8 @@ static int	count_tokens(char *in)
 		count++;
 		if (*in == '\"' || *in == '\'')
 			in = skip_all_quotes(in) - 1;
-		else if (find_special(in)
-			&& *find_special(in) && !ft_isspace(*find_special(in)))
+		else if (find_special(in) && (!ft_isspace(*find_special(in))
+				|| ((*in == ')' || *in == '(') && !ft_isspace(*in - 1))))
 				count++;
 		else if (!ft_isspace(*in) && ft_isspace(*(in - 1)))
 			;

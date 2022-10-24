@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 11:50:03 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/05 21:22:44 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/23 15:31:50 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,12 @@ t_token	*insert_wcard(t_shell *shell, t_token *tks, t_token *n_tks, int count)
 	return (last_p);
 }
 
+t_token	*conv_token(t_token *tkn)
+{
+	tkn->type = TTYPE_CONV;
+	return (tkn);
+}
+
 t_token	*handle_wcard(t_shell *shell, t_token *tokens)
 {
 	DIR				*dir_p;
@@ -105,6 +111,6 @@ t_token	*handle_wcard(t_shell *shell, t_token *tokens)
 	}
 	closedir(dir_p);
 	if (!count)
-		return (tokens);
+		return (conv_token(tokens));
 	return (insert_wcard(shell, tokens, new_tokens, count));
 }

@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 11:33:55 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/03 18:30:05 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/09 17:51:27 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_cmd
 	char	output_type;
 	char	exit_status;
 	char	wait_ctrl;
+	char	in_bracket;
 	char	is_last;
 }	t_cmd;
 

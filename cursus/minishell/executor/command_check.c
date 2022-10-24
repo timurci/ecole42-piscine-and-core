@@ -6,7 +6,7 @@
 /*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 15:41:26 by ademirci          #+#    #+#             */
-/*   Updated: 2022/10/03 15:41:27 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:57:33 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	operator_or(t_shell *shell, int i)
 	while (--c > 0)
 		if (shell->cmds[c].wait_ctrl == 0)
 			break ;
-	j = c - 1;
+	j = c;
 	while (++j < i)
 		if (shell->cmds[j].exit_status == 0)
 			return (0);

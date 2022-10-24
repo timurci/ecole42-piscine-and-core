@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 11:57:52 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/03 13:10:08 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/06 20:32:27 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	lst_destroy_entry(t_dict **list, char *key)
 	}
 	back->next = tmp->next;
 	free(tmp->key);
-	free(tmp->value);
+	if (tmp->value)
+		free(tmp->value);
 	free(tmp);
 }

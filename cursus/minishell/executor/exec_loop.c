@@ -6,7 +6,7 @@
 /*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 17:55:52 by ademirci          #+#    #+#             */
-/*   Updated: 2022/10/04 18:09:30 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/23 14:36:50 by ademirci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	exec_func(t_shell *shell, int i, int c_proccess)
 		if (!shell->raised_error)
 			execve(shell->cmds[i].cmd, shell->cmds[i].argv, shell->cmds[i].env);
 	}
-	exit(EXIT_FAILURE);
+	exit_condition(shell, i);
 }
 
 void	exec_loop(t_shell *shell)

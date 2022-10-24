@@ -1,8 +1,8 @@
 CC=cc
-HEADERS=-I include -I libft
+HEADERS=-I include -I libft -I /goinfre/ademirci/.brew/Cellar/readline/8.2.1/include
 CFLAGS=-Wall -Wextra -Werror $(HEADERS) -g
 LIBFT=-L libft -l ft
-READLINE=-l readline
+READLINE=-L /goinfre/ademirci/.brew/Cellar/readline/8.2.1/lib -lreadline
 #-lreadline
 #-L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
 SRCS=$(wildcard lexer/*.c) $(wildcard expander/*.c) $(wildcard shell/*.c) \
@@ -38,19 +38,24 @@ errors/%.o: errors/%.c
 signals/%.o: signals/%.c
 	$(CC) $(CFLAGS) -o $@ -c $^
 
+test/%.o: test/%.c
+	$(CC) $(CFLAGS) -o $@ -c $^
+
 libft:
 	make -C libft
 
 clean:
 	rm -rf $(OBJS)
+	rm -rf $(OBJTEST)
 	rm -rf $(MAINOBJ)
 	make -C libft clean
 
 fclean:
 	rm -rf $(OBJS)
+	rm -rf $(OBJTEST)
 	rm -rf $(MAINOBJ)
 	rm -rf $(NAME)
-	rm -rf 
+	rm -rf $(TESTNAME)
 	make -C libft fclean
 
 re: fclean all

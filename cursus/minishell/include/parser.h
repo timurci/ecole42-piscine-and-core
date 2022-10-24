@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 18:20:39 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/05 21:13:16 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/10/11 20:45:19 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define TTYPE_PIPE 4
 # define TTYPE_CTRL 5
 # define TTYPE_WCARD 6
+# define TTYPE_LBRACKET 7
+# define TTYPE_RBRACKET 8
 
 # define REDIR_INPUT 0
 # define REDIR_OUTPUT 1
@@ -57,6 +59,10 @@ void	rescan_tokens(t_token *tokens);
 void	check_syntax(t_shell *shell);
 t_cmd	*split_cmds(t_shell *shell, t_token *tokens);
 void	heredoc_handler(t_shell *shell, t_cmd *cmd, t_token *token);
+
+//split_utils.c
+t_token	*check_brackets(t_cmd *cmds, t_cmd *cmd, t_token *token);
+char	is_cmd_end(t_token *token);
 
 /*
  * split_cmds() will run heredoc_handler, which can raise error,
