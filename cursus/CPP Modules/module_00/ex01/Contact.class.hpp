@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Contact.class.hpp                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/24 16:19:07 by tcakmako          #+#    #+#             */
+/*   Updated: 2022/10/24 16:19:07 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CONTACT_CLASS_HPP
 # define CONTACT_CLASS_HPP
 
@@ -19,11 +31,11 @@ class Contact
 		void		set_pnum(std::string);
 		void		set_secret(std::string);
 		
-		std::string	get_fname(void){return (first_name);}
-		std::string	get_lname(void){return (last_name);}
-		std::string	get_nname(void){return (nick_name);}
-		std::string	get_pnum(void){return (phone_number);}
-		std::string	get_secret(void){return (secret);}
+		std::string	get_fname(void);
+		std::string	get_lname(void);
+		std::string	get_nname(void);
+		std::string	get_pnum(void);
+		std::string	get_secret(void);
 };
 
 #endif
