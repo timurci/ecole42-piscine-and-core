@@ -6,7 +6,7 @@
 /*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 20:27:07 by ademirci          #+#    #+#             */
-/*   Updated: 2022/10/09 17:01:03 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/25 11:26:04 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/wait.h>
 
 //path_returner.c
-char	*path_returner(char *cmd);
+char	*path_returner(t_shell *shell, char *cmd);
 
 //executor.c
 int		executor(char *line, t_shell *shell);

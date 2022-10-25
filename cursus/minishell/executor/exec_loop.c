@@ -6,7 +6,7 @@
 /*   By: ademirci <ademirci@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/24 17:55:52 by ademirci          #+#    #+#             */
-/*   Updated: 2022/10/23 14:36:50 by ademirci         ###   ########.fr       */
+/*   Updated: 2022/10/25 11:22:33 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	redirect(t_cmd *cmds)
 
 void	argv_path(t_shell *shell, t_cmd *cmd)
 {
-	cmd->cmd = path_returner(cmd->cmd);
+	cmd->cmd = path_returner(shell, cmd->cmd);
 	if (!cmd->cmd)
 	{
 		errors(shell, ERR_PATH, cmd->argv[0]);
