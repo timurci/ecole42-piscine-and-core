@@ -7,7 +7,7 @@
 int	main(void)
 {
 	Bureaucrat				b1("Cemil");
-	Bureaucrat				b2("Exceptional President");
+	Bureaucrat				b2("Exceptional President", 3);
 	ShrubberyCreationForm	sh1("random");
 	RobotomyRequestForm		rb1("Terzi");
 	PresidentialPardonForm	pp1("Hasan");
@@ -23,6 +23,7 @@ int	main(void)
 	b2.signForm(sh1);
 	b2.signForm(rb1);
 	b2.signForm(pp1);
+	b1.executeForm(rb1);
 	b2.executeForm(sh1);
 	b2.executeForm(rb1);
 	b2.executeForm(rb1);
