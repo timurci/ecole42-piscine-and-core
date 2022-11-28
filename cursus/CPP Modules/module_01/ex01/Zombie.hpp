@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 23:14:42 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/14 23:14:43 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/11/28 13:37:15 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class	Zombie
 		Zombie(void);
 		~Zombie(void);
 
-		void	set_name(std::string n){name = n;}
+		void	set_name(std::string);
 
 		void	announce(void);
 };

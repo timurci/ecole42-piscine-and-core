@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 23:17:00 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/14 23:17:01 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/11/28 13:37:16 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ class	HumanB
 		Weapon		*weapon;
 
 	public:
-		HumanB(std::string n) {name = n; weapon = NULL;}
+		HumanB(std::string n);
 		
 		void	attack(void);
-		void	setWeapon(Weapon &w){weapon = &w;}
+		void	setWeapon(Weapon &);
 };
 
 #endif
