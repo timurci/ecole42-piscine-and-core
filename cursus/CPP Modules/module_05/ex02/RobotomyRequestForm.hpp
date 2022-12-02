@@ -1,11 +1,11 @@
 #ifndef ROBOTOMY_REQUEST_FORM
 # define ROBOTOMY_REQUEST_FORM
 
-# include "Form.hpp"
+# include "AForm.hpp"
 # include "Bureaucrat.hpp"
 # include <cstdlib>
 
-class RobotomyRequestForm : public Form
+class RobotomyRequestForm : public AForm
 {
 	private:
 		std::string	target;

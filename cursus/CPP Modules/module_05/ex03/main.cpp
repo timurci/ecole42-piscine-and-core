@@ -1,4 +1,4 @@
-#include "Form.hpp"
+#include "AForm.hpp"
 #include "Bureaucrat.hpp"
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
@@ -10,7 +10,7 @@ int	main(void)
 	Bureaucrat				b1("Cemil");
 	Bureaucrat				b2("Exceptional President", 3);
 	Intern					i1;
-	Form					*forms[4] = {};
+	AForm					*forms[4] = {};
 
 	forms[0] = i1.makeForm("shrubbery creation", "random");
 	forms[1] = i1.makeForm("robotomy request", "Terzi");

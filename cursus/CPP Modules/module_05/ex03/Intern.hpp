@@ -3,7 +3,7 @@
 
 # include <iostream>
 # include <exception>
-# include "Form.hpp"
+# include "AForm.hpp"
 # include "ShrubberyCreationForm.hpp"
 # include "RobotomyRequestForm.hpp"
 # include "PresidentialPardonForm.hpp"
@@ -22,13 +22,13 @@ class	Intern
 
 		Intern	&operator=(const Intern &);
 
-		Form	*makeForm(std::string, std::string);
+		AForm	*makeForm(std::string, std::string);
 };
 
 struct Intern::s_form_entry
 {
 	std::string	name;
-	Form		*form_p;
+	AForm		*form_p;
 };
 
 #endif

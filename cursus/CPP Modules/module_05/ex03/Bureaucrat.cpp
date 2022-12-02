@@ -78,7 +78,7 @@ void	Bureaucrat::decGrade(int size)
 	{std::cout << exc.what() << std::endl;}
 }
 
-void	Bureaucrat::signForm(Form &form) const
+void	Bureaucrat::signForm(AForm &form) const
 {
 	if (form.getIsSigned())
 	{
@@ -98,7 +98,7 @@ void	Bureaucrat::signForm(Form &form) const
 	}
 }
 
-void	Bureaucrat::executeForm(Form &form) const
+void	Bureaucrat::executeForm(AForm &form) const
 {
 	try
 	{

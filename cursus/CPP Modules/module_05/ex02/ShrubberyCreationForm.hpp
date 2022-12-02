@@ -1,11 +1,11 @@
 #ifndef SHRUBBERY_CREATION_FORM
 # define SHRUBBERY_CREATION_FORM
 
-# include "Form.hpp"
+# include "AForm.hpp"
 # include "Bureaucrat.hpp"
 # include <fstream>
 
-class ShrubberyCreationForm : public Form
+class ShrubberyCreationForm : public AForm
 {
 	private:
 		std::string	target;

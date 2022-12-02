@@ -25,7 +25,7 @@ Intern	&Intern::operator=(const Intern &other)
 	return (*this);
 }
 
-Form	*Intern::makeForm(std::string form_name, std::string target_name)
+AForm	*Intern::makeForm(std::string form_name, std::string target_name)
 {
 	t_form_entry	forms[3] = 
 	{
@@ -34,7 +34,7 @@ Form	*Intern::makeForm(std::string form_name, std::string target_name)
 		{"presidential pardon", new PresidentialPardonForm(target_name)}
 	};
 
-	Form	*new_form = NULL;
+	AForm	*new_form = NULL;
 	for (int i = 0; i < 3; i++)
 	{
 		if (form_name == forms[i].name)

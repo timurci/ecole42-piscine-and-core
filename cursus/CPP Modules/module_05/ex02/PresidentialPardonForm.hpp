@@ -1,10 +1,10 @@
 #ifndef PRESIDENTIAL_PARDON_FORM
 # define PRESIDENTIAL_PARDON_FORM
 
-# include "Form.hpp"
+# include "AForm.hpp"
 # include "Bureaucrat.hpp"
 
-class PresidentialPardonForm : public Form
+class PresidentialPardonForm : public AForm
 {
 	private:
 		std::string	target;
