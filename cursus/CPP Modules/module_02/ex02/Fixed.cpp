@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/15 22:11:07 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/16 18:21:57 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/12/02 17:59:59 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,17 @@ bool	Fixed::operator!=(const Fixed &other) const
 
 Fixed	Fixed::operator+(const Fixed &other) const
 {
-	Fixed	tmp(raw_bits + other.raw_bits);
-
+	Fixed	tmp;
+	
+	tmp.setRawBits(raw_bits + other.raw_bits);
 	return (tmp);
 }
 
 Fixed	Fixed::operator-(const Fixed &other) const
 {
-	Fixed	tmp(raw_bits - other.raw_bits);
+	Fixed	tmp;
 
+	tmp.setRawBits(raw_bits - other.raw_bits);
 	return (tmp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/16 18:09:33 by tcakmako          #+#    #+#             */
-/*   Updated: 2022/10/16 18:36:40 by tcakmako         ###   ########.fr       */
+/*   Updated: 2022/12/02 18:00:49 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int main( void )
 
 	std::cout << Fixed::max( a, b ) << std::endl;
 	std::cout << Fixed::min( a, b ) << std::endl;
+	std::cout << b + c << std::endl;
+	std::cout << b - c << std::endl;
 
 	return (0);
 }
