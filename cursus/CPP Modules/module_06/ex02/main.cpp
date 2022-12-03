@@ -68,6 +68,7 @@ int	main(void)
 		identify(*p[i]);
 		std::cout << std::endl;
 	}
-
+	for (int i = 0; i < ARRAY_SIZE; i++)
+		delete p[i];
 	return (0);
 }

@@ -1,5 +1,5 @@
 CC=c++
-CFLAGS=-Wall -Wextra -Werror -std=c++98
+CFLAGS=-Wall -Wextra -Werror -std=c++98 -g
 SRC=$(wildcard *.cpp)
 NAME=real
 SIZE?=3
