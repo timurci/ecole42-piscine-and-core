@@ -3,20 +3,28 @@
 
 # include <iostream>
 # include <string>
+# include <cstdlib>
+# include <cctype>
+# include <cmath>
+# include <exception>
+# include <limits>
+# include <iomanip>
 
 class	Converter
 {
 	private:
-		enum			e_type;
-
 		std::string		input;
-		e_type			type;
+		//e_type			type;
 		char			c;
 		int				i;
 		float			f;
 		double			d;
+		bool			c_possible;
+		bool			i_possible;
+		bool			f_possible;
+		bool			d_possible;
 
-		e_type			findType(void) const;
+		void			convertType(void);
 		void			convertChar(void);
 		void			convertInt(void);
 		void			convertFloat(void);
@@ -34,15 +42,16 @@ class	Converter
 		void		printInt(void) const;
 		void		printFloat(void) const;
 		void		printDouble(void) const;
+		void		printAll(void) const;
 };
 
-enum	Converter::literal_type
-{
-	INVALID,
-	CHAR,
-	INT,
-	FLOAT,
-	DOUBLE
-};
+//enum	Converter::e_type
+//{
+//	INVALID,
+//	CHAR,
+//	INT,
+//	FLOAT,
+//	DOUBLE
+//};
 
 #endif
