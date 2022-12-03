@@ -1,9 +1,14 @@
 #include <iostream>
 #include <cstdlib>
+#include <exception>
 #include "Base.hpp"
 #include "A.hpp"
 #include "B.hpp"
 #include "C.hpp"
+
+#ifndef ARRAY_SIZE
+# define ARRAY_SIZE 3
+#endif
 
 Base	*generate(void)
 {
@@ -22,14 +27,47 @@ Base	*generate(void)
 
 void	identify(Base *p)
 {
-
+	if (dynamic_cast<A*>(p))
+		std::cout << "A";
+	else if (dynamic_cast<B*>(p))
+		std::cout << "B";
+	else if (dynamic_cast<C*>(p))
+		std::cout << "C";
 }
 
 void	identify(Base &p)
 {
+	try
+	{
+		dynamic_cast<A&>(p);
+		std::cout << "A";
+	} catch(std::exception &exc){}
+	try
+	{
+		dynamic_cast<B&>(p);
+		std::cout << "B";
+	}catch(std::exception &exc){}
+	try
+	{
+		dynamic_cast<C&>(p);
+		std::cout << "C";
+	}catch(std::exception &exc){}
 }
 
 int	main(void)
 {
+	Base	*p[ARRAY_SIZE];
+
+	for (int i = 0; i < ARRAY_SIZE; i++)
+		p[i] = generate();
+	for (int i = 0; i < ARRAY_SIZE; i++)
+	{
+		std::cout << "P: ";
+		identify(p[i]);
+		std::cout << "\tR: ";
+		identify(*p[i]);
+		std::cout << std::endl;
+	}
+
 	return (0);
 }
