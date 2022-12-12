@@ -1,7 +1,8 @@
 #include "easyfind.hpp"
-#include "easyfind.cpp" //convert to tpp
+#include "easyfind.tpp"
 #include <iostream>
 #include <vector>
+#include <exception>
 
 int	main(void)
 {
@@ -14,5 +15,8 @@ int	main(void)
 
 	std::cout << easyfind(x, 87) << std::endl;
 	std::cout << easyfind(x, -12) << std::endl;
-	std::cout << easyfind(x, 56) << std::endl;
+	try
+	{std::cout << easyfind(x, 56) << std::endl;}
+	catch(std::exception &exc)
+	{std::cout << "Exception thrown: " << exc.what() << std::endl;}
 }
