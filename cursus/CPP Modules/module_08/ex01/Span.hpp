@@ -8,6 +8,8 @@
 class	Span
 {
 	private:
+		typedef std::vector<int>::iterator	int_itr;
+	private:
 		std::vector<int>						arr;
 		const std::vector<int>::size_type		max_size;
 
@@ -19,7 +21,7 @@ class	Span
 
 		Span	&operator=(const Span &);
 		void	addNumber(int);
-		void	addManyNumbers(int, int);
+		void	addNumber(int_itr begin, int_itr end);
 };
 
 #endif

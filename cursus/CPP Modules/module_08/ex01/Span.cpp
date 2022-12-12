@@ -28,3 +28,10 @@ void	Span::addNumber(int n)
 		throw std::out_of_range("Array is full");
 	arr.push_back(n);
 }
+
+void	Span::addNumber(Span::int_itr begin, Span::int_itr end)
+{
+	if (arr.size() + std::distance(begin, end) > max_size)
+		throw std::out_of_range("Range of iterators is too big");
+	arr.insert(arr.end(), begin, end);
+}
