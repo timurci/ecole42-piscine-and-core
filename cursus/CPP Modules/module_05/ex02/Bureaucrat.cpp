@@ -56,14 +56,9 @@ int	Bureaucrat::getGrade(void) const
 
 void	Bureaucrat::incGrade(int size)
 {
-	try
-	{
-		if (grade - size < 1)
-			throw Bureaucrat::GradeTooHighException();
-		grade -= size;
-	}
-	catch (std::exception &exc)
-	{std::cout << exc.what() << std::endl;}
+	if (grade - size < 1)
+		throw Bureaucrat::GradeTooHighException();
+	grade -= size;
 }
 
 void	Bureaucrat::decGrade(int size)
