@@ -3,6 +3,7 @@
 
 //# include <exception>
 # include <stdexcept>
+# include <algorithm>
 # include <vector>
 
 class	Span
@@ -22,6 +23,8 @@ class	Span
 		Span	&operator=(const Span &);
 		void	addNumber(int);
 		void	addNumber(int_itr begin, int_itr end);
+		int		shortestSpan(void) const;
+		int		longestSpan(void) const;
 };
 
 #endif
