@@ -1,28 +1,34 @@
 #include "Span.hpp"
 #include <iostream>
 
-void	print_elements(const std::vector<int> &v)
+void	mass_addition(Span &sp, unsigned int gap, size_t size)
 {
-	std::vector<int>::iterator	itr = v.begin();
-	std::vector<int>::iterator	end = v.end();
-	size_t						count = 0;
+	std::vector<int>	v;
+	unsigned int		num = 0;
 
-	while (itr != end)
+	for (size_t i = 0; i < size; i++)
 	{
-		std::cout << *(itr++) << "\t";
+		v.push_back(num);
+		num += gap;
 	}
+	sp.addNumber(v.begin(), v.end());
 }
 
 int	main(void)
 {	
-	Span	sp = Span(5);
+	Span	sp1 = Span(5);
+	int		size = 1000;
+	Span	sp2 = Span(size);
 
-	sp.addNumber(6);
-	sp.addNumber(3);
-	sp.addNumber(17);
-	sp.addNumber(9);
-	sp.addNumber(11);
-	std::cout << sp.shortestSpan() << std::endl;
-	std::cout << sp.longestSpan() << std::endl;
+	sp1.addNumber(6);
+	sp1.addNumber(3);
+	sp1.addNumber(17);
+	sp1.addNumber(9);
+	sp1.addNumber(11);
+	std::cout << sp1.shortestSpan() << std::endl;
+	std::cout << sp1.longestSpan() << std::endl;
+	mass_addition(sp2, 5, size);
+	std::cout << sp2.shortestSpan() << std::endl;
+	std::cout << sp2.longestSpan() << std::endl;
 	return 0;
 }
