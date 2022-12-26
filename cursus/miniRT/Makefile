@@ -3,6 +3,8 @@ CC=cc
 CFLAGS=-Wall -Wextra -Werror
 XPATH_LINUX=minilibx-linux
 XFLAGS_LINUX=-I$(XPATH_LINUX) -L$(XPATH_LINUX) -lmlx -lXext -lX11
+XPATH_MACOS=minilibx-opengl
+XFLAGS_MACOS=-I$(XPATH_MACOS) -L$(XPATH_MACOS) -lmlx -framework OpenGL -framework Appkit
 SRC=main.c
 OBJ_DIR=obj
 OBJ=$(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
@@ -26,7 +28,7 @@ libx:
 
 $(OBJ) : $(OBJ_DIR)/%.o:%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -o $@ -c $< $(XFLAGS)
+	$(CC) $(CFLAGS) -o $@ -c $< -I $(XPATH)
 
 clean:
 	@make -C $(XPATH) clean
