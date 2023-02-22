@@ -1,11 +1,12 @@
 OS=$(shell uname)
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -I include -g
+CFLAGS=-Wall -Wextra -Werror -I include -g -lm
 XPATH_LINUX=minilibx-linux
 XFLAGS_LINUX=-I$(XPATH_LINUX) -L$(XPATH_LINUX) -lmlx -lXext -lX11
 XPATH_MACOS=minilibx-opengl
 XFLAGS_MACOS=-I$(XPATH_MACOS) -L$(XPATH_MACOS) -lmlx -framework OpenGL -framework Appkit
-SRC=mlx_core/mlx_core.c mlx_utils/mlx_utils.c mlx_hook/mlx_hook.c main.c
+SRC=mlx_core/mlx_core.c mlx_utils/mlx_utils.c mlx_utils/color.c mlx_hook/mlx_hook.c main.c \
+	3D/vector3_utils.c 3D/ray3.c 3D/color3.c 3D/point3.c 3D/vector3.c
 OBJ_DIR=obj
 OBJ=$(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 NAME=miniRT
