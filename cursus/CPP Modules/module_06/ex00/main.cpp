@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "Converter.hpp"
+#include "ScalarConverter.hpp"
 
 int	main(int argc, char **argv)
 {
@@ -8,8 +8,9 @@ int	main(int argc, char **argv)
 	{std::cout << "Incorrect number of arguments." << std::endl; return (1);}
 	std::string	input(argv[1]);
 
-	Converter	conv(input);
-
-	conv.printAll();
+	//ScalarConverter	conv(input);
+	//conv.printAll();
+	
+	ScalarConverter::convert(input);
 	return (0);
 }

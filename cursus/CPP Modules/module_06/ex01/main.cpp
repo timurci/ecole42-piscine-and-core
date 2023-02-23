@@ -1,12 +1,7 @@
 #include <iostream>
 #include <stdint.h>
 #include "Data.hpp"
-
-uintptr_t	serialize(Data *ptr)
-{return (reinterpret_cast<uintptr_t>(ptr));}
-
-Data	*deserialize(uintptr_t raw)
-{return (reinterpret_cast<Data*>(raw));}
+#include "Serializer.hpp"
 
 int	main(void)
 {
@@ -27,8 +22,8 @@ int	main(void)
 	dp = &d1;
 	std::cout << "*dp: " << *dp << std::endl;
 	std::cout << "dp : " << dp << std::endl;
-	raw = serialize(dp);
+	raw = Serializer::serialize(dp);
 	std::cout << "----serialize----" << std::endl << "raw: " << raw << std::endl;
-	dp = deserialize(raw);
+	dp = Serializer::deserialize(raw);
 	std::cout << "---deserialize---" << std::endl << "dp : " << dp << std::endl;
 }

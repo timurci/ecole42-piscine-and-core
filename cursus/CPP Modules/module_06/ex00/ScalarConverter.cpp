@@ -1,43 +1,41 @@
-#include "Converter.hpp"
+#include "ScalarConverter.hpp"
 
-Converter::Converter(void) :
-	c(0), i(0), f(0), d(0),
-	c_possible(0), i_possible(0), f_possible(0), d_possible(0)
+char		ScalarConverter::c;
+int			ScalarConverter::i;
+float		ScalarConverter::f;
+double		ScalarConverter::d;
+bool		ScalarConverter::c_possible;
+bool		ScalarConverter::i_possible;
+bool		ScalarConverter::f_possible;
+bool		ScalarConverter::d_possible;
+std::string	ScalarConverter::input;
+
+ScalarConverter::ScalarConverter(void)
 {
 }
 
-Converter::Converter(const Converter &other)
+ScalarConverter::ScalarConverter(const ScalarConverter &other)
 {
 	*this = other;
 }
 
-Converter::Converter(const std::string &in) :
-	input(in), c(0), i(0), f(0), d(0),
-	c_possible(0), i_possible(0), f_possible(0), d_possible(0)
-{
-	convertType();
-}
-
-Converter::~Converter(void)
+ScalarConverter::~ScalarConverter(void)
 {
 }
 
-Converter	&Converter::operator=(const Converter &other)
+ScalarConverter	&ScalarConverter::operator=(const ScalarConverter &other)
 {
-	input = other.input;
-	c = other.c;
-	i = other.i;
-	f = other.f;
-	d = other.d;
-	c_possible = other.c_possible;
-	i_possible = other.i_possible;
-	f_possible = other.f_possible;
-	d_possible = other.d_possible;
+	const ScalarConverter	*p = &other;
+
+	if (p)
+		return (*this);
 	return (*this);
 }
 
-void	Converter::convertType(void)
+void	ScalarConverter::convertType(void)
 {
+	long int tmp = atol(input.c_str());
+	
 	if (input.size() == 0)
 		return ;
 	else if (input.size() == 1 && !isdigit(*input.c_str()))
@@ -46,13 +44,31 @@ void	Converter::convertType(void)
 			&& input.compare("-inf") && input.compare("+inf"))
 		convertFloat();
 	else if (!input.compare("nan") || input.find('f') != std::string::npos
-			|| input.find(".") != std::string::npos)
+			|| input.find(".") != std::string::npos
+			|| tmp >= std::numeric_limits<int>::max()
+			|| tmp <= std::numeric_limits<int>::min())
 		convertDouble();
 	else
 		convertInt();
 }
 
-void	Converter::convertChar(void)
+void	ScalarConverter::convert(const std::string &input)
+{
+	ScalarConverter::input = input;
+	c = 0;
+	i = 0;
+	f = 0;
+	d = 0;
+	c_possible = 0;
+	i_possible = 0;
+	f_possible = 0;
+	d_possible = 0;
+
+	ScalarConverter::convertType();
+	ScalarConverter::printAll();
+}
+
+void	ScalarConverter::convertChar(void)
 {
 	c = *input.c_str();
 	i = static_cast<int> (c);
@@ -64,7 +80,7 @@ void	Converter::convertChar(void)
 	d_possible = 1;
 }
 
-void	Converter::convertInt(void)
+void	ScalarConverter::convertInt(void)
 {
 	long int tmp = atol(input.c_str());
 
@@ -79,16 +95,16 @@ void	Converter::convertInt(void)
 		&& i <= std::numeric_limits<char>::max())
 	{c = static_cast<char> (i); c_possible = 1;}
 
-	if (i == 0 || (i >= std::numeric_limits<float>::min()
+	if (i == 0 || (i >= -std::numeric_limits<float>::max()
 			&& i <= std::numeric_limits<float>::max()))
 	{f = static_cast<float> (i); f_possible = 1;}
 
-	if (i == 0 || (i >= std::numeric_limits<double>::min()
+	if (i == 0 || (i >= -std::numeric_limits<double>::max()
 			&& i <= std::numeric_limits<double>::max()))
 	{d = static_cast<double> (i); d_possible = 1;}
 }
 
-void	Converter::convertFloat(void)
+void	ScalarConverter::convertFloat(void)
 {
 	double	tmp = atof(input.c_str());
 
@@ -98,7 +114,7 @@ void	Converter::convertFloat(void)
 		f = std::numeric_limits<float>::infinity();
 	else if (!input.compare("-inff"))
 		f = -std::numeric_limits<float>::infinity();
-	else if (tmp == 0 || (tmp >= std::numeric_limits<float>::min()
+	else if (tmp == 0 || (tmp >= -std::numeric_limits<float>::max()
 			&& tmp <= std::numeric_limits<float>::max()))
 		f = strtof(input.c_str(), NULL);
 	else
@@ -106,7 +122,7 @@ void	Converter::convertFloat(void)
 	f_possible = 1;
 
 	if (isnan(f) || isinf(f) || f == 0
-		|| (f >= std::numeric_limits<double>::min()
+		|| (f >= -std::numeric_limits<double>::max()
 			&& f <= std::numeric_limits<double>::max()))
 	{d = static_cast<double> (f); d_possible = 1;}
 	
@@ -122,7 +138,7 @@ void	Converter::convertFloat(void)
 	{i = static_cast<int> (f); i_possible = 1;}
 }
 
-void	Converter::convertDouble(void)
+void	ScalarConverter::convertDouble(void)
 {
 	long double	tmp = strtold(input.c_str(), NULL);
 
@@ -132,7 +148,7 @@ void	Converter::convertDouble(void)
 		d = std::numeric_limits<double>::infinity();
 	else if (!input.compare("-inf"))
 		d = -std::numeric_limits<double>::infinity();
-	else if (tmp == 0 || (tmp >= std::numeric_limits<double>::min()
+	else if (tmp == 0 || (tmp >= -std::numeric_limits<double>::max()
 			&& tmp <= std::numeric_limits<double>::max()))
 		d = atof(input.c_str());
 	else
@@ -140,7 +156,7 @@ void	Converter::convertDouble(void)
 	d_possible = 1;
 	
 	if (isnan(d) || isinf(d) || d == 0
-		|| (d >= std::numeric_limits<float>::min()
+		|| (d >= -std::numeric_limits<float>::max()
 			&& d <= std::numeric_limits<float>::max()))
 	{f = static_cast<float> (d); f_possible = 1;}
 
@@ -156,7 +172,7 @@ void	Converter::convertDouble(void)
 	{i = static_cast<int> (d); i_possible = 1;}
 }
 
-void	Converter::printChar(void) const
+void	ScalarConverter::printChar(void)
 {
 	std::cout << "char: ";
 	if (!c_possible)
@@ -164,11 +180,11 @@ void	Converter::printChar(void) const
 	else if (!isgraph(c))
 		std::cout << "Non displayable";
 	else
-		std::cout << c;
+		std::cout << "'" << c << "'";
 	std::cout << std::endl;
 }
 
-void	Converter::printInt(void) const
+void	ScalarConverter::printInt(void)
 {
 	std::cout << "int: ";
 	if (!i_possible)
@@ -178,33 +194,37 @@ void	Converter::printInt(void) const
 	std::cout << std::endl;
 }
 
-void	Converter::printFloat(void) const
+void	ScalarConverter::printFloat(void)
 {
 	std::cout << "float: ";
 	if (!f_possible)
 		std::cout << "impossible";
 	else if (isnan(f))
 		std::cout << "nanf";
-	else if (isinf(f) > 0)
+	else if (isinf(f) && f > 0)
 		std::cout << "+inff";
-	else if (isinf(f) < 0)
+	else if (isinf(f) && f < 0)
 		std::cout << "-inff";
 	else
 		std::cout << std::fixed << std::setprecision(1) << f << "f";
 	std::cout << std::endl;
 }
 
-void	Converter::printDouble(void) const
+void	ScalarConverter::printDouble(void)
 {
 	std::cout << "double: ";
 	if (!d_possible)
 		std::cout << "impossible";
+	else if (isinf(d) && d > 0)
+		std::cout << "+inf";
+	else if (isinf(d) && d < 0)
+		std::cout << "-inf";
 	else
 		std::cout << d;
 	std::cout << std::endl;
 }
 
-void	Converter::printAll(void) const
+void	ScalarConverter::printAll(void)
 {
 	printChar();
 	printInt();
