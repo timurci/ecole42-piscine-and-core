@@ -11,10 +11,7 @@
 # include "color3.h"
 # include "vector3_utils.h"
 
-bool	hit_sphere(const t_point3 center, const float radius, const t_ray3 r)
-{
-	
-}
+# include <stdbool.h>
 
 t_color3	ray_color(const t_ray3 r)
 {
@@ -71,7 +68,7 @@ void	fill_bg(t_mlx_image *img, int color)
 int	main(void)
 {
 	const float	aspect_ratio = 16.0 / 9.0;
-	const int	width = 400;
+	const int	width = 1080;
 	const int	height = width / aspect_ratio;
 
 	const float	viewport_h = 1.5;

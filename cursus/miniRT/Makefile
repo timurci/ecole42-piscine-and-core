@@ -1,6 +1,6 @@
 OS=$(shell uname)
-CC=cc
-CFLAGS=-Wall -Wextra -Werror -I include -g -lm
+CC=gcc
+CFLAGS=-Wall -Wextra -Werror -I include
 XPATH_LINUX=minilibx-linux
 XFLAGS_LINUX=-I$(XPATH_LINUX) -L$(XPATH_LINUX) -lmlx -lXext -lX11
 XPATH_MACOS=minilibx-opengl
@@ -26,6 +26,11 @@ $(NAME): libx $(OBJ)
 
 libx:
 	@make -C $(XPATH)
+
+#Duplicate
+$(OBJ_DIR)/vector3_utils.o:vector3_utils.c
+	@mkdir -p $(@D)
+	$(CC) $(CFLAGS) -lm -o $@ -c $< -I $(XPATH)
 
 $(OBJ) : $(OBJ_DIR)/%.o:%.c
 	@mkdir -p $(@D)
