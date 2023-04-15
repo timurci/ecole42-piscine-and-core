@@ -2,36 +2,49 @@ OS=$(shell uname)
 CC=gcc
 CFLAGS=-Wall -Wextra -Werror -I include -lm -g
 #CFLAGS=-Wall -Wextra -I include -lm
+SAMPLING?=100
+DEPTH?=50
+PPM?=0
+ASPECT_RATIO?=1.777777777f
+WIDTH?=800
 XPATH_LINUX=minilibx-linux
 XFLAGS_LINUX=-I$(XPATH_LINUX) -L$(XPATH_LINUX) -lmlx -lXext -lX11
 XPATH_MACOS=minilibx-opengl
 XFLAGS_MACOS=-I$(XPATH_MACOS) -L$(XPATH_MACOS) -lmlx -framework OpenGL -framework Appkit
-SRC=mlx_core/mlx_core.c mlx_utils/mlx_utils.c mlx_utils/color.c mlx_hook/mlx_hook.c main.c \
-	3D/vector3.c 3D/vector3_utils.c 3D/vector3_utils_extended.c 3D/ray3.c \
+SRC=3D/vector3.c 3D/vector3_utils.c 3D/vector3_utils_extended.c 3D/ray3.c \
 	3D/color3.c 3D/point3.c \
 	geo/object_parameters.c geo/object_sphere.c geo/object_camera.c geo/objects.c \
 	geo/object_light.c geo/object_plane.c \
-	draw/draw_mlx.c \
-	random/rand42.c
+	random/rand42.c 
+ifeq ($(PPM), 0)
+	SRC+=main.c draw/draw_mlx.c mlx_core/mlx_core.c mlx_utils/mlx_utils.c \
+		 mlx_utils/color.c mlx_hook/mlx_hook.c
+else
+	SRC+=ppm/main.c draw/draw_ppm.c mlx_utils/color.c
+endif
 OBJ_DIR=obj
 OBJ=$(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
-SAMPLING?=100
-DEPTH?=50
-PPM?=0
 NAME=miniRT
 
 ifeq ($(OS), Linux)
-	XPATH=$(XPATH_LINUX)
-	XFLAGS=$(XFLAGS_LINUX)
+		XPATH=$(XPATH_LINUX)
+		XFLAGS=$(XFLAGS_LINUX)
 else
-	XPATH=$(XPATH_MACOS)
-	XFLAGS=$(XFLAGS_MACOS)
+		XPATH=$(XPATH_MACOS)
+		XFLAGS=$(XFLAGS_MACOS)
 endif
 
+ifeq ($(PPM), 0)
 all: $(NAME)
+else
+all: $(NAME)_ppm
+endif
 
 $(NAME): libx $(OBJ)
-	$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) $(XFLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(XFLAGS)
+
+$(NAME)_ppm: $(OBJ)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
 libx:
 	@make -C $(XPATH)
@@ -43,7 +56,9 @@ $(OBJ_DIR)/vector3_utils.o:vector3_utils.c
 
 $(OBJ) : $(OBJ_DIR)/%.o:%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -D SAMPLES_PER_PIXEL=$(SAMPLING) -D MAX_DEPTH=$(DEPTH) \
+	$(CC) $(CFLAGS) \
+		-D SAMPLES_PER_PIXEL=$(SAMPLING) -D MAX_DEPTH=$(DEPTH) \
+		-D WIDTH=$(WIDTH) -D ASPECT_RATIO=$(ASPECT_RATIO) \
 		-o $@ -c $< -I $(XPATH)
 
 clean:

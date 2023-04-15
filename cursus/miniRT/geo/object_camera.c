@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:40 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 14:17:33 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:48:36 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ t_camera	camera_set(const float aspect_ratio, const float vfov,
 	return (cam);
 }
 
-t_ray3	get_ray(const t_camera *cam, const float *u, const float *v)
+t_ray3	get_ray(const t_camera *cam, const float u, const float v)
 {
 	t_ray3	r;
 
 	r = ray3_set(cam->origin,
 			vector3_add(cam->lower_left_corner,
-				vector3_add(vector3_scm(cam->horizontal, *u),
-					vector3_add(vector3_scm(cam->vertical, *v),
+				vector3_add(vector3_scm(cam->horizontal, u),
+					vector3_add(vector3_scm(cam->vertical, v),
 						vector3_scm(cam->origin, -1))
 					)
 				)

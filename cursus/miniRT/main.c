@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 14:19:54 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:35:54 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,18 @@
 
 # include "draw_mlx.h"
 
+# ifndef WIDTH
+#  define WIDTH 800
+# endif
+
+# ifndef ASPECT_RATIO
+#  define ASPECT_RATIO 1.77777777f
+# endif
+
 int	main(void)
 {
-	const float	aspect_ratio = 16.0f / 9.0f;
-	const int	width = 800;
+	const float	aspect_ratio = ASPECT_RATIO;
+	const int	width = WIDTH;
 	const int	height = width / aspect_ratio;
 
 	t_mlx_core	*mlx_core;

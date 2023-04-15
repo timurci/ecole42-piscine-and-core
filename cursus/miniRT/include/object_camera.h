@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 14:17:42 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:48:24 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ typedef struct s_camera
 
 t_camera	camera_set(const float aspect_ratio, const float vfov,
 				const t_vec3 normal, const t_point3 origin);
-t_ray3		get_ray(const t_camera *cam, const float *u, const float *v);
+t_ray3		get_ray(const t_camera *cam, const float u, const float v);
 
 #endif
