@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 14:09:46 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:04:09 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # include "object_sphere.h"
 # include "object_camera.h"
 # include "object_light.h"
+
+# include "random42.h"
 
 # ifndef SAMPLES_PER_PIXEL
 #  define SAMPLES_PER_PIXEL 100

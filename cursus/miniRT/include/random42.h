@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector3_utils_extended.h                           :+:      :+:    :+:   */
+/*   random42.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 16:03:45 by tcakmako         ###   ########.fr       */
+/*   Created: 2023/04/15 16:24:45 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 16:24:46 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR3_UTILS_EXTENDED_H
-# define VECTOR3_UTILS_EXTENDED_H
+#ifndef RANDOM42_H
+# define RANDOM42_H
 
-# include "vector3.h"
-# include "vector3_utils.h"
-# include "random42.h"
+# include <stdlib.h>
 
-t_vec3	vector3_random(void);
-t_vec3	vector3_random_minmax(const float min, const float max);
+//vector3_utils_extended.h, draw_mlx.h
+
+int	rand42(void);
 
 #endif

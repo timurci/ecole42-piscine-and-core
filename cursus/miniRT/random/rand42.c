@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector3_utils_extended.h                           :+:      :+:    :+:   */
+/*   rand42.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 16:03:45 by tcakmako         ###   ########.fr       */
+/*   Created: 2023/04/15 16:23:44 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 16:24:06 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR3_UTILS_EXTENDED_H
-# define VECTOR3_UTILS_EXTENDED_H
+#include "random42.h"
 
-# include "vector3.h"
-# include "vector3_utils.h"
-# include "random42.h"
+int	rand42(void)
+{
+	static unsigned long int	next = 42;
 
-t_vec3	vector3_random(void);
-t_vec3	vector3_random_minmax(const float min, const float max);
-
-#endif
+	next = next * 1103515245 + 12345;
+	return ((unsigned int)(next / 65536) % RAND_MAX);
+}

@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:52:00 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 14:20:41 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/15 15:55:05 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	t_mlx_key_hook(int keycode, void *core)
 		printf("Frame switched\n");
 	}
 	else if (keycode == KEY_2)
-		draw_mlx_w_sampling(mlx_core->frame[1], mlx_core->objects);
+		draw_mlx_w_sampling(mlx_core->frame[0], mlx_core->objects);
 	else if (keycode == KEY_ESC)
 		terminate(core);
 	return (0);

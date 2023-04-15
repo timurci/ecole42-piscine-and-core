@@ -11,12 +11,13 @@ SRC=mlx_core/mlx_core.c mlx_utils/mlx_utils.c mlx_utils/color.c mlx_hook/mlx_hoo
 	3D/color3.c 3D/point3.c \
 	geo/object_parameters.c geo/object_sphere.c geo/object_camera.c geo/objects.c \
 	geo/object_light.c geo/object_plane.c \
-	draw/draw_mlx.c
+	draw/draw_mlx.c \
+	random/rand42.c
 OBJ_DIR=obj
 OBJ=$(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 SAMPLING?=100
-MAX_DEPTH?=50
-PPM_OUTPUT?=0
+DEPTH?=50
+PPM?=0
 NAME=miniRT
 
 ifeq ($(OS), Linux)
@@ -30,7 +31,7 @@ endif
 all: $(NAME)
 
 $(NAME): libx $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(XFLAGS)
+	$(CC) $(CFLAGS)  -o $(NAME) $(OBJ) $(XFLAGS)
 
 libx:
 	@make -C $(XPATH)
@@ -42,7 +43,8 @@ $(OBJ_DIR)/vector3_utils.o:vector3_utils.c
 
 $(OBJ) : $(OBJ_DIR)/%.o:%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -o $@ -c $< -I $(XPATH)
+	$(CC) $(CFLAGS) -D SAMPLES_PER_PIXEL=$(SAMPLING) -D MAX_DEPTH=$(DEPTH) \
+		-o $@ -c $< -I $(XPATH)
 
 clean:
 	@make -C $(XPATH) clean

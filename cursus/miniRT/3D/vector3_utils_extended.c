@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:52:47 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 13:56:26 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:03:30 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_vec3	vector3_random(void)
 {
-	const float	x = rand() / (RAND_MAX + 1.0f);
-	const float	y = rand() / (RAND_MAX + 1.0f);
-	const float	z = rand() / (RAND_MAX + 1.0f);
+	const float	x = rand42() / (RAND_MAX + 1.0f);
+	const float	y = rand42() / (RAND_MAX + 1.0f);
+	const float	z = rand42() / (RAND_MAX + 1.0f);
 	t_vec3		vector;
 
 	vector = vector3_set(x, y, z);
