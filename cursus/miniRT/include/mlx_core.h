@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_core.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 14:03:45 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MLX_CORE_H
 # define MLX_CORE_H
 
@@ -7,7 +19,7 @@
 //EXTRA HEADERS ==>
 //Used in mlx_hook.c
 // t_objects
-#include "objects.h"
+# include "objects.h"
 // <== EXTRA HEADERS
 
 typedef struct s_mlx_image
@@ -19,7 +31,7 @@ typedef struct s_mlx_image
 	int		bbp;
 	int		size_line;
 	int		endian;
-} t_mlx_image;
+}	t_mlx_image;
 
 typedef struct s_mlx_core
 {
@@ -30,7 +42,7 @@ typedef struct s_mlx_core
 	t_mlx_image	*frame[2];
 	int			frame_repeat;
 	t_objects	*objects;
-} t_mlx_core;
+}	t_mlx_core;
 
 //init
 t_mlx_core	*t_mlx_init_core(int size_x, int size_y, char *title);

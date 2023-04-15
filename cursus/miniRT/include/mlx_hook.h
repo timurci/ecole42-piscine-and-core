@@ -1,5 +1,17 @@
-#ifndef MLX_HOOK
-# define MLX_HOOK
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_hook.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 14:04:59 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MLX_HOOK_H
+# define MLX_HOOK_H
 
 # include "keycodes.h"
 
@@ -10,8 +22,8 @@
 
 //EXTRA HEADERS ==>
 //Used in key_hook and terminate function
-#include "objects.h"
-#include "draw_mlx.h"
+# include "objects.h"
+# include "draw_mlx.h"
 // <== EXTRA HEADERS
 
 int	terminate(void *core);

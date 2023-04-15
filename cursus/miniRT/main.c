@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:46 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 14:19:54 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mlx.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -49,7 +61,7 @@ int	main(void)
 	//objects->sphere = add_sphere(objects->sphere, point3_set(4, 5, -5), 1, color3_set(0.5, 0.5, 0.5));
 
 	//objects->plane = add_plane(objects->plane, point3_set(1,0,-10), vector3_set(1, 0, 0.7), color3_set(0.1, 0.1, 1));
-	objects->plane = add_plane(objects->plane, point3_set(-1,0,-10), vector3_set(-1, 0, 0.7), color3_set(1, 0.1, 0.1));
+	//objects->plane = add_plane(objects->plane, point3_set(-1,0,-10), vector3_set(-1, 0, 0.7), color3_set(1, 0.1, 0.1));
 
 	objects->point_light = set_point_light(color3_set(1, 1, 1), 1.0f, point3_set(-4, 3, 1));
 	objects->ambient_light = set_ambient_light(color3_set(0.3, 0.5, 1.0), 0.5f);

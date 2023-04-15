@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   color3.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:52:47 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 13:55:37 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "vector3.h"
 #include "color3.h"
 
@@ -14,7 +26,7 @@ void	color3p_set(t_color3 *c, const float r,
 	c->z = b;
 }
 
-void		color3_gamma2(t_color3 *c)
+void	color3_gamma2(t_color3 *c)
 {
 	c->x = sqrt(c->x);
 	c->y = sqrt(c->y);
@@ -41,7 +53,6 @@ t_color3	color3_add(const t_color3 c1, const t_color3 c2)
 	n_c.x += c2.x;
 	n_c.y += c2.y;
 	n_c.z += c2.z;
-
 	if (n_c.x > 1)
 		n_c.x = 1;
 	if (n_c.y > 1)

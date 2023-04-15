@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   objects.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 14:03:04 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
@@ -25,7 +37,7 @@ typedef struct s_objects
 }	t_objects;
 
 bool	hit_objects(const t_ray3 *r, const t_objects *obj,
-					t_hit_record *rec, const t_range range);
+			t_hit_record *rec, const t_range range);
 
 bool	hit_any(const t_ray3 r, const t_objects *obj, const t_range range);
 

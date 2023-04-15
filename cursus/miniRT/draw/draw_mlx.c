@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_mlx.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:43 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 14:23:54 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "draw_mlx.h"
 
 static t_color3	ray_color(t_ray3 *r, const t_objects *objs, const int depth)
@@ -79,7 +91,7 @@ static t_color3	average_color(t_mlx_image *img, const t_objects *objs,
 		color = vector3_add(color, ray_color(&r, objs, MAX_DEPTH));
 	}
 
-	color = vector3_scm(color, INV_SAMPLES_PER_PIXEL);
+	color = vector3_scm(color, 1.0f / SAMPLES_PER_PIXEL);
 	color3_gamma2(&color);
 
 	return (color);

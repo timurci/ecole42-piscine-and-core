@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   object_plane.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:40 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 14:12:54 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "object_plane.h"
 
 t_plane	*add_plane(t_plane *list, const t_point3 ref,
@@ -26,7 +38,7 @@ bool	hit_plane(const t_ray3 *r, const t_plane *obj,
 	const t_vec3	or = vector3_add(r->origin, obj->ref);
 	const float		on = vector3_dtp(obj->normal, or);
 	const float		dn = vector3_dtp(obj->normal, r->direction);
-	const float		root = - on / dn;
+	const float		root = -on / dn;
 
 	if (root < range.t_min || root > range.t_max)
 		return (false);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector3.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 14:01:24 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef VECTOR3_H
 # define VECTOR3_H
 
@@ -8,7 +20,7 @@ typedef struct s_vec3
 	float	x;
 	float	y;
 	float	z;
-} t_vec3;
+}	t_vec3;
 
 //create a vec3 struct at stack
 t_vec3	vector3_set(const float x, const float y, const float z);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   object_camera.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 14:17:42 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef OBJECT_CAMERA_H
 # define OBJECT_CAMERA_H
 
@@ -7,12 +19,16 @@
 # include "ray3.h"
 # include <math.h>
 
+# ifndef FOCAL_LENGTH
+#  define FOCAL_LENGTH 1.0f
+# endif
+
 typedef struct s_camera
 {
-	float	aspect_ratio;
-	float	vp_width;
-	float	vp_height;
-	float	focal_length;
+	float		aspect_ratio;
+	float		vp_width;
+	float		vp_height;
+	float		focal_length;
 	t_point3	origin;
 	t_point3	lower_left_corner;
 	t_vec3		horizontal;

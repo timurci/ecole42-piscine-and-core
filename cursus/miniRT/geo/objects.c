@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   objects.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:40 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 15:35:02 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "object_sphere.h"
 #include "objects.h"
 
@@ -11,20 +23,18 @@ static float	adjust(bool *is_hit, t_hit_record *tmp,
 }
 
 bool	hit_objects(const t_ray3 *r, const t_objects *obj,
-					t_hit_record *rec, const t_range rng)
+					t_hit_record *rec, t_range rng)
 {
 	t_hit_record	tmp;
 	bool			is_hit;
-	float			closest;
 	void			*scan;
 
 	is_hit = false;
-	closest = rng.t_max;
 	scan = obj->sphere;
 	while (scan)
 	{
-		if (hit_sphere(r, scan, &tmp, set_range(rng.t_min, closest)))
-			closest = adjust(&is_hit, &tmp, rec, &((t_sphere *) scan)->color);
+		if (hit_sphere(r, scan, &tmp, rng))
+			rng.t_max = adjust(&is_hit, &tmp, rec, &((t_sphere *) scan)->color);
 		//if (hit_sphere(r, scan, &tmp, set_range(rng.t_min, closest)))
 		//{
 		//	is_hit = true;
@@ -37,8 +47,8 @@ bool	hit_objects(const t_ray3 *r, const t_objects *obj,
 	scan = obj->plane;
 	while (scan)
 	{
-		if (hit_plane(r, scan, &tmp, set_range(rng.t_min, closest)))
-			closest = adjust(&is_hit, &tmp, rec, &((t_plane *) scan)->color);
+		if (hit_plane(r, scan, &tmp, rng))
+			rng.t_max = adjust(&is_hit, &tmp, rec, &((t_plane *) scan)->color);
 		scan = ((t_plane *) scan)->next;
 	}
 	return (is_hit);
@@ -47,24 +57,38 @@ bool	hit_objects(const t_ray3 *r, const t_objects *obj,
 bool	hit_any(const t_ray3 r, const t_objects *obj, const t_range rng)
 {
 	bool			is_hit;
-	t_sphere		*sphere_scan;
+	void			*scan;
 	t_hit_record	tmp;
 
 	is_hit = false;
-	sphere_scan = obj->sphere;
-	while (sphere_scan && !is_hit)
+	scan = obj->sphere;
+	while (scan && !is_hit)
 	{
-		if (hit_sphere(&r, sphere_scan, &tmp, set_range(rng.t_min, rng.t_max)))
+		if (hit_sphere(&r, scan, &tmp, rng))
 			is_hit = true;
-		sphere_scan = sphere_scan->next;
+		scan = ((t_sphere *) scan)->next;
 	}
+	scan = obj->plane;
+	while (scan && !is_hit)
+	{
+		if (hit_plane(&r, scan, &tmp, rng))
+			is_hit = true;
+		scan = ((t_plane *) scan)->next;
+	}
+	//scan = obj->cylinder;
+	//while (scan && !is_hit)
+	//{
+	//	if (hit_cylinder(&r, scan, &tmp, rng))
+	//		is_hit = true;
+	//	scan = ((t_cylinder *) scan)->next;
+	//}
 	return (is_hit);
 }
 
 void	destroy_objects(t_objects *objs)
 {
 	void	*scan;
-	void		*pivot;
+	void	*pivot;
 
 	scan = objs->sphere;
 	while (scan)
@@ -80,4 +104,11 @@ void	destroy_objects(t_objects *objs)
 		scan = ((t_plane *) scan)->next;
 		free(pivot);
 	}
+	//scan = objs->cylinder;
+	//while (scan)
+	//{
+	//	pivot = scan;
+	//	scan = ((t_cylinder *) scan)->next;
+	//	free(pivot);
+	//}
 }

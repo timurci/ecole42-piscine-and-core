@@ -1,5 +1,17 @@
-#ifndef DRAW_H
-# define DRAW_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_mlx.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
+/*   Updated: 2023/04/15 14:09:46 by tcakmako         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef DRAW_MLX_H
+# define DRAW_MLX_H
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -26,7 +38,7 @@
 #  define SAMPLES_PER_PIXEL 100
 # endif
 
-# define INV_SAMPLES_PER_PIXEL (float) 1.0f / SAMPLES_PER_PIXEL
+//# define INV_SAMPLES_PER_PIXEL ((float) 1.0f / SAMPLES_PER_PIXEL) //norm error
 
 # ifndef MAX_DEPTH
 #  define MAX_DEPTH 50
