@@ -18,7 +18,14 @@ t_ray3	*copy_ray3(const t_ray3 r)
 	return (p);
 }
 
-t_point3	ray3_tpos(const t_ray3 r, const float t)
+void	ray3ppp_set(t_ray3 *ray_p, const t_point3 *origin,
+					const t_vec3 *direction)
 {
-	return (vector3_add(r.origin, vector3_scm(r.direction, t)));
+	ray_p->origin = *origin;
+	ray_p->direction = *direction;
+}
+
+t_point3	ray3_tpos(const t_ray3 *r, const float t)
+{
+	return (vector3_add(r->origin, vector3_scm(r->direction, t)));
 }

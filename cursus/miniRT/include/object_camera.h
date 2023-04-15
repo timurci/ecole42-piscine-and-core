@@ -3,7 +3,9 @@
 
 # include "point3.h"
 # include "vector3.h"
+# include "vector3_utils.h"
 # include "ray3.h"
+# include <math.h>
 
 typedef struct s_camera
 {
@@ -17,8 +19,8 @@ typedef struct s_camera
 	t_vec3		vertical;
 }	t_camera;
 
-t_camera	camera_set(const float aspect_ratio, const float vp_height,
-			const float focal_length, const t_point3 origin);
-t_ray3		get_ray(const t_camera cam, const float u, const float v);
+t_camera	camera_set(const float aspect_ratio, const float vfov,
+				const t_vec3 normal, const t_point3 origin);
+t_ray3		get_ray(const t_camera *cam, const float *u, const float *v);
 
 #endif

@@ -4,6 +4,12 @@
 # include "mlx.h"
 # include <stdlib.h>
 
+//EXTRA HEADERS ==>
+//Used in mlx_hook.c
+// t_objects
+#include "objects.h"
+// <== EXTRA HEADERS
+
 typedef struct s_mlx_image
 {
 	void	*ptr;
@@ -23,6 +29,7 @@ typedef struct s_mlx_core
 	int			height;
 	t_mlx_image	*frame[2];
 	int			frame_repeat;
+	t_objects	*objects;
 } t_mlx_core;
 
 //init

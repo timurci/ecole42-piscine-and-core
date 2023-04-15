@@ -3,11 +3,13 @@
 
 # include "point3.h"
 # include "vector3.h"
+# include "color3.h"
 
-typedef struct s_record
+typedef struct s_hit_record
 {
 	t_point3	p;
 	t_vec3		n;
+	t_color3	c;
 	float		t;
 }	t_hit_record;
 
