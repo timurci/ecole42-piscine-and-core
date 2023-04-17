@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:52:47 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 13:55:37 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:08:56 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,6 @@
 t_color3	color3_set(const float r, const float g, const float b)
 {
 	return (vector3_set(r, g, b));
-}
-
-void	color3p_set(t_color3 *c, const float r,
-					const float g, const float b)
-{
-	c->x = r;
-	c->y = g;
-	c->z = b;
 }
 
 void	color3_gamma2(t_color3 *c)
@@ -39,9 +31,9 @@ int	color3_get_color(const t_color3 c)
 	unsigned char	g;
 	unsigned char	b;
 
-	r = 255.999 * c.x;
-	g = 255.999 * c.y;
-	b = 255.999 * c.z;
+	r = 255.999f * c.x;
+	g = 255.999f * c.y;
+	b = 255.999f * c.z;
 	return ((r << 16) | (g << 8) | b);
 }
 
@@ -66,4 +58,14 @@ t_color3	color3_add(const t_color3 c1, const t_color3 c2)
 	if (n_c.z < -1)
 		n_c.z = -1;
 	return (n_c);
+}
+
+t_color3	rgb_to_color3(unsigned char r, unsigned char g, unsigned char b)
+{
+	t_color3	color3;
+
+	color3.x = r / 255.999f;
+	color3.y = g / 255.999f;
+	color3.z = b / 255.999f;
+	return (color3);
 }

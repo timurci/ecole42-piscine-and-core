@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:43 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 18:52:34 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/17 13:01:33 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_color3	ray_color(t_ray3 *r, const t_objects *objs, const int depth)
 		if (light_factor > 0
 			&& hit_any(point_to_light(&objs->point_light, &rec.p), objs,
 				set_range(0.001, INFINITY)))
-			color3p_set(&diff_intensity, 0, 0, 0);
+			diff_intensity = color3_set(0, 0, 0);
 		else
 			diff_intensity = vector3_scm(objs->point_light.c, light_factor);
 		if (depth < 5)
@@ -50,7 +50,7 @@ static t_color3	average_color(t_mlx_image *img, const t_objects *objs,
 	t_ray3		r;
 	int			s;
 
-	color3p_set(&color, 0, 0, 0);
+	color = color3_set(0, 0, 0);
 	s = 0;
 	while (s++ < SAMPLES_PER_PIXEL)
 	{
