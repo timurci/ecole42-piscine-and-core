@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:43 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/17 13:04:12 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:12:32 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_color3	ray_color(t_ray3 *r, const t_objects *objs, const int depth)
 	float			light_factor;
 
 	if (depth <= 0)
-		return (color3_set(0, 0, 0));
+		return (objs->ambient_light.c);
 	if (hit_objects(r, objs, &rec, set_range(0.001, INFINITY)))
 	{
 		target = vector3_add(rec.n, vector3_unit(vector3_random_minmax(-1, 1)));

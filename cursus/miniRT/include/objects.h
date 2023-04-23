@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 14:03:04 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/18 00:03:39 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@
 # include "object_plane.h"
 # include "object_camera.h"
 # include "object_light.h"
+# include "object_cylinder.h"
 
 # include <stdbool.h>
 
 typedef struct s_objects
 {
 	t_sphere		*sphere;
-	//t_cylinder	*clyinders;
+	t_cylinder		*cylinder;
 	t_plane			*plane;
 	t_hit_record	record;
 	t_camera		camera;

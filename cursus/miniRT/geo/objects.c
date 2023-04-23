@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:40 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 15:35:02 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/23 17:12:17 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ bool	hit_objects(const t_ray3 *r, const t_objects *obj,
 			rng.t_max = adjust(&is_hit, &tmp, rec, &((t_plane *) scan)->color);
 		scan = ((t_plane *) scan)->next;
 	}
+	scan = obj->cylinder;
+	while (scan)
+	{
+		if (hit_cylinder(r, scan, &tmp, rng))
+			rng.t_max = adjust(&is_hit, &tmp, rec, &((t_cylinder *) scan)->color);
+		scan = ((t_cylinder *) scan)->next;
+	}
 	return (is_hit);
 }
 
@@ -75,13 +82,13 @@ bool	hit_any(const t_ray3 r, const t_objects *obj, const t_range rng)
 			is_hit = true;
 		scan = ((t_plane *) scan)->next;
 	}
-	//scan = obj->cylinder;
-	//while (scan && !is_hit)
-	//{
-	//	if (hit_cylinder(&r, scan, &tmp, rng))
-	//		is_hit = true;
-	//	scan = ((t_cylinder *) scan)->next;
-	//}
+	scan = obj->cylinder;
+	while (scan && !is_hit)
+	{
+		if (hit_cylinder(&r, scan, &tmp, rng))
+			is_hit = true;
+		scan = ((t_cylinder *) scan)->next;
+	}
 	return (is_hit);
 }
 
@@ -104,11 +111,11 @@ void	destroy_objects(t_objects *objs)
 		scan = ((t_plane *) scan)->next;
 		free(pivot);
 	}
-	//scan = objs->cylinder;
-	//while (scan)
-	//{
-	//	pivot = scan;
-	//	scan = ((t_cylinder *) scan)->next;
-	//	free(pivot);
-	//}
+	scan = objs->cylinder;
+	while (scan)
+	{
+		pivot = scan;
+		scan = ((t_cylinder *) scan)->next;
+		free(pivot);
+	}
 }

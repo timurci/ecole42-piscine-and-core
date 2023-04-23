@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 17:35:54 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/23 17:13:31 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ int	main(void)
 	mlx_core = t_mlx_init_core(width, height, "miniRT (Test)");
 	mlx_loop_hook(mlx_core->ptr, t_mlx_loop_hook, mlx_core);
 	mlx_key_hook(mlx_core->win, t_mlx_key_hook, mlx_core);
+	mlx_mouse_hook(mlx_core->win, t_mlx_mouse_hook, mlx_core);
 	mlx_hook(mlx_core->win, 17, 0, terminate, mlx_core);
 
 	t_objects	*objects = malloc(sizeof(*objects));
 
 	objects->sphere = NULL;
 	objects->plane = NULL;
+	objects->cylinder = NULL;
 	objects->camera = camera_set(aspect_ratio, 66, vector3_set(0, 0, -1), point3_set(0, 0, 5));
 
 	objects->sphere = add_sphere(objects->sphere, point3_set(0, 0, -1), 0.5, color3_set(0,1,0));
@@ -70,6 +72,13 @@ int	main(void)
 
 	//objects->plane = add_plane(objects->plane, point3_set(1,0,-10), vector3_set(1, 0, 0.7), color3_set(0.1, 0.1, 1));
 	//objects->plane = add_plane(objects->plane, point3_set(-1,0,-10), vector3_set(-1, 0, 0.7), color3_set(1, 0.1, 0.1));
+	
+	objects->cylinder = add_cylinder(objects->cylinder, point3_set(-1, 2, -5),
+							cylinder_params(1, 2, vector3_set(0.7, 0.2, 1)), color3_set(1, 0, 1));
+	objects->cylinder = add_cylinder(objects->cylinder, point3_set(2, 1, -5),
+							cylinder_params(1, 5, vector3_set(-0.7, 0.2, 1)), color3_set(1, 0.2, 0));
+	objects->cylinder = add_cylinder(objects->cylinder, point3_set(2, 2, -5),
+							cylinder_params(1, 5, vector3_set(-0.7, 0.2, -1)), color3_set(0, 0.5, 1));
 
 	objects->point_light = set_point_light(color3_set(1, 1, 1), 1.0f, point3_set(-4, 3, 1));
 	objects->ambient_light = set_ambient_light(color3_set(0.3, 0.5, 1.0), 0.5f);
