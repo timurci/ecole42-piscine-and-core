@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:40 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/23 20:02:24 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/24 09:50:44 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,6 @@ t_cylinder	*add_cylinder(t_cylinder *list, const t_point3 center,
 	return (list);
 }
 
-t_cylinder_params	cylinder_params(const float radius, const float height,
-						const t_vec3 axis)
-{
-	t_cylinder_params	params;
-
-	params.radius = radius;
-	params.height = height;
-	params.axis = axis;
-	return (params);
-}
-
 static t_cylinder_solver	solve_quadratic_equation(const t_ray3 *r,
 				const t_cylinder *obj, const t_range *rng)
 {
@@ -101,44 +90,38 @@ static t_cylinder_solver	solve_quadratic_equation(const t_ray3 *r,
 	return (cs);
 }
 
-static float get_alpha(const t_cylinder_solver *cs, const float *root)
+static float	get_alpha(const t_cylinder_solver *cs, const float *root)
 {
 	return (*root * cs->dir_dot_axis + cs->oc_dot_axis);
 }
 
 // Optimized hit_plane function to find intersection with cylinder caps.
 bool	hit_caps(const t_ray3 *r, const t_cylinder *obj, t_hit_record *rec,
-	   		const t_cylinder_solver *cs)
+			const t_cylinder_solver *cs)
 {
 	const float	root_t = -cs->oc_t_dot_axis / cs->dir_dot_axis;
-	const float root_b = -cs->oc_dot_axis / cs->dir_dot_axis;
+	const float	root_b = -cs->oc_dot_axis / cs->dir_dot_axis;
 	float		root;
 	float		length;
 
 	if (root_t < root_b)
-	{
-		length = root_t * root_t * cs->dir2;
-		length += (root_t + root_t) * cs->oc_t_dot_dir + cs->oc2_t;
-		if (length > obj->radius2)
-			return (false);
 		root = root_t;
-	}
 	else
-	{
-		length = root_b * root_b * cs->dir2;
-		length += (root_b + root_b) * cs->oc_dot_dir + cs->oc2;
-		if (length > obj->radius2)
-			return (false);
 		root = root_b;
-	}
+	length = root * root * cs->dir2;
+	if (root == root_t)
+		length += (root + root) * cs->oc_t_dot_dir + cs->oc2_t;
+	else
+		length += (root + root) * cs->oc_dot_dir + cs->oc2;
+	if (length > obj->radius2)
+		return (false);
 	if (root < cs->rng->t_min || root > cs->rng->t_max)
 		return (false);
 	rec->t = root;
 	rec->p = ray3_tpos(r, root);
+	rec->n = obj->axis;
 	if (root == root_b)
 		rec->n = vector3_scm(obj->axis, -1);
-	else
-		rec->n = obj->axis;
 	return (true);
 }
 
@@ -154,7 +137,6 @@ bool	hit_cylinder(const t_ray3 *r, const t_cylinder *obj,
 		return (true);
 	if (cs.discriminant < 0)
 		return (false);
-		//return (hit_caps(r, obj, rec, &cs));
 	sqrtd = sqrt(cs.discriminant);
 	root = (-cs.half_b - sqrtd) / cs.a;
 	if (root < range.t_min || range.t_max < root)
@@ -162,7 +144,6 @@ bool	hit_cylinder(const t_ray3 *r, const t_cylinder *obj,
 		root = (-cs.half_b + sqrtd) / cs.a;
 		if (root < range.t_min || range.t_max < root)
 			return (false);
-			//return (hit_caps(r, obj, rec, &cs));
 	}
 	alpha = get_alpha(&cs, &root);
 	if (alpha < 0 || alpha > obj->height)

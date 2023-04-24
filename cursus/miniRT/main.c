@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/23 17:13:31 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/04/24 10:49:34 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,51 +17,34 @@
 #include "mlx_utils.h"
 #include "mlx_hook.h"
 
-# include <unistd.h>
+#include <unistd.h>
 
-# include "ray3.h"
-# include "color3.h"
-# include "vector3_utils.h"
-# include "vector3_utils_extended.h"
+#include "ray3.h"
+#include "color3.h"
+#include "vector3_utils.h"
+#include "vector3_utils_extended.h"
 
-# include <stdbool.h>
-# include <math.h>
+#include <stdbool.h>
+#include <math.h>
 
-# include "objects.h"
-# include "object_parameters.h"
-# include "object_sphere.h"
-# include "object_camera.h"
-# include "object_light.h"
+#include "objects.h"
+#include "object_parameters.h"
+#include "object_sphere.h"
+#include "object_camera.h"
+#include "object_light.h"
 
-# include "draw_mlx.h"
+#include "draw_mlx.h"
 
-# ifndef WIDTH
-#  define WIDTH 800
-# endif
+#ifndef WIDTH
+# define WIDTH 800
+#endif
 
-# ifndef ASPECT_RATIO
-#  define ASPECT_RATIO 1.77777777f
-# endif
+#ifndef ASPECT_RATIO
+# define ASPECT_RATIO 1.77777777f
+#endif
 
-int	main(void)
+static void	add_objects(t_objects *objects, const float aspect_ratio)
 {
-	const float	aspect_ratio = ASPECT_RATIO;
-	const int	width = WIDTH;
-	const int	height = width / aspect_ratio;
-
-	t_mlx_core	*mlx_core;
-
-	mlx_core = t_mlx_init_core(width, height, "miniRT (Test)");
-	mlx_loop_hook(mlx_core->ptr, t_mlx_loop_hook, mlx_core);
-	mlx_key_hook(mlx_core->win, t_mlx_key_hook, mlx_core);
-	mlx_mouse_hook(mlx_core->win, t_mlx_mouse_hook, mlx_core);
-	mlx_hook(mlx_core->win, 17, 0, terminate, mlx_core);
-
-	t_objects	*objects = malloc(sizeof(*objects));
-
-	objects->sphere = NULL;
-	objects->plane = NULL;
-	objects->cylinder = NULL;
 	objects->camera = camera_set(aspect_ratio, 66, vector3_set(0, 0, -1), point3_set(0, 0, 5));
 
 	objects->sphere = add_sphere(objects->sphere, point3_set(0, 0, -1), 0.5, color3_set(0,1,0));
@@ -82,19 +65,35 @@ int	main(void)
 
 	objects->point_light = set_point_light(color3_set(1, 1, 1), 1.0f, point3_set(-4, 3, 1));
 	objects->ambient_light = set_ambient_light(color3_set(0.3, 0.5, 1.0), 0.5f);
-	
-	//const float	R = cos(M_PI / 4);
-    //
-	//objects->sphere = add_sphere(objects->sphere, point3_set(-R, 0, -1), R, color3_set(0, 0, 1));
-	//objects->sphere = add_sphere(objects->sphere, point3_set(R, 0, -1), R, color3_set(1, 0, 0));
+}
 
-	printf("P3\n%d %d\n255\n", width, height);
+int	main(void)
+{
+	const float	aspect_ratio = ASPECT_RATIO;
+	const int	width = WIDTH;
+	const int	height = width / aspect_ratio;
+	t_objects	*objects;
+	t_mlx_core	*mlx_core;
+
+	mlx_core = t_mlx_init_core(width, height, "miniRT (Test)");
+	mlx_loop_hook(mlx_core->ptr, t_mlx_loop_hook, mlx_core);
+	mlx_key_hook(mlx_core->win, t_mlx_key_hook, mlx_core);
+	mlx_mouse_hook(mlx_core->win, t_mlx_mouse_hook, mlx_core);
+	mlx_hook(mlx_core->win, 17, 0, terminate, mlx_core);
+
+	objects = malloc(sizeof(*objects));
+
+	objects->sphere = NULL;
+	objects->plane = NULL;
+	objects->cylinder = NULL;
+	
+	add_objects(objects, aspect_ratio);
+	// line 84-90 should be replaced by parser function.
 
 	mlx_core->objects = objects;
 
 	draw_mlx_wo_sampling(mlx_core->frame[0], objects);
 	draw_mlx_wo_sampling(mlx_core->frame[1], objects);
-	//draw_mlx_w_sampling(mlx_core->frame[1], objects);
 	
 	t_mlx_core_switch_frame(mlx_core);
 
