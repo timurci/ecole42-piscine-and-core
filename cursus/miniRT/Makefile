@@ -1,6 +1,6 @@
 OS=$(shell uname)
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -I include -lm -g
+CFLAGS=-Wall -Wextra -Werror -I include -g
 #CFLAGS=-Wall -Wextra -I include -lm
 SAMPLING?=100
 DEPTH?=50
@@ -30,6 +30,7 @@ NAME=miniRT
 ifeq ($(OS), Linux)
 		XPATH=$(XPATH_LINUX)
 		XFLAGS=$(XFLAGS_LINUX)
+		CFLAGS+=-lm
 else
 		XPATH=$(XPATH_MACOS)
 		XFLAGS=$(XFLAGS_MACOS)

@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:43 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/17 19:12:20 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/05/07 18:23:42 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	draw_mlx_wo_sampling(t_mlx_image *img, const t_objects *objs)
 					(float) j / (img->height - 1));
 			color3 = ray_color(&r, objs, 1);
 			color3_gamma2(&color3);
-			t_mlx_image_set_pixel(img, i, (img->height - j),
+			t_mlx_image_set_pixel(img, i, (img->height - j - 1),
 				color3_get_color(color3));
 		}
 		--j;
