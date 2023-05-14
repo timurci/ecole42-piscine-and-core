@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:43 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/17 19:12:32 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:37:37 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static t_color3	ray_color(t_ray3 *r, const t_objects *objs, const int depth)
 		ray3ppp_set(r, &rec.p, &target);
 		reflected = vector3_ewm(ray_color(r, objs, depth - 1), rec.c);
 		light_factor = point_light_factor(&objs->point_light, &rec);
-		if (light_factor > 0
-			&& hit_any(point_to_light(&objs->point_light, &rec.p), objs,
-				set_range(0.001, INFINITY)))
+		if (light_factor < 0 || (light_factor > 0
+				&& hit_any(point_to_light(&objs->point_light, &rec.p), objs,
+					set_range(0.001, INFINITY))))
 			diff_intensity = color3_set(0, 0, 0);
 		else
 			diff_intensity = vector3_scm(objs->point_light.c, light_factor);
