@@ -16,7 +16,8 @@ SRC=3D/vector3.c 3D/vector3_utils.c 3D/vector3_utils_extended.c 3D/ray3.c \
 	geo/object_parameters.c geo/object_sphere.c geo/object_camera.c geo/objects.c \
 	geo/object_light.c geo/object_plane.c \
 	geo/object_cylinder.c geo/object_cylinder_params.c \
-	random/rand42.c
+	random/rand42.c \
+	parse/ft_split.c parse/get_next_line.c parse/parse.c parse/utils.c
 ifeq ($(PPM), 0)
 	SRC+=main.c draw/draw_mlx.c mlx_core/mlx_core.c mlx_utils/mlx_utils.c \
 		 mlx_utils/color.c mlx_hook/mlx_hook.c
