@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:17 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/18 00:03:39 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/05/22 22:54:51 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_objects
 bool	hit_objects(const t_ray3 *r, const t_objects *obj,
 			t_hit_record *rec, const t_range range);
 
-bool	hit_any(const t_ray3 r, const t_objects *obj, const t_range range);
+bool	hit_any(t_ray3 r, const t_objects *obj, const t_range range);
 
 void	destroy_objects(t_objects *objs);
 

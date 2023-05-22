@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:40 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 14:12:36 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/05/22 22:57:04 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,9 @@ float	point_light_factor(const t_light_p *l, const t_hit_record *r)
 
 t_ray3	point_to_light(const t_light_p *l, const t_point3 *p)
 {
-	const t_ray3	r = ray3_set(*p, vector3_add(l->p, vector3_scm(*p, -1)));
+	t_ray3	r;
 
+	r.origin = *p;
+	r.direction = vector3_add(l->p, vector3_scm(*p, -1));
 	return (r);
 }
