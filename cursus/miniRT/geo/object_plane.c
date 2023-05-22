@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:40 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/15 14:12:54 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:55:58 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ bool	hit_plane(const t_ray3 *r, const t_plane *obj,
 		return (false);
 	rec->t = root;
 	rec->p = ray3_tpos(r, root);
-	rec->n = obj->normal;
+	if (on < 0)
+		rec->n = vector3_scm(obj->normal, -1);
+	else
+		rec->n = obj->normal;
 	return (true);
 }

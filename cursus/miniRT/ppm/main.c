@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/24 10:51:40 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:32:03 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 
 #include "draw_ppm.h"
 
+#include "parse.h"
+
 #ifndef WIDTH
 # define WIDTH 800
 #endif
@@ -39,7 +41,7 @@
 # define ASPECT_RATIO 1.77777777f
 #endif
 
-static void add_objects(t_objects *objects, const float aspect_ratio)
+/*static void add_objects(t_objects *objects, const float aspect_ratio)
 {
 	objects->camera = camera_set(aspect_ratio, 66, vector3_set(0, 0, -1), point3_set(0, 0, 5));
 
@@ -61,24 +63,43 @@ static void add_objects(t_objects *objects, const float aspect_ratio)
 
 	objects->point_light = set_point_light(color3_set(1, 1, 1), 1.0f, point3_set(-4, 3, 1));
 	objects->ambient_light = set_ambient_light(color3_set(0.3, 0.5, 1.0), 0.5f);
+}*/
+
+static bool	check_argc(const int argc)
+{
+	if (argc < 2)
+		write(2, "Error: Incomplete number of arguments.\n", 39);
+	else if (argc > 2)
+		write(2, "Error: Too many arguments.\n", 27);
+	else
+		return (0);
+	return (1);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	const float	aspect_ratio = ASPECT_RATIO;
 	const int	width = WIDTH;
 	const int	height = width / aspect_ratio;
 	t_image		img;
+	t_objects	*objects;
 
 	img.height = height;
 	img.width = width;
-	t_objects	*objects = malloc(sizeof(*objects));
-
-	objects->sphere = NULL;
-	objects->plane = NULL;
-	objects->cylinder = NULL;
 	
-	add_objects(objects, aspect_ratio);
+	//t_objects	*objects = malloc(sizeof(*objects));
+
+	//objects->sphere = NULL;
+	//objects->plane = NULL;
+	//objects->cylinder = NULL;
+	
+	//add_objects(objects, aspect_ratio);
+
+	if (check_argc(argc))
+		return (1);
+	objects = parse(argv[1], ASPECT_RATIO);
+	if (!objects)
+		return (1);
 
 	printf("P3\n%d %d\n255\n", width, height);
 

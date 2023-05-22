@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:40 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/04/24 10:36:13 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:45:38 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,27 @@ bool	hit_objects(const t_ray3 *r, const t_objects *obj,
 bool	hit_any(const t_ray3 r, const t_objects *obj, const t_range rng)
 {
 	t_utils			u;
+	const float		ray_to_light = vector3_length(vector3_add(obj->point_light.p, vector3_scm(r.origin, -1)));
 
 	u.hit = false;
 	u.it = obj->sphere;
 	while (u.it && !u.hit)
 	{
-		if (hit_sphere(&r, u.it, &u.rec, rng))
+		if (hit_sphere(&r, u.it, &u.rec, rng) && u.rec.t < ray_to_light)
 			u.hit = true;
 		u.it = ((t_sphere *) u.it)->next;
 	}
 	u.it = obj->plane;
 	while (u.it && !u.hit)
 	{
-		if (hit_plane(&r, u.it, &u.rec, rng))
+		if (hit_plane(&r, u.it, &u.rec, rng) && u.rec.t < ray_to_light)
 			u.hit = true;
 		u.it = ((t_plane *) u.it)->next;
 	}
 	u.it = obj->cylinder;
 	while (u.it && !u.hit)
 	{
-		if (hit_cylinder(&r, u.it, &u.rec, rng))
+		if (hit_cylinder(&r, u.it, &u.rec, rng) && u.rec.t < ray_to_light)
 			u.hit = true;
 		u.it = ((t_cylinder *) u.it)->next;
 	}

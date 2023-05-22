@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/05/22 14:56:11 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:30:13 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ static bool	check_argc(const int argc)
 	return (1);
 }
 
+static bool term_main(t_mlx_core *mlx_core)
+{
+	t_mlx_destroy_core(mlx_core);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	const float	aspect_ratio = ASPECT_RATIO;
@@ -107,7 +113,7 @@ int	main(int argc, char **argv)
 		return (1);
 	objects = parse(argv[1], ASPECT_RATIO);
 	if (!objects)
-		return (1);
+		return (term_main(mlx_core));
 
 	mlx_core->objects = objects;
 
