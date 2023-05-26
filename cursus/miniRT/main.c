@@ -6,7 +6,7 @@
 /*   By: tcakmako <tcakmako@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 13:51:46 by tcakmako          #+#    #+#             */
-/*   Updated: 2023/05/22 16:30:13 by tcakmako         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:12:35 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,6 @@ static bool	check_argc(const int argc)
 	return (1);
 }
 
-static bool term_main(t_mlx_core *mlx_core)
-{
-	t_mlx_destroy_core(mlx_core);
-	return (1);
-}
-
 int	main(int argc, char **argv)
 {
 	const float	aspect_ratio = ASPECT_RATIO;
@@ -93,6 +87,13 @@ int	main(int argc, char **argv)
 	const int	height = width / aspect_ratio;
 	t_objects	*objects;
 	t_mlx_core	*mlx_core;
+
+
+	if (check_argc(argc))
+		return (1);
+	objects = parse(argv[1], ASPECT_RATIO);
+	if (!objects)
+		return (1);
 
 	mlx_core = t_mlx_init_core(width, height, "miniRT (Test)");
 	mlx_loop_hook(mlx_core->ptr, t_mlx_loop_hook, mlx_core);
@@ -109,12 +110,6 @@ int	main(int argc, char **argv)
 	//add_objects(objects, aspect_ratio);
 	// line 84-90 should be replaced by parser function.
 	
-	if (check_argc(argc))
-		return (1);
-	objects = parse(argv[1], ASPECT_RATIO);
-	if (!objects)
-		return (term_main(mlx_core));
-
 	mlx_core->objects = objects;
 
 	draw_mlx_wo_sampling(mlx_core->frame[0], objects);

@@ -1,4 +1,6 @@
 #include "parse.h"
+#include <stdio.h>
+#include <stdbool.h>
 
 double
 	ft_pow(double base, int exponent)
@@ -128,6 +130,69 @@ void
 	free(split);
 }
 
+static inline void
+	free_split_check_func(char **split)
+{
+	char	**ptr;
+
+	if (split == NULL)
+		return ;
+	ptr = split;
+	while (*ptr != NULL)
+	{
+		free(*ptr);
+		ptr++;
+	}
+}
+
+static inline size_t
+	ft_check_comma(char *split, char c)
+{
+	register int	index;
+	register int	result;
+
+	result = 0;
+	index = 0;
+	while (split[index] != '\0')
+	{
+		if (split[index] == c)
+			result++;
+		index++;
+	}
+	return (result);
+}	
+
+static inline void
+	ft_plane_error_check(char **split, t_objects *objects)
+{
+	register int	index;
+
+	index = 0;
+	while (index < 3)
+	{
+		if (split[index] == NULL)
+		{
+			printf("ERROR ! = missing arguments\n");
+			destroy_objects(objects);
+			free_split_check_func(split);
+			exit(1);
+		}
+		index++;
+	}
+	index = 0;
+	while (index < 3)
+	{
+		if ((ft_check_comma(split[index], ',')) != 2)
+		{
+			printf("ERROR ! = arguments with missing paramters\n");
+			free_split_check_func(split);
+			destroy_objects(objects);
+			exit(1);
+		}
+		index++;
+	}
+}
+
 t_objects
 	*create_plane(char **split, t_objects *objects)
 {
@@ -137,7 +202,8 @@ t_objects
 	char		**split_tmp0;
 	char		**split_tmp1;
 	char		**split_tmp2;
-	
+
+	ft_plane_error_check(split, objects);
 	split_tmp0 = ft_split(split[0], ',');
 	position.x = ft_atof(split_tmp0[0]);
 	position.y = ft_atof(split_tmp0[1]);
@@ -157,6 +223,34 @@ t_objects
 	return (objects);
 }
 
+static inline void
+	ft_light_error_check(char **split, t_objects *objects)
+{
+	register int	index;
+
+	index = 0;
+	while (index < 3)
+	{
+		if (split[index] == NULL)
+		{
+			printf("ERROR ! = missing arguments\n");
+			free_split_check_func(split);
+			destroy_objects(objects);
+			exit(1);
+		}
+		index++;
+	}
+	if (((ft_check_comma(split[0], ',')) != 2)
+		|| ((ft_check_comma(split[2], ',')) != 2))
+	{
+		printf("ERROR ! = argument with missing paramter\n");
+		free_split_check_func(split);
+		destroy_objects(objects);
+		exit(1);
+	}
+}
+
+
 t_objects
 	*create_light(char **split, t_objects *objects)
 {
@@ -166,6 +260,7 @@ t_objects
 	char		**split_tmp0;
 	char		**split_tmp2;
 	
+	ft_light_error_check(split, objects);
 	split_tmp0 = ft_split(split[0], ',');
 	position.x = ft_atof(split_tmp0[0]);
 	position.y = ft_atof(split_tmp0[1]);
@@ -181,6 +276,32 @@ t_objects
 	return (objects);
 }
 
+static inline void
+	ft_ambient_light_error_check(char **split, t_objects *objects)
+{
+	register int	index;
+
+	index = 0;
+	while (index < 2)
+	{
+		if (split[index] == NULL)
+		{
+			printf("ERROR ! = missing argument\n");
+			destroy_objects(objects);
+			free_split_check_func(split);
+			exit(1);
+		}
+		index++;
+	}
+	if (ft_check_comma(split[1], ',') != 2)
+	{
+		printf("ERROR ! = argument with missing parameters\n");
+		destroy_objects(objects);
+		free_split_check_func(split);
+		exit(1);
+	}
+}
+
 t_objects
 	*create_ambient_light(char **split, t_objects *objects)
 {
@@ -188,6 +309,7 @@ t_objects
 	t_color3	color;
 	char		**split_tmp;
 	
+	ft_ambient_light_error_check(split, objects);
 	intensity = ft_atof(split[0]);
 	split_tmp = ft_split(split[1], ',');
 	color.x = ft_atof(split_tmp[0]) / 255.999f;
@@ -196,6 +318,33 @@ t_objects
 	objects->ambient_light = set_ambient_light(color, intensity);
 	free_split(split_tmp);
 	return (objects);
+}
+
+static inline void
+	ft_camera_error_check(char **split, t_objects *objects)
+{
+	register int	index;
+
+	index = 0;
+	while (index < 3)
+	{
+		if (split[index] == NULL)
+		{
+			printf("ERROR ! = missing arguments\n");
+			destroy_objects(objects);
+			free_split_check_func(split);
+			exit(1);
+		}
+		index++;
+	}
+	if (((ft_check_comma(split[0], ',')) != 2)
+		|| ((ft_check_comma(split[1], ',')) != 2))
+	{
+		printf("ERROR ! = arguments with missing paramters\n");
+		destroy_objects(objects);
+		free_split_check_func(split);
+		exit(1);
+	}
 }
 
 t_objects
@@ -207,6 +356,7 @@ t_objects
 	char	**split_tmp0;
 	char	**split_tmp1;
 	
+	ft_camera_error_check(split, objects);
 	split_tmp0 = ft_split(split[0], ',');
 	split_tmp1 = ft_split(split[1], ',');
 	fov = ft_atof(split[2]);
@@ -222,6 +372,33 @@ t_objects
 	return (objects);
 }
 
+static inline void
+	ft_sphere_error_check(char **split, t_objects *objects)
+{
+	register int	index;
+
+	index = 0;
+	while (index < 3)
+	{
+		if (split[index] == NULL)
+		{
+			printf("ERROR ! = missing arguments\n");
+			destroy_objects(objects);
+			free_split_check_func(split);
+			exit(1);
+		}
+		index++;
+	}
+	if ((ft_check_comma(split[0], ',') != 2)
+		|| ((ft_check_comma(split[2], ',')) != 2))
+	{
+		printf("ERROR ! = arguments with missing parameters\n");
+		destroy_objects(objects);
+		free_split_check_func(split);
+		exit(1);
+	}
+}
+
 t_objects
 	*create_sphere(char **split, t_objects *objects)
 {
@@ -231,6 +408,7 @@ t_objects
 	char		**split_tmp0;
 	char		**split_tmp2;
 
+	ft_sphere_error_check(split, objects);
 	split_tmp0 = ft_split(split[0], ',');
 	center.x = ft_atof(split_tmp0[0]);
 	center.y = ft_atof(split_tmp0[1]);
@@ -246,6 +424,34 @@ t_objects
 	return (objects);
 }
 
+static inline void
+	ft_cylinder_check_error(char **split, t_objects *objects)
+{
+	register int	index;
+
+	index = 0;
+	while (index < 5)
+	{
+		if (split[index] == NULL)
+		{
+			printf("ERROR ! = missing arguments\n");
+			destroy_objects(objects);
+			free_split_check_func(split);
+			exit(1);
+		}
+		index++;
+	}
+	if (((ft_check_comma(split[0], ',')) != 2)
+		|| ((ft_check_comma(split[1], ',')) != 2)
+		|| ((ft_check_comma(split[4], ',')) != 2))
+	{
+		printf("ERROR ! = arguments with missing paramters\n");
+		destroy_objects(objects);
+		free_split_check_func(split);
+		exit(1);
+	}
+}
+
 t_objects
 	*create_cylinder(char **split, t_objects *objects)
 {
@@ -256,6 +462,7 @@ t_objects
 	char				**split_tmp1;
 	char				**split_tmp4;
 	
+	ft_cylinder_check_error(split, objects);
 	split_tmp0 = ft_split(split[0], ',');
 	position.x = ft_atof(split_tmp0[0]);
 	position.y = ft_atof(split_tmp0[1]);
@@ -295,6 +502,28 @@ t_objects
 	return (objects);
 }
 
+static inline void
+	ft_compulsory(t_compulsory *test, char **split)
+{
+	if (ft_strncmp(split[0], "L", 1) == 0)
+		test->L = true;
+	else if (ft_strncmp(split[0], "A", 1))
+		test->A = true;
+	else if (ft_strncmp(split[0], "C", 1))
+		test->C = true;
+}
+
+static inline void
+	ft_compulsory_check(t_compulsory *test, t_objects *objects)
+{
+	if (test->A != true || test->C != true || test->L != true)
+	{
+		printf("mandatory parameters are missing\n");
+		destroy_objects(objects);
+		exit(1);
+	}
+}
+
 t_objects
 	*parse_objects(int fd, const float aspect_ratio)
 {
@@ -302,6 +531,7 @@ t_objects
 	char		*line;
 	char		**split;
 	int 		index;
+	t_compulsory	test;
 
 	index = -1;
 	objects = (t_objects *)malloc(sizeof(*objects));
@@ -311,6 +541,7 @@ t_objects
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		split = ft_split(line, ' ');
+		ft_compulsory(&test, split);
 		objects = create_objects(split, objects, aspect_ratio);
 		free(line);
 		while (++index && split[index] != NULL)
@@ -319,6 +550,7 @@ t_objects
 		free(split);
 	}
 	free(line);
+	ft_compulsory_check(&test, objects);
 	return (objects);
 }
 
@@ -328,9 +560,12 @@ t_objects
 	int			fd;
 	t_objects	*objects;
 
-	fd = open(filename, O_RDWR);
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
+	{
+		printf("the file dont opened\n");
 		return (NULL);
+	}
 	objects = parse_objects(fd, aspect_ratio);
 	if (close(fd) == -1)
 		return (NULL);
