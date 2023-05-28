@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hece <hece@student.42kocaeli.com.tr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/26 20:32:30 by hece              #+#    #+#             */
+/*   Updated: 2023/05/26 20:32:31 by hece             ###   ########.tr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include "parse.h"
-	
+
 size_t
 	ft_strlcpy(char *dest, const char *src, size_t size)
 {
@@ -43,7 +55,7 @@ char
 	ft_strlcpy(result, (char *)&s[start], (len + 1));
 	return (result);
 }
-	
+
 size_t
 	word_count(const char *s, char c)
 {
