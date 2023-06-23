@@ -1,0 +1,28 @@
+#ifndef BITCOIN_EXCHANGE_HPP
+# define BITCOIN_EXCHANGE_HPP
+
+# ifndef DBASE_FILE_PATH
+#  define DBASE_FILE_PATH "cpp09/data.csv"
+# endif
+
+# include <fstream>
+# include <iostream>
+# include <utility>
+# include <vector>
+
+class BitcoinExchange
+{
+	private:
+		typedef std::vector<std::pair<std::string, float> > v_date_val;
+
+	private:
+		std::string	dbase_file_path;
+		std::string	parse_file_path;
+		v_date_val	dbase;
+
+	public:
+
+};
+
+
+#endif
