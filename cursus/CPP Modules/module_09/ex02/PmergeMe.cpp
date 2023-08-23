@@ -24,7 +24,8 @@ PmergeMe	&PmergeMe::operator=(const PmergeMe &other)
 {
 	args = other.args;
 	nums = other.nums;
-	nums_size = ohter.nums_size;
+	nums_size = other.nums_size;
+	return (*this);
 }
 
 // setArgs & checkArgs
@@ -74,7 +75,7 @@ bool	PmergeMe::checkArgs(const int *src, const size_t src_size) const
 {
 	for (size_t i = 0; i < src_size; i++)
 	{
-		if (src < 0)
+		if (src[i] < 0)
 			return (false);
 	}
 	return (true);
@@ -82,21 +83,21 @@ bool	PmergeMe::checkArgs(const int *src, const size_t src_size) const
 
 // Sort Args
 
-std::deque<int>	*PmergeMe::sortQueue(char **args);
+std::deque<int>	*PmergeMe::sortQueue(char **args)
 {
 	if (setArgs(args))
-		return(mergeQueue());
+		return(sortQueue());
 	else
 		return (NULL);
 }
 
-std::list<int>	*PmergeMe::sortList(char **args)
-{
-	if (setArgs(args))
-		return(mergeList());
-	else
-		return (NULL);
-}
+//std::list<int>	*PmergeMe::sortList(char **args)
+//{
+//	if (setArgs(args))
+//		return(mergeList());
+//	else
+//		return (NULL);
+//}
 
 // Sort Void
 
@@ -111,9 +112,9 @@ std::deque<int>	*PmergeMe::sortQueue(void) const
 	return (new std::deque<int>(msortQueue(queue)));
 }
 
-std::list<int>	*PmergeMe::sortList(void) const
-{
-}
+//std::list<int>	*PmergeMe::sortList(void) const
+//{
+//}
 
 // Divide
 
