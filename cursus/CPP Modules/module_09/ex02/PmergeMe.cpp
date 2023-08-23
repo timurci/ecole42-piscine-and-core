@@ -36,12 +36,12 @@ bool	PmergeMe::setArgs(char **new_args)
 
 	while (new_args[size])
 	{
-		size++;
 		if (!strlen(new_args[size]))
 		{
 			size = 0;
 			break ;
 		}
+		size++;
 	}
 	
 	if (!size)
@@ -91,13 +91,13 @@ std::deque<int>	*PmergeMe::sortQueue(char **args)
 		return (NULL);
 }
 
-//std::list<int>	*PmergeMe::sortList(char **args)
-//{
-//	if (setArgs(args))
-//		return(mergeList());
-//	else
-//		return (NULL);
-//}
+std::list<int>	*PmergeMe::sortList(char **args)
+{
+	if (setArgs(args))
+		return(sortList());
+	else
+		return (NULL);
+}
 
 // Sort Void
 
@@ -107,14 +107,21 @@ std::deque<int>	*PmergeMe::sortQueue(void) const
 		return (NULL);
 	std::deque<int>	queue;
 
-	for (size_t i=0; i < nums_size; i++)
+	for (size_t i = 0; i < nums_size; i++)
 		queue.push_back(nums[i]);
 	return (new std::deque<int>(msortQueue(queue)));
 }
 
-//std::list<int>	*PmergeMe::sortList(void) const
-//{
-//}
+std::list<int>	*PmergeMe::sortList(void) const
+{
+	if (!nums)
+		return (NULL);
+	std::list<int>	list;
+
+	for (size_t i = 0; i < nums_size; i++)
+		list.push_back(nums[i]);
+	return (new std::list<int>(msortList(list)));
+}
 
 // Divide
 
@@ -138,10 +145,29 @@ std::deque<int>	PmergeMe::msortQueue(const t_ique &a) const
 	return (mergeQueue(arrayOne, arrayTwo));
 }
 
+std::list<int>	PmergeMe::msortList(const t_ilist &a) const
+{
+	if (a.size() == 1)
+		return (a);
+
+	std::list<int>::const_iterator	begin = a.begin();
+	std::list<int>::const_iterator	itr = begin;
+	std::list<int>::const_iterator	end = a.end();
+
+	for (size_t i = 0; i < a.size() / 2; i++)
+		itr++;
+
+	std::list<int>	arrayOne(begin, itr);
+	std::list<int> arrayTwo(itr, end);
+
+	arrayOne = msortList(arrayOne);
+	arrayTwo = msortList(arrayTwo);
+	return (mergeList(arrayOne, arrayTwo));
+}
+
 // Merge
 
-std::deque<int>	PmergeMe::mergeQueue(const std::deque<int> &a,
-		const std::deque<int> &b) const
+std::deque<int>	PmergeMe::mergeQueue(const t_ique &a, const t_ique &b) const
 {
 	std::deque<int>	c;
 	std::deque<int>::const_iterator	itr_a = a.begin();
@@ -160,3 +186,37 @@ std::deque<int>	PmergeMe::mergeQueue(const std::deque<int> &a,
 		c.push_back(*(itr_b++));
 	return (c);
 }
+
+
+std::list<int>	PmergeMe::mergeList(const t_ilist &a, const t_ilist &b) const
+{
+	bool							flag;
+	std::list<int>					c(a);
+	std::list<int>::const_iterator	itr_c;
+	std::list<int>::const_iterator	itr_b = b.begin();
+
+	while (itr_b != b.end())
+	{
+		itr_c = --(c.end());
+		flag = false;
+		while (itr_c != c.begin() && !flag)
+		{
+			if (*itr_c < *itr_b)
+			{
+				c.insert(++itr_c, *itr_b);
+				flag = true;
+			}
+			itr_c--;
+		}
+		if (!flag && *itr_c > *itr_b)
+			c.insert(itr_c, *itr_b);
+		else if (!flag)
+			c.insert(++itr_c, *itr_b);
+		itr_b++;
+	}
+	return (c);
+}
+
+//----------- notes -----------
+//queue has classic merge sort, list has insertion sort.
+//list has bidirectional iterator while deque does not!
