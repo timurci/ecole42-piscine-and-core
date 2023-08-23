@@ -141,9 +141,9 @@ BitcoinExchange::t_date_value
 			dvalue.cost = atof(field[1].c_str());
 	}
 	if (inner_itr != 2 || (!isValidDate(dvalue) && !isValidValue(dvalue)))
-		std::cerr << "Error: bad input => " << field[0] << std::endl;
+		std::cerr << "Error: bad input 1 => " << field[0] << std::endl;
 	else if (!isValidDate(dvalue))
-		std::cerr << "Error: bad input => " << field[0] << std::endl;
+		std::cerr << "Error: bad input 2 => " << field[0] << std::endl;
 	else if (dvalue.cost < 0)
 		std::cerr << "Error: not a positive number." << std::endl;
 	else if (!isValidValue(dvalue) && delim == '|')

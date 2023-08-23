@@ -29,7 +29,7 @@ void	RPN::solveExprs(void) const
 	if (exprs.length() == 0)
 	{std::cout << "Error: Empty expression." << std::endl; return;}
 	
-	std::stack<float>			numStack;
+	RPN::stackType				numStack;
 	std::string::const_iterator	itr = exprs.begin();
 	std::string::const_iterator	end = exprs.end();
 
@@ -37,7 +37,7 @@ void	RPN::solveExprs(void) const
 	{
 		if (isspace(*itr))
 			;
-		else if (*itr > '0' && *itr <= '9')
+		else if (*itr >= '0' && *itr <= '9')
 			numStack.push(*itr - '0');
 		else if (isOperator(*itr))
 		{
@@ -74,7 +74,7 @@ bool	RPN::isOperator(const unsigned char c) const
 	return (false);
 }
 
-bool	RPN::useOperator(std::stack<float> &numStack,
+bool	RPN::useOperator(RPN::stackType &numStack,
 			const unsigned char opr) const
 {
 	float	num1;

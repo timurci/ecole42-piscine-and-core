@@ -4,15 +4,18 @@
 # include <string>
 # include <cctype>
 # include <stack>
+# include <vector>
 # include <iostream>
 
 class	RPN
 {
 	private:
+		typedef std::stack<float, std::vector<float> > stackType;
+	private:
 		std::string	exprs;
 
 		bool	isOperator(const unsigned char n) const;
-		bool	useOperator(std::stack<float> &numStack,
+		bool	useOperator(stackType &numStack,
 					const unsigned char n) const;
 
 	public:
