@@ -4,13 +4,12 @@
 # include <string>
 # include <cctype>
 # include <stack>
-# include <vector>
 # include <iostream>
 
 class	RPN
 {
 	private:
-		typedef std::stack<float, std::vector<float> > stackType;
+		typedef std::stack<float> stackType;
 	private:
 		std::string	exprs;
 

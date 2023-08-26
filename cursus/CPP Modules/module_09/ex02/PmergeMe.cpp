@@ -6,7 +6,7 @@ PmergeMe::PmergeMe(void) : args(NULL), nums(NULL), nums_size(0)
 {}
 
 
-PmergeMe::PmergeMe(char **args)
+PmergeMe::PmergeMe(char **args) : args(NULL), nums(NULL), nums_size(0)
 {
 	setArgs(args);
 }
@@ -169,51 +169,56 @@ std::list<int>	PmergeMe::msortList(const t_ilist &a) const
 
 std::deque<int>	PmergeMe::mergeQueue(const t_ique &a, const t_ique &b) const
 {
-	std::deque<int>	c;
-	std::deque<int>::const_iterator	itr_a = a.begin();
-	std::deque<int>::const_iterator	itr_b = b.begin();
+	bool									flag;
+	std::deque<int>							c(a);
+	std::deque<int>::const_reverse_iterator	ritr_c;
+	std::deque<int>::const_iterator			itr_b = b.begin();
 
-	while (itr_a != a.end() && itr_b != b.end())
+while (itr_b != b.end())
+{
+	ritr_c = c.rbegin();
+	flag = false;
+	while (ritr_c != c.rend() && !flag)
 	{
-		if (*itr_a > *itr_b)
-			c.push_back(*(itr_b++));
-		else
-			c.push_back(*(itr_a++));
+		if (*ritr_c < *itr_b)
+		{
+			c.insert(ritr_c.base(), *itr_b);
+			flag = true;
+		}
+		++ritr_c;
 	}
-	while (itr_a != a.end())
-		c.push_back(*(itr_a++));
-	while (itr_b != b.end())
-		c.push_back(*(itr_b++));
+	if (!flag)
+		c.push_front(*itr_b);
+	++itr_b;
+}
 	return (c);
 }
 
 
 std::list<int>	PmergeMe::mergeList(const t_ilist &a, const t_ilist &b) const
 {
-	bool							flag;
-	std::list<int>					c(a);
-	std::list<int>::const_iterator	itr_c;
-	std::list<int>::const_iterator	itr_b = b.begin();
+	bool									flag;
+	std::list<int>							c(a);
+	std::list<int>::const_reverse_iterator	ritr_c;
+	std::list<int>::const_iterator			itr_b = b.begin();
 
-	while (itr_b != b.end())
+while (itr_b != b.end())
+{
+	ritr_c = c.rbegin();
+	flag = false;
+	while (ritr_c != c.rend() && !flag)
 	{
-		itr_c = --(c.end());
-		flag = false;
-		while (itr_c != c.begin() && !flag)
+		if (*ritr_c < *itr_b)
 		{
-			if (*itr_c < *itr_b)
-			{
-				c.insert(++itr_c, *itr_b);
-				flag = true;
-			}
-			itr_c--;
+			c.insert(ritr_c.base(), *itr_b);
+			flag = true;
 		}
-		if (!flag && *itr_c > *itr_b)
-			c.insert(itr_c, *itr_b);
-		else if (!flag)
-			c.insert(++itr_c, *itr_b);
-		itr_b++;
+		++ritr_c;
 	}
+	if (!flag)
+		c.push_front(*itr_b);
+	++itr_b;
+}
 	return (c);
 }
 
