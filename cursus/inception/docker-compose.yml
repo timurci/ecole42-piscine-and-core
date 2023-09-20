@@ -1,0 +1,31 @@
+services:
+  nginx:
+    container_name: nginx
+    build: requirements/nginx
+    restart: always
+    ports:
+      - "443:443"
+    volumes:
+      - "wordpress_web:/var/www/wordpress" #!!!!!!!!!!!!!
+    depends_on:
+      - wordpress
+    networks:
+      - inception_frontend
+  
+  wordpress:
+    container_name: wordpress
+    build: requirements/wordpress
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - "wordpress_web:/var/www/wordpress" #!!!!!!!!!!!!!!!!
+    depends_on:
+      - mariadb
+    networks:
+      - inception_frontend
+      - inception_backend
+    environment:
+      MYSQL_DATABASE_NAME:  ${MYSQL_DATABASE_NAME}
+      MYSQL_USER:           ${MYSQL_USER}
+      MYSQL_USER_PASSWORD:  ${MYSQL_USER_PASSWORD}
