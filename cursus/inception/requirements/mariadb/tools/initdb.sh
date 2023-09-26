@@ -1,4 +1,4 @@
-if [ ! -f "initdb.sq"]; then
+if [ ! -f "initdb.sq" ]; then
 
 cat << EOF > initdb.sq 
 ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; 

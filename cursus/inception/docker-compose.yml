@@ -6,7 +6,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - inception_wordpress_web:/var/www/wordpress #!!!!!!!!!!!!!
+      - wordpress_web:/var/www/wordpress #!!!!!!!!!!!!!
     depends_on:
       - wordpress
     networks:
@@ -19,7 +19,7 @@ services:
     # ports:
     #  - "9000:9000"
     volumes:
-      - inception_wordpress_web:/var/www/wordpress #!!!!!!!!!!!!!!!!
+      - wordpress_web:/var/www/wordpress #!!!!!!!!!!!!!!!!
     depends_on:
       - mariadb
     networks:
@@ -36,7 +36,14 @@ services:
     build: requirements/mariadb
     restart: always
     volumes:
-      - inception_wordpress_db:/var/lib/mysql
+      - wordpress_db:/var/lib/mysql
     networks:
       - inception_backend
     env_file: .env
+
+networks:
+  inception_frontend:
+  inception_backend:
+volumes:
+  wordpress_web:
+  wordpress_db:

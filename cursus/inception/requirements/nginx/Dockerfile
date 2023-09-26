@@ -8,7 +8,7 @@ RUN	openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
 	-keyout /etc/ssl/private/nginx.key \
 	-subj '/C=TR/'
 
-COPY	conf/nginx.conf /etc/nginx/nginx.conf
+#COPY	conf/nginx.conf /etc/nginx/nginx.conf
 COPY	conf/default.conf /etc/nginx/http.d/default.conf
 
 EXPOSE	443
