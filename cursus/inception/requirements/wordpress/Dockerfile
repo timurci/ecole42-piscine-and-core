@@ -19,6 +19,6 @@ COPY	tools/ /scripts
 
 WORKDIR	/var/www/wordpress
 
-EXPOSE	9000
+#EXPOSE	9000
 
 CMD sh /scripts/wp-start.sh

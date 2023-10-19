@@ -13,8 +13,12 @@ compose:
 		|| echo -e "$(ERROR) Cannot compose dockerfile."
 
 prune:
+	@docker image rm -f inception_nginx inception_mariadb inception_wordpress \
+		&& echo -e "$(SUCCESS) docker has successfuly removed images."
+	@docker volume rm -f inception_wordpress_db inception_wordpress_web \
+		&& echo -e "$(SUCCESS) docker has successfuly removed volumes."
 	@docker system prune -f \
-		&& echo -e "$(SUCCES) docker system prune is complete."
+		&& echo -e "$(SUCCESS) docker system prune is complete."
 
 start: $(NAME)
 

@@ -7,6 +7,6 @@ RUN	mysql_install_db --datadir=/var/lib/mysql --user=root
 
 COPY	tools/ /scripts
 
-EXPOSE	3306
+#EXPOSE	3306
 
 CMD	sh scripts/initdb.sh
