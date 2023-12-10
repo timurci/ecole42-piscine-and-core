@@ -1,8 +1,6 @@
 #ifndef	MACRO_HPP
 #define MACRO_HPP
 
-# include "Irc.hpp"
-
 # define SUCCESS 0
 # define FAILURE -1
 # define BREAK 2
@@ -14,5 +12,10 @@
 
 /*		MESSAGE		*/
 # define ERR_FULL_SERV "[Server] You cannot join, the server is already full"
+
+// Message convenience
+# define MSG_HEADER_SERVER "[\033[0;33m  Server  \033[0m] " // YELLOW
+# define MSG_HEADER_CLIENT "[\033[0;35m  Client  \033[0m] " // PURPLE
+# define MSG_HEADER_CHANNEL "[\033[0;36m  Channel \033[0m] " // CYAN
 
 #endif

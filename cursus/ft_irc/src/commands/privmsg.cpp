@@ -75,49 +75,63 @@
 static void  broadcastToChannel(Client &client, Channel &channel,
 								const std::string &target, const std::string &msg_to_send)
 {
-   // check si client est banned du channel
-   std::vector<std::string> banned_users = channel.getBannedUsers();
-   for (std::vector<std::string>::iterator it = banned_users.begin(); it != banned_users.end(); it++)
+	std::map<const int, Client*> &banned_users = channel.getBannedClients();
+	std::map<const int, Client*>::const_iterator it;
+
+	for (it = banned_users.begin(); it != banned_users.end(); it++)
 	{
-		if (*it == client.getNickname())
+	if (it->second->getNickname() == client.getNickname())
 		{
 			std::cout << "[Server] " << client.getNickname() << " is banned from the channel and can't send messages anymore" << std::endl;
 			return ;
 		}
 	}
-   // check si client est kick du channel
-   std::vector<std::string> kicked_users = channel.getKickedUsers();
-	for (std::vector<std::string>::iterator it = kicked_users.begin(); it != kicked_users.end(); it++)
+
+	if (!channel.doesClientExist(client))
 	{
-		if (*it == client.getNickname())
-		{
-			std::cout << "[Server] " << client.getNickname() << " is kicked from the channel and can't send messages anymore" << std::endl;
-			return ;
-		}
+		client.appendSendBuffer(ERR_NOTONCHANNEL(client.getNickname(), channel.getName()));
+		return ;
 	}
-   // check si client est autorisé à parler (+m et +v)
-   if (channel.getM())
+
+	//std::set<std::string>::const_iterator it_kicked = channel.getKickedClients().find(client.getNickname());
+	
+	//if (it_kicked != channel.getKickedClients().end())
+	//{
+	//	std::cout << "[" << YELLOW << "Server" << RESET << "] " << RED
+	//		<< client.getNickname() << RESET << " is kicked from the channel and can't send messages anymore" << std::endl;
+	//	return ;
+	//}
+   
+	if (channel.getMode().m)
    {
-      // si il est pas operator et si il a pas +v : so can't speak
-      if (channel.isOperator(client.getNickname()) == false && channel.isVoiced(client.getNickname()) == false)
+      if (channel.isOperator(client) == false && channel.isVoiced(client) == false)
       {
          client.appendSendBuffer(ERR_CANNOTSENDTOCHAN(client.getNickname(), channel.getName()));
          return ;
       }
    }
    // Envoi le message aux users du channel 
-   std::map<std::string, Client>::iterator member = channel.getClientList().begin(); // debut de la liste des clients du channel
-   while (member != channel.getClientList().end())
+   std::map<const int, Client*>::iterator member = channel.getClients().begin(); // debut de la liste des clients du channel
+   while (member != channel.getClients().end())
    {
-      if (member->second.getClientFd() != client.getClientFd())   // preventing from sending the message to the sender
-         member->second.appendSendBuffer(RPL_PRIVMSG(client.getNickname(), client.getUsername(), target, msg_to_send));
-      member++;
+		// PRIVMSG_DEBUG
+		//std::cout << "=============== BROADCASTING!!!!!! ===============" << std::endl;
+		//stdstd::cout << "Client : " << client.getNickname() << "\ttarget : " << target << std::endl;
+		//stdstd::cout << "Member : " << member->second->getNickname() << std::endl;
+		//std::cout << "msg_to_send : " << msg_to_send << std::endl;
+		//std::cout << "SENT : " << RPL_PRIVMSG(client.getNickname(), client.getUsername(), target, msg_to_send);
+    	if (member->second->getClientFd() != client.getClientFd()) // preventing from sending the message to the sender
+		{
+        	member->second->appendSendBuffer(RPL_PRIVMSG(client.getNickname(), client.getUsername(), target, msg_to_send));
+			std::cout << "Message sent!" << std::endl;
+		}
+    	member++;
    }
 }
 
 static bool isUserinChannel(Client &client, Channel &channel)
 {
-   if (channel.getClientList().find(client.getNickname()) != channel.getClientList().end())
+   if (channel.getClients().find(client.getClientFd()) != channel.getClients().end())
       return (true);
    return (false);
 }
@@ -136,7 +150,7 @@ void	privmsg(Client &client, const t_cmd_info &cmd_info,
       client.appendSendBuffer(ERR_NOTEXTTOSEND(client.getNickname()));
       return ;
    }
-   target = cmd_info.params.substr(1, delimiter - 1); // s'arrete avant le delimiter
+   target = cmd_info.params.substr(0, delimiter - 1); // s'arrete avant le delimiter
    if (target.empty())
    {
       client.appendSendBuffer(ERR_NORECIPIENT(client.getNickname()));
@@ -180,11 +194,11 @@ void	privmsg(Client &client, const t_cmd_info &cmd_info,
       }
       else
       {
-         if (it_target == client_list.end()) // si le user n'existe pas mais le channel oui (gestion channel actif)
+         if (it_target == client_list.end())
          {
             if (isUserinChannel(client, it_channel->second) == true)
             {
-               target.insert(1, "#");  // ajouter le # before target
+               target.insert(1, "#");
                broadcastToChannel(client, it_channel->second, target, msg_to_send);
             }
             else

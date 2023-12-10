@@ -3,8 +3,8 @@
 #include "Server.hpp"
 #include "Commands.hpp"
 
-static void	broadcastToChannel(Channel &channel, const Client &client, std::string reason);
-static void	removeFromServer(std::map<std::string, Channel> &channel_list, const std::string &killed_user);
+//static void	broadcastToChannel(Channel &channel, const Client &client, std::string reason);
+static void	removeFromServer(std::map<std::string, Channel> &channel_list, const Client &killed_user);
 /**
  * @brief The QUIT command is used to terminate a client’s connection to the server. 
  *  The server acknowledges this by replying with an ERROR message and closing 
@@ -32,43 +32,46 @@ void	quit(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Chan
 	// inform all the users that share a channel w/ the user quitting
 	for (; channel_itr != channel_list.end(); channel_itr++)
 	{
-		std::map<std::string, Client>& 			chan_members = channel_itr->second.getClientList();
-		std::map<std::string, Client>::iterator	member		 = chan_members.begin();
-		for (; member != chan_members.end(); member++) // check all chan_members
-		{
-			if (member->second.getClientFd() == client.getClientFd()) // erase user from the chan + inform the others 
-			{
-				chan_members.erase(client.getNickname());
-				broadcastToChannel(channel_itr->second, client, cmd_info.params);
-				break ;
-			}
-		}
+		//std::map<const int, Client*>& 			chan_members = channel_itr->second.getClients();
+		//std::map<const int, Client*>::iterator	member		 = chan_members.begin();
+
+		if (channel_itr->second.removeClientFromChannel(client))
+			channel_itr->second.broadcastToChannel(
+				RPL_QUIT(user_id(client.getNickname(), client.getUsername()), cmd_info.params)
+		);
+		//for (; member != chan_members.end(); member++) // check all chan_members
+		//{
+		//	if (member->second->getClientFd() == client.getClientFd()) // erase user from the chan + inform the others 
+		//	{
+		//		chan_members.erase(client.getClientFd());
+		//		broadcastToChannel(channel_itr->second, client, cmd_info.params);
+		//		break ;
+		//	}
+		//}
 	}
 	// close the connection (no need for irssi, but nc needs it)
 	client.setDeconnectionStatus(true);
-	removeFromServer(channel_list, client.getNickname());
+	removeFromServer(channel_list, client);
 }
 
-static void	broadcastToChannel(Channel &channel, const Client &client, std::string reason)
-{
-	std::map<std::string, Client>::iterator member = channel.getClientList().begin();
-	
-	while (member != channel.getClientList().end())
-	{
-		if (member->second.getClientFd() != client.getClientFd())
-			member->second.appendSendBuffer(RPL_QUIT(user_id(client.getNickname(), client.getUsername()), reason));
-		member++;
-	}
-}
+//static void	broadcastToChannel(Channel &channel, const Client &client, std::string reason)
+//{
+//	std::map<const int, Client*>::iterator member = channel.getClients().begin();
+//	
+//	while (member != channel.getClients().end())
+//	{
+//		if (member->second->getClientFd() != client.getClientFd())
+//			member->second->appendSendBuffer(RPL_QUIT(user_id(client.getNickname(), client.getUsername()), reason));
+//		member++;
+//	}
+//}
 
-static void	removeFromServer(std::map<std::string, Channel> &channel_list, const std::string &killed_user)
+static void	removeFromServer(std::map<std::string, Channel> &channel_list, const Client &killed_user)
 {
 	std::map<std::string, Channel>::iterator	chan;
 	for (chan = channel_list.begin(); chan != channel_list.end(); chan++)
 	{
 		if (chan->second.doesClientExist(killed_user))
-		{
-			chan->second.getClientList().erase(killed_user);
-		}
+			chan->second.getClients().erase(killed_user.getClientFd());
 	}
 }

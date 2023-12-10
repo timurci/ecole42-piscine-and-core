@@ -1,0 +1,141 @@
+#include "Irc.hpp"
+#include "Channel.hpp"
+#include "Server.hpp"
+#include "Commands.hpp"
+
+static std::string	getKickedName(std::string msg_to_parse);
+static void			broadcastToChannel(Channel &channel, Client &client, std::string kicked, std::string reason);
+
+/**
+ * @brief The KICK command can be used to request the forced removal of a user 
+ *  from a channel. It causes the <user> to be removed from the <channel> by force. 
+ *  If no comment is given, the server SHOULD use a default message instead.
+ * 
+ *  Parameters: <channel> <user> *( "," <user> ) [<comment>]
+ * 
+ * Numeric Replies:
+ * 
+ * ERR_NEEDMOREPARAMS (461)
+ * ERR_NOSUCHCHANNEL (403)
+ * ERR_CHANOPRIVSNEEDED (482)
+ * ERR_USERNOTINCHANNEL (441)
+ * ERR_NOTONCHANNEL (442)
+ * 
+ * Example:
+ * Client's request : KICK #Finnish John :Speaking English
+ * 
+ * Server's Response: " Command to kick John from #Finnish using "Speaking English" 
+ * 						as the reason (comment)."
+ * 
+ * @param server
+ * @param cmd_infos Structure w/ prefix, command name and message
+ *
+ *
+ * typedef struct s_cmd_info
+ * {
+ *	std::string	prefix;
+ *	std::string	command;
+ *	std::string	params;
+ * }	t_cmd_info;
+ */
+void	kick(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list)
+{
+	std::string	channel_name	= getChannelName(cmd_info.params);	//we extract the channel name from the params branch of the cmd_info structure
+	std::string	kicked_name		= getKickedName(cmd_info.params);	//we extract the name of the client kicked from the parameter.
+	std::string	reason			= getReason(cmd_info.params);		//we extract the whole message after the semi colon if there is one in the parameter.
+
+	std::map<std::string, Channel>::iterator it		= channel_list.find(channel_name);
+	std::map<const int, Client*>::iterator it_cl	= it->second.getClients().begin();
+	for (; it_cl != it->second.getClients().end(); it_cl ++)
+	{
+		if (it_cl->second->getNickname() == kicked_name)
+			break ;
+	}
+
+	// if the reason is empty then we insert ":Kicked by the channel's operator" 
+	// else reason remains unchanged. 
+	reason = (reason.empty()) ? ":Kicked by the channel's operator" : reason;
+
+	// if either of channel_name or the kicked_name is empty, then
+	if (channel_name.empty() || kicked_name.empty())
+	{
+		// the we send message to the client.
+		client.appendSendBuffer(ERR_NEEDMOREPARAMS(client.getNickname(), cmd_info.command));
+		return ;
+	}
+	//if the channel name extracted from the parameter does not belong to the server
+	else if (it == channel_list.end())
+	{
+		client.appendSendBuffer(ERR_NOSUCHCHANNEL(client.getNickname(), channel_name));
+		return ;
+	}
+	//if the function parameter client does not belong to the channel whos info was extracted from the parameter
+	else if (it->second.doesClientExist(client) == false)
+	{
+		client.appendSendBuffer(ERR_NOTONCHANNEL(client.getNickname(), channel_name));
+		return ;
+	}
+	//if the kicked name extracted form the parameter is not a client of the channel
+	else if (it_cl->second->getNickname() != kicked_name)
+	{
+		client.appendSendBuffer(ERR_USERNOTINCHANNEL(client.getNickname(), kicked_name, channel_name));
+		return ;
+	}
+	//if the client is not a channel operator
+	else if (it->second.isOperator(client) == false) // you're not a channel operator
+	{
+		client.appendSendBuffer(ERR_CHANOPRIVSNEEDED(client.getNickname(), channel_name));
+		return ;
+	}
+	else
+	{
+		broadcastToChannel(it->second, client, kicked_name, reason);
+		it->second.getClients().erase(client.getClientFd());
+		it->second.kickClient(client);
+	}
+}
+/*
+ * Extract the name of a user who was kicked from an IRC channel based 
+ * on a specific message format. 
+ */
+static std::string	getKickedName(std::string msg_to_parse)
+{
+	std::string kicked;
+	// we begin by deleting initial spaces of the text
+	if (msg_to_parse[0] == ' ')
+		msg_to_parse.erase(0, 1);
+	/* 
+	 * Extracts a substring starting from the character immediately 
+	 * after the first space in the remaining string (msg_to_parse.find(' ') + 1) 
+	 * and ending just before the colon (msg_to_parse.find(':') - 1). 
+	 * Therefore, it captures the text between the first space and the colon, 
+	 * excluding the colon.
+	 */
+	kicked = msg_to_parse.substr(msg_to_parse.find(' ') + 1, (msg_to_parse.find(':') - 1 - (msg_to_parse.find(' ') + 1)));
+	return (kicked);
+}
+
+
+static void			broadcastToChannel(Channel &channel, Client &client, std::string kicked, std::string reason)
+{
+	std::map<const int, Client*>::iterator member = channel.getClients().begin();
+	
+	while (member != channel.getClients().end())
+	{
+		member->second->appendSendBuffer(RPL_KICK(user_id(client.getNickname(), client.getUsername()), channel.getName(), kicked, reason));
+		member ++;
+	}
+}
+
+std::string	getReason(std::string msg_to_parse)
+{
+	std::string reason;
+	
+	reason.clear();
+	// If a colon is present, the reason.append(...) line extracts the 
+	// substring starting from the character after the colon to the end 
+	// of the string (std::string::npos). 
+	if (msg_to_parse.find(":") != msg_to_parse.npos) 
+		reason.append(msg_to_parse, msg_to_parse.find(":") + 1, std::string::npos);
+	return (reason);
+}

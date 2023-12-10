@@ -33,7 +33,7 @@ int	Server::createClientConnection(std::vector<pollfd> &new_pollfds)
 	return (SUCCESS);
 }
 
-static void print(const std::string &client_name, const char *message)
+static void print(const Client &client, const char *message)
 {
 	std::string	msg(message);
 	size_t	pos;
@@ -41,9 +41,13 @@ static void print(const std::string &client_name, const char *message)
 	pos = msg.rfind("\r\n");
 	if (pos != std::string::npos)
 		msg.erase(pos);
-	std::cout << "[" << PURPLE << "Client" << RESET
-		<< "] Message received from client\t" << YELLOW << client_name << RESET << "\t<< "\
-		 << BLUE << msg << RESET << std::endl;
+	std::cout << MSG_HEADER_CLIENT
+		<< "Message received from client\t";
+	if (client.getNickname().empty())
+		std::cout << YELLOW << "#" << client.getClientFd() << " [unregistered]" << RESET;
+	else
+		std::cout << YELLOW << "#" << client.getClientFd() << " (" << client.getNickname() << ")" << RESET;
+	std::cout << "\t<< " << BLUE << msg << RESET << std::endl;
 }
 
 int	Server::handleExistingConnection(std::vector<pollfd>::iterator &it)
@@ -70,7 +74,7 @@ int	Server::handleExistingConnection(std::vector<pollfd>::iterator &it)
 	}
 	else
 	{
-		print(client.getNickname(), message);
+		print(client, message);
 		client.appendRecvBuffer(message);
 
 		if (client.getRecvBuffer().find("\r\n") != std::string::npos)

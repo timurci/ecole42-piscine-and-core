@@ -142,3 +142,13 @@ int	Client::is_valid() const
 		return (FAILURE);
 	return (SUCCESS);
 }
+
+std::ostream&	operator<<(std::ostream &stream, const Client &client)
+{
+	stream << "#" << client.getClientFd();
+	if (client.isRegistrationDone())
+		stream << " (" << client.getNickname() << ")";
+	else
+		stream << " [unregistered]";
+	return (stream);
+}

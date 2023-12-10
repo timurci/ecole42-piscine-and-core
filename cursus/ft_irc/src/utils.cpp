@@ -23,8 +23,12 @@ void	Server::sendServerRpl(const Client &client)
 		pos = reply.rfind("\r\n");
 		if (pos != std::string::npos)
 			reply.erase(pos);
-		std::cout << "[" << YELLOW << "Server" << RESET << "] Message sent to client\t\t" \
-				  << client.getNickname() << "\t>> " << CYAN << reply << RESET << std::endl;
+		std::cout << MSG_HEADER_SERVER << "Message sent to client\t\t";
+		if (client.getNickname().empty())
+			std::cout << "#" << client.getClientFd() << " [unregistered]";
+		else
+			std::cout << "#" << client.getClientFd() << " (" << client.getNickname() << ")";
+		std::cout << "\t>> " << CYAN << reply << RESET << std::endl;
 	}
 }
 
@@ -52,30 +56,30 @@ Client*	Server::findClient(const int client_fd)
 // ########################################################################
 
 // Channel function
-//std::string	getListOfMembers(std::string client, Channel &channel)
-//{
-//	std::map<std::string, Client>&			client_list	= channel.getClients();
-//	std::map<std::string, Client>::iterator	it;
-//	std::string								nick;
-//	std::string								members_list;
-//
-//	for (it = client_list.begin(); it != client_list.end(); it++)
-//	{
-//		nick.clear();
-//		nick = it->second.getNickname();
-//		if (it->second.getMode().find('i') != std::string::npos
-//			&& channel.doesClientExist(it->second) == false)
-//				continue;
-//			
-//		if (channel.isOperator(it->second) == true)
-//			members_list += "@";
-//		members_list += nick;
-//		members_list += " ";
-//	}
-//	if (members_list.size() >= 1 && members_list[members_list.size() - 1] == ' ')
-//		members_list.erase(members_list.end()-1);
-//	return (members_list);
-//}
+std::string	getListOfMembers(Channel &channel)
+{
+	std::map<const int, Client*>&			client_list	= channel.getClients();
+	std::map<const int, Client*>::iterator	it;
+	std::string								nick;
+	std::string								members_list;
+
+	for (it = client_list.begin(); it != client_list.end(); it++)
+	{
+		nick.clear();
+		nick = it->second->getNickname();
+		if (it->second->getMode().find('i') != std::string::npos
+			&& channel.doesClientExist(*it->second) == false)
+				continue;
+			
+		if (channel.isOperator(*it->second) == true)
+			members_list += "@";
+		members_list += nick;
+		members_list += " ";
+	}
+	if (members_list.size() >= 1 && members_list[members_list.size() - 1] == ' ')
+		members_list.erase(members_list.end()-1);
+	return (members_list);
+}
 
 //Channel function
 std::string	getChannelName(std::string msg_to_parse)
@@ -90,19 +94,18 @@ std::string	getChannelName(std::string msg_to_parse)
 }
 
 // ?
-//std::string	getSymbol(Channel &channel)
-//{
-//	std::string symbol;
-//
-//	if (channel.getMode().find('s') != std::string::npos) {
-//		symbol += "@";
-//	} else if (channel.getMode().find('p') != std::string::npos) {
-//		symbol += "*";
-//	} else {
-//		symbol += "=";
-//	}
-//	return (symbol); 
-//}
+std::string	getSymbol(Channel &channel)
+{
+	std::string symbol;
+
+	if (channel.getMode().s)
+		symbol += "@";
+	else if (channel.getMode().p)
+		symbol += "*";
+	else
+		symbol += "=";
+	return (symbol); 
+}
 
 // Server datetime
 void	Server::sendClientRegistration(Client &client, const std::string &datetime)
@@ -114,7 +117,7 @@ void	Server::sendClientRegistration(Client &client, const std::string &datetime)
 	client.appendSendBuffer(RPL_ISUPPORT(client.getNickname(), "CHANNELLEN=32 NICKLEN=9 TOPICLEN=307"));
 	
 	std::ifstream		data;
-	char				filepath[24] = "srcs/config/motd.config";
+	char				filepath[24] = "src/config/motd.config";
 
 	data.open(filepath);
 	if (!data)

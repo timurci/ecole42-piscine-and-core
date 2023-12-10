@@ -1,5 +1,6 @@
 #include "Server.hpp"
 #include "Commands.hpp"
+#include "Macro.hpp"
 #include <sys/poll.h>
 
 // Server::Server()
@@ -45,7 +46,7 @@ std::map<std::string, Channel>&	Server::getChannels()		{ return (channels); }
 
 std::map<const int, Client>&	Server::getClients()		{ return (clients); }
 
-std::vector<server_op>&			Server::getIrcOperators()	{ return (irc_operators); }
+std::vector<t_server_op>&		Server::getIrcOperators()	{ return (irc_operators); }
 
 std::string 					Server::getMotd() const 	{ return (motd); }
 
@@ -104,7 +105,7 @@ int 		Server::readFromConfigFile(char *filename)
 	for (it = operators.begin(); it != operators.end(); it++)
 	{
 		std::string	line = *it;
-		server_op	op;
+		t_server_op	op;
 		
 		int len = line.size() - (line.size() - line.find_first_of(' '));
 
@@ -127,7 +128,7 @@ int Server::fillServinfo(char *port)
 {
 	if (getaddrinfo(NULL, port, &hints, &servinfo) < 0)
 	{
-		std::cerr << RED << "[Server] Failed at getaddrinfo" << RESET << std::endl;
+		std::cerr << MSG_HEADER_SERVER << RED << "Failed at getaddrinfo" << RESET << std::endl;
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -149,23 +150,23 @@ int Server::launchServer()
 	server_socket_fd = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol);
 	if (server_socket_fd == FAILURE)
 	{
-		std::cerr << RED << "[Server] Cannot initialize a socket" << RESET << std::endl;
+		std::cerr << MSG_HEADER_SERVER << RED "Cannot initialize a socket" << RESET << std::endl;
 		return (FAILURE);
 	}
 	int optvalue = 1; // enables the re-use of a port if the IP address is different
 	if (setsockopt(server_socket_fd, SOL_SOCKET, SO_REUSEADDR, &optvalue, sizeof(optvalue)) == FAILURE)
 	{
-		std::cerr << RED << "[Server] setsockopt has failed" << RESET << std::endl;
+		std::cerr << MSG_HEADER_SERVER << RED << "setsockopt() has failed" << RESET << std::endl;
 		return (FAILURE);
 	}
 	if (bind(server_socket_fd, servinfo->ai_addr, servinfo->ai_addrlen) == FAILURE)
 	{
-		std::cerr << RED << "[Server] Bind has failed" << RESET << std::endl;
+		std::cerr << MSG_HEADER_SERVER << RED << "Bind has failed" << RESET << std::endl;
 		return (FAILURE);
 	}
 	if (listen(server_socket_fd, BACKLOG) == FAILURE)
 	{
-		std::cerr << RED << "[Server] Listen has failed" << RESET << std::endl;
+		std::cerr << MSG_HEADER_SERVER << RED << "Listen has failed" << RESET << std::endl;
 		return (FAILURE);
 	}
 	freeaddrinfo(servinfo);
@@ -181,7 +182,7 @@ void Server::addClient(const int client_socket, std::vector<pollfd> &dst)
 	addPollfd(client_socket, POLLIN | POLLOUT, dst);
 	clients.insert(std::pair<int, Client>(client_socket, new_client));
 	//clients.insert(std::pair<int, Client>(client_socket, client_socket));
-	std::cout << "[" << YELLOW << "Server" << RESET << "] " 
+	std::cout << MSG_HEADER_SERVER
 		GREEN << "Successfully added client #" << client_socket << RESET << std::endl;
 }
 
@@ -189,56 +190,60 @@ void Server::addClient(const int client_socket, std::vector<pollfd> &dst)
 // which channels has the client joined.
 void Server::delClient(std::vector<pollfd>::iterator &it_poll, Client &client)
 {
-	std::cout << "[" << YELLOW << "Server" << RESET << "] Client disconnecting "
-		RED << client.getNickname() << RESET << std::endl;
+	std::cout << MSG_HEADER_SERVER << "Client disconnecting "
+		RED << client << RESET << std::endl;
 
-	//std::map<std::string, Channel>::iterator it = channels.begin();
-	//while (it != channels.end())
-	//	it->second.removeClientFromChannel(client.getUsername());
+	std::map<std::string, Channel>::iterator it = channels.begin();
+	while (it != channels.end())
+		it++->second.removeClientFromChannel(client);
 	close(it_poll->fd);
 	clients.erase(it_poll->fd);
 	pollfds.erase(it_poll);
 
-	std::cout << "[" << YELLOW << "Server" << RESET << "] "
+	std::cout << MSG_HEADER_SERVER
 		<< "Client has been removed. Total number of Client is now: "
 		YELLOW << (unsigned int)(pollfds.size() - 1) << RESET << std::endl;
 }
 
-void Server::addChannel(std::string &channelName)
-{
-	(void) channelName;
-	//std::map<std::string, Channel>::iterator it = channels.find(channelName);
-	//if (it != channels.end())
-	//{
-	//	std::cout << "Channel already exists, choose an other name\n";
-	//	return ;
-	//}
-	//Channel	channel(channelName);
-	//channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
-}
-
-void Server::addClientToChannel(std::string &channelName, Client &client)
-{
-	std::map<std::string, Channel>::iterator it;
-	it = channels.find(channelName);
-	std::string client_nickname = client.getNickname();
-	//if (it->second.doesClientExist(client_nickname) == false)
-	//{
-	//	it->second.addClientToChannel(client);
-	//	std::cout << "Client successfully joined channel" << channelName << "!" << std::endl;
-	//}
-	//else 
-	//	std::cout << YELLOW << client.getNickname() << " is already here\n" << RESET;
-}
-
-bool    Server::isChannel(std::string &channelName) const
-{
-    std::map<std::string, Channel>::const_iterator it;
-    it = channels.find(channelName);
-    if (it == channels.end())
-    {
-        std::cout << RED << "This channel does not exists\n" << RESET;
-        return (false);
-    }
-    return (true);
-}
+//void Server::addChannel(const std::string &channelName)
+//{
+//	(void) channelName;
+//	std::map<std::string, Channel>::iterator it = channels.find(channelName);
+//	if (it != channels.end())
+//	{
+//		std::cout << "Channel already exists, choose an other name\n";
+//		return ;
+//	}
+//	Channel	channel(channelName);
+//	channels.insert(std::pair<std::string, Channel>(channel.getName(), channel));
+//	std::cout << MSG_HEADER_SERVER
+//	<< GREEN << "Channel added #" << channelName << RESET << std::endl;
+//}
+//
+//void Server::addClientToChannel(const std::string &channelName, Client &client)
+//{
+//	std::map<std::string, Channel>::iterator it;
+//	it = channels.find(channelName);
+//	std::string client_nickname = client.getNickname();
+//	if (it->second.doesClientExist(client) == false)
+//	{
+//		it->second.addClient(client);
+//		// Utilise return value of addClient to prevent success message in case of error.
+//		std::cout << "Client successfully joined channel" << channelName << "!" << std::endl;
+//	}
+//	else 
+//		std::cout << YELLOW << client.getNickname() << " is already here\n" << RESET;
+//}
+//
+//bool    Server::isChannel(const std::string &channelName) const
+//{
+//    std::map<std::string, Channel>::const_iterator it;
+//    it = channels.find(channelName);
+//    if (it == channels.end())
+//    {
+//        std::cout << MSG_HEADER_SERVER << RED << "The channel "
+//			<< channelName << "does not exist\n" << RESET;
+//        return (false);
+//    }
+//    return (true);
+//}

@@ -7,6 +7,13 @@
 
 # include "Irc.hpp"
 
+typedef struct s_server_op
+{
+	std::string name;
+	std::string	host;
+	std::string	password;
+}	t_server_op;
+
 class Client
 {
 	private:
@@ -68,5 +75,7 @@ class Client
 		void			sethasAllInfo(bool boolean);
 		void			addNbInfo(int n);
 };
+
+std::ostream&	operator<<(std::ostream &, const Client &);
 
 #endif

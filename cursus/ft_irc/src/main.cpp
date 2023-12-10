@@ -1,6 +1,7 @@
 #include "Server.hpp"
 
-bool server_shutdown = false;
+int		COMMENT = 1;
+bool	server_shutdown = false;
 
 static void	signal_handler(int signal)
 {

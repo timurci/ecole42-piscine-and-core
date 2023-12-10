@@ -65,11 +65,11 @@ void	join(Client &client, const t_cmd_info &cmd_info,
 
 		if (it == channel_list.end())
 			addChannel(channel_list, channel_name);	
-		else if (it->second.getMode().getK()) // Si channel en mode +k
+		else if (it->second.getMode().k)
 		{
 			std::string key = retrieveKey(params);
 			params.erase(params.find(key), key.length());
-			if (key != it->second.getChannelPassword())
+			if (key != it->second.getPassword())
 			{
 				client.appendSendBuffer(ERR_BADCHANNELKEY(client.getNickname(), channel_name));
 				continue;
@@ -77,20 +77,20 @@ void	join(Client &client, const t_cmd_info &cmd_info,
 		}
 
 		it = channel_list.find(channel_name);
-		// vérifier si le channel est full
-		if (it->second.getCapacityLimit() != -1 && (int)it->second.getClientList().size() == it->second.getCapacityLimit())
+	
+		if (it->second.getCapacity() != -1 && (int)it->second.getClients().size() == it->second.getCapacity())
 		{
 			client.appendSendBuffer(ERR_CHANNELISFULL(client.getNickname(), channel_name));
-			continue ; // on passe la suite, au prochain channel à ajouter síl y en a un
+			continue ;
 		}
-		// vérifier si le client est banned avant de le join au channel
-		if (it->second.getMode().getB() && it->second.isBanned(client.getNickname()) == true)
+
+		if (it->second.getMode().b && it->second.isBanned(client) == true)
 			client.appendSendBuffer(ERR_BANNEDFROMCHAN(client.getNickname(), channel_name));
 		else 
 		{
 			addClientToChannel(it, client);
 			if (it->second.getOperators().empty())
-				it->second.addOperator(client.getNickname());
+				it->second.addOperator(client);
 			sendChanInfos(it->second, client);
 		}
 	}
@@ -112,21 +112,21 @@ static void		sendChanInfos(Channel &channel, Client &client)
 	std::string username		= client.getUsername();
 	std::string	channel_name	= channel.getName();
  	
-	std::map<std::string, Client>::iterator member = channel.getClientList().begin();
+	//std::map<int, Client>::iterator member = channel.getClients().begin();
 
-	while (member != channel.getClientList().end()) //why is there a loop? you don't use member
-	{
+	//while (member != channel.getClients().end()) //why is there a loop? you don't use member
+	//{
 		client.appendSendBuffer(RPL_JOIN(user_id(nick, username), channel_name));
 		if (channel.getTopic().empty() == false) // why do you send topic to every user?
 			client.appendSendBuffer(RPL_TOPIC(nick, channel_name, channel.getTopic()));
 		
-		std::string	list_of_members = getListOfMembers(nick, channel);
+		std::string	list_of_members = getListOfMembers(channel);
 		std::string symbol			= getSymbol(channel);
 
 		client.appendSendBuffer(RPL_NAMREPLY(username, symbol, channel_name, list_of_members));
 		client.appendSendBuffer(RPL_ENDOFNAMES(username, channel_name));
-		member++;
-	}
+	//	member++;
+	//}
 }
 
 static bool		containsAtLeastOneAlphaChar(std::string str)
@@ -164,21 +164,24 @@ static std::string	retrieveKey(std::string msg_to_parse)
 
 static void	addChannel(std::map<std::string, Channel> &channel_list, std::string const &channelName)
 {
-	//std::map<std::string, Channel>::iterator it = server->getchannel_list().find(channelName);
-	//if (it != server->getchannel_list().end())
-	//{
-	//	std::cout << "Channel already exists, choose an other name\n";
-	//	return ;
-	//}
+	std::map<std::string, Channel>::iterator it = channel_list.find(channelName);
+	if (it != channel_list.end())
+	{
+		std::cout << "Channel already exists, choose an other name\n";
+		return ;
+	}
 	Channel	channel(channelName);
 	channel_list.insert(std::pair<std::string, Channel>(channelName, channel));
+	std::cout << MSG_HEADER_SERVER
+	<< GREEN << "Channel added #" << channelName << RESET << std::endl;
 }
 
 static void	addClientToChannel(std::map<std::string, Channel>::iterator it, Client &client)
 {
-	std::string client_nickname = client.getNickname();
-	if (it->second.doesClientExist(client_nickname) == false)
-		it->second.getClientList().insert(std::pair<std::string, Client>(client.getNickname(), client));
+	if (it->second.doesClientExist(client) == false)
+		it->second.addClient(client);
+		//it->second.getClients().insert(std::pair<const int, Client*>(client.getClientFd(), &client));
 	else 
-		std::cout << YELLOW << client.getNickname() << "already here\n" << RESET;
+		std::cout << YELLOW << client.getNickname() << " is already at #" << it->first
+			<< RESET << std::endl;
 }

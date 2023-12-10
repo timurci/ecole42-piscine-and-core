@@ -11,13 +11,6 @@
 
 extern bool	server_shutdown;
 
-struct server_op
-{
-	std::string name;
-	std::string	host;
-	std::string	password;
-};
-
 class Server
 {
 	private:
@@ -30,7 +23,7 @@ class Server
 		std::string						port;
 		std::string						password;
 		std::string						datetime;
-		std::vector<server_op>			irc_operators;
+		std::vector<t_server_op>		irc_operators;
 		std::string						motd;
 	
 	public:
@@ -42,7 +35,7 @@ class Server
 
 		Server&		operator=(const Server &);
 
-	private:
+	public:
 		// Accessors
 		std::string								getPort() const;
 		std::string								getPassword() const;
@@ -51,7 +44,7 @@ class Server
 		std::map<const int, Client>&			getClients();
 		std::vector<pollfd>&					getPollfds();
 		Client*									findClient(const int client_fd);
-		std::vector<server_op>&					getIrcOperators();
+		std::vector<t_server_op>&				getIrcOperators();
 		std::string								getMotd() const;
 		void									setHints();
 		void									setPassword(std::string new_pwd);
@@ -90,10 +83,11 @@ class Server
 			public :
 					const char *	what (void) const throw();
 		};
-		// Channel functions
-		void	addChannel(std::string &channelName);
-		void	addClientToChannel(std::string &channelName, Client &client);
-		bool	isChannel(std::string &channelName) const;
+	//private:
+		// Channel functions // Unused functions.
+		//void	addChannel(const std::string &channelName);
+		//void	addClientToChannel(const std::string &channelName, Client &client);
+		//bool	isChannel(const std::string &channelName) const;
 };
 
 #endif

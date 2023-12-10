@@ -93,10 +93,10 @@ static void registerClient(std::map<const int, Client> &client_list,
 
 static void execCommand(std::map<const int, Client> &client_list,
 						std::map<std::string, Channel> &channel_list,
+						std::vector<t_server_op> &irc_op_list,
 						Client &client,
 						const std::string &cmd_line)
 {
-	(void) channel_list; // remove
 	std::string	validCmds[VALID_LEN] = {
 		"INVITE",
 		"JOIN",
@@ -115,6 +115,7 @@ static void execCommand(std::map<const int, Client> &client_list,
 		"QUIT",
 		"TOPIC",
 		"USER",
+		"WHO" // Alias for NAMES
 		};
 
 	t_cmd_info cmd_info;
@@ -132,23 +133,24 @@ static void execCommand(std::map<const int, Client> &client_list,
 
 	switch (index + 1)
 	{
-		//case 1: invite(this, client_fd, cmd_info); break;
-		//case 2: join(client, cmd_info, channel_list); break;
-		//case 3: kick(this, client_fd, cmd_info); break;
-		//case 4: kill(this, client_fd, cmd_info); break;
-		//case 5: list(this, client_fd, cmd_info); break;
-		//case 6: modeFunction(this, client_fd, cmd_info); break;
-		//case 7: motd(this, client_fd, cmd_info); break;
-		//case 8: names(this, client_fd, cmd_info); break;
+		case 1: invite(client, cmd_info, client_list, channel_list); break;
+		case 2: join(client, cmd_info, channel_list); break;
+		case 3: kick(client, cmd_info, channel_list); break;
+		case 4: kill(client, cmd_info, client_list, irc_op_list); break;
+		case 5: list(client, cmd_info, channel_list); break;
+		case 6: modeFunction(client, cmd_info, client_list, channel_list); break;
+		case 7: motd(client, cmd_info); break;
+		case 8: names(client, cmd_info, channel_list); break;
 		case 9: nick(client, cmd_info, client_list); break;
-    	//case 10: notice(this, client_fd, cmd_info); break;
-		//case 11: oper(this, client_fd, cmd_info); break;
-		//case 12: part(this, client_fd, cmd_info); break;
+    	case 10: notice(client, cmd_info, client_list, channel_list); break;
+		case 11: oper(client, cmd_info, irc_op_list); break;
+		case 12: part(client, cmd_info, channel_list); break;
 		case 13: ping(client, cmd_info); break;
-		//case 14: privmsg(client, cmd_info); break;
+		case 14: privmsg(client, cmd_info, client_list, channel_list); break;
 		case 15: quit(client, cmd_info, channel_list); break;
-		//case 16: topic(this, client_fd, cmd_info); break;
+		case 16: topic(client, cmd_info, channel_list); break;
 		case 17: user(client, cmd_info); break;
+		case 18: names(client, cmd_info, channel_list); break;
 		default:
 			client.appendSendBuffer(ERR_UNKNOWNCOMMAND(client.getNickname(), cmd_info.command));
 	}
@@ -186,6 +188,6 @@ void Server::parseMessage(Client &client)
 			}
 		}
 		else
-			execCommand(clients, channels, client, cmds[i]);
+			execCommand(clients, channels, irc_operators, client, cmds[i]);
 	}
 }

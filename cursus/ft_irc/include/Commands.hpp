@@ -5,7 +5,7 @@
 # include "Client.hpp"
 # include "Channel.hpp"
 
-# define VALID_LEN 17
+# define VALID_LEN 18
 
 typedef struct s_cmd_info
 {
@@ -14,11 +14,11 @@ typedef struct s_cmd_info
 	std::string	params;
 }	t_cmd_info;
 
-std::string	getListOfMembers(std::string client, Channel &channel);
+std::string	getListOfMembers(Channel &channel);
+std::string	getSymbol(Channel &channel);
 std::string	getChannelName(std::string msg_to_parse);
 std::string	findNickname(std::string msg_to_parse);
-std::string	getReason(std::string msg_to_parse);
-std::string	getSymbol(Channel &channel);
+//std::string	getReason(std::string msg_to_parse);
 
 // #######################
 // ###### COMMANDS #######
@@ -29,39 +29,48 @@ int		pass(Client &client, const t_cmd_info &cmd_info, const std::string &server_
 void	user(Client &client, const t_cmd_info &cmd_info);
 int		ping(Client &client, const t_cmd_info &cmd_info);
 void	quit(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list);
-//void	join(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list); // revise the algorithm
-//void	privmsg(Client &client, const t_cmd_info &cmd_info);
+void	join(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list); // revise the algorithm
+void	privmsg(Client &client, const t_cmd_info &cmd_info, std::map<const int, Client> &client_list,
+			std::map<std::string, Channel> &channel_list);
+void	notice(Client &client, const t_cmd_info &cmd_info, std::map<const int, Client> &client_list,
+			std::map<std::string, Channel> &channel_list);
+void	modeFunction(Client &client, const t_cmd_info &cmd_info,
+			std::map<const int, Client> &client_list, std::map<std::string, Channel> &channel_list);
+void	names(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list);
 //void	bot(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot_cmd);
-//void	invite(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	kick(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	kill(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	list(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	modeFunction(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	motd(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	names(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	notice(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	oper(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	part(Server *server, int const client_fd, cmd_struct cmd_infos);
-//void	topic(Server *server, int const client_fd, cmd_struct cmd_infos);
+void	invite(Client &client, const t_cmd_info &cmd_info, std::map<const int, Client> &client_list,
+			std::map<std::string, Channel> &channel_list);
+void	kick(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list);
+void	motd(Client &client, const t_cmd_info &cmd_info);
+void	part(Client &client, const t_cmd_info &cmd_info,
+		  std::map<std::string, Channel> &channel_list);
+void 	oper(Client &client, const t_cmd_info &cmd_info,
+		  const std::vector<t_server_op> &irc_op_list);
+void	kill(Client &client, const t_cmd_info &cmd_info,
+			std::map<const int, Client> &client_list,
+			const std::vector<t_server_op> &irc_op_list);
+void	list(Client &client, const t_cmd_info &cmd_info,
+		  std::map<std::string, Channel> &channel_list);
+void	topic(Client &client, const t_cmd_info &cmd_info,
+		   std::map<std::string, Channel> &channel_list);
 
 // CHANNEL MODES
 
-struct mode_struct
+typedef struct s_mode_info
 {
 	std::string	target;
 	std::string	mode;
 	std::string	params;
-};
+}	t_mode_info;
 
-//void	broadcastToAllChannelMembers(Server *server, Channel &channel, std::string reply);
-//void    banChannelMode(Server *server, std::string datas[4], int const client_fd);
-//void	keyChannelMode(Server *server, mode_struct mode_infos, int const client_fd, std::string mode_str);
-//void	limitChannelMode(Server *server, std::string datas[4], int const client_fd);
-//void	moderateChannelMode(Server *server, mode_struct mode_infos, int const client_fd, std::string mode_str);
-//void	operatorChannelMode(Server *server, mode_struct mode_infos, int const client_fd, std::string str);
-//void	privateChannelMode(Server *server, mode_struct mode_infos, int const client_fd, std::string mode_str);
-//void	secretChannelMode(Server *server, mode_struct mode_infos, int const client_fd, std::string mode_str);
-//void	topicChannelMode(Server *server, mode_struct mode_infos, int const client_fd, std::string mode_str);
-//void	voiceChannelMode(Server *server, mode_struct mode_infos, int const client_fd, std::string str);
+void    banChannelMode(Client &client, const std::string &mode_params, Channel &channel, const std::string &mode_str);
+void	keyChannelMode(Client &client, const std::string &mode_params, Channel &channel, const std::string &mode_str);
+void	limitChannelMode(Client &client, const std::string &mode_params, Channel &channel, const std::string &mode_str);
+void	moderateChannelMode(Client &client, const std::string &mode_params, Channel &channel, const std::string &mode_str);
+void	operatorChannelMode(Client &client, const std::string &mode_params, Channel &channel, const std::string &mode_str);
+void	privateChannelMode(Client &client, const std::string &mode_params, Channel &channel, const std::string &mode_str);
+void	secretChannelMode(Client &client, const std::string &params, Channel &channel, const std::string &mode_str);
+void	topicChannelMode(Client &client, const std::string &params, Channel &channel, const std::string &mode_str);
+void	voiceChannelMode(Client &client, const std::string &params, Channel &channel, const std::string &mode_str);
 
 #endif
