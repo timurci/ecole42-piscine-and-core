@@ -186,10 +186,10 @@ static void	modeForChannel(Client &client, const t_mode_info &mode_info,
 	}
 
 	// Check si le client est operator du channel
-	std::map<const int, Client*>::iterator it = it_channel_target->second.getOperators().begin();
+	std::set<std::string>::iterator it = it_channel_target->second.getOperators().begin();
 	for (; it != it_channel_target->second.getOperators().end(); it++)
 	{
-		if (it->first == client.getClientFd())
+		if (*it == client.getNickname())
 			break;
 	}
 	if (it == it_channel_target->second.getOperators().end())

@@ -112,7 +112,12 @@ int 		Server::readFromConfigFile(char *filename)
 		op.name.insert(0, line, 0, len);
 		op.host.insert(0, line, len + 1, line.find_last_of(' ') - len - 1);
 		op.password.insert(0, line, line.find_last_of(' ') + 1, line.size() - 1);
-		
+	
+		// DEBUG
+		std::cout << "============= OPERATORS =============" << std::endl;
+		std::cout << "Op name : $" << op.name << "$" << std::endl;  
+		std::cout << "Op host : $" << op.host<< "$" << std::endl;  
+		std::cout << "Op pass : $" << op.password<< "$" << std::endl;  
 		irc_operators.push_back(op);
 	}
    return (SUCCESS);

@@ -8,6 +8,8 @@ static bool			isIrcOperator(const Client &client,
 							const std::vector<t_server_op> &irc_op_list);
 static void			broadcastQuit(std::map<const int, Client> &client_list,
 							const std::string &reply);
+static std::map<const int, Client>::iterator	getClientFromNick(const std::string &nick,
+												std::map<const int, Client> &client_list);
 //static Client*		clientExists(Server *server, std::string nickname);
 //static void			removeFromServer(Server *server, std::string killed_user);
 
@@ -32,7 +34,7 @@ void	kill(Client &client, const t_cmd_info &cmd_info,
 	std::string killer = client.getNickname();
 	std::string killed = retrieveNickname(cmd_info.params);
 	std::string	comment = retrieveComment(cmd_info.params);
-	std::map<const int, Client>::iterator killed_user = client_list.find(client.getClientFd());
+	std::map<const int, Client>::iterator killed_user = getClientFromNick(killed, client_list);
 	
 	if (killed.empty())
 		client.appendSendBuffer(ERR_NEEDMOREPARAMS(killer, cmd_info.command));
@@ -80,6 +82,20 @@ void	kill(Client &client, const t_cmd_info &cmd_info,
 //	}
 //	
 //}
+
+static std::map<const int, Client>::iterator	getClientFromNick(const std::string &nick,
+												std::map<const int, Client> &client_list)
+{
+	std::map<const int, Client>::iterator it = client_list.begin();
+
+	while (it != client_list.end())
+	{
+		if (it->second.getNickname() == nick)
+			break ;
+		++it;
+	}
+	return (it);
+}
 
 static void	broadcastQuit(std::map<const int, Client> &client_list, const std::string &reply)
 {

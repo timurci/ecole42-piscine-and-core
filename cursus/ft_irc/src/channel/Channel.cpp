@@ -2,7 +2,7 @@
 
 
 //Capacity is initialized to 100 at construction.
-Channel::Channel(const std::string& theChannelName) : _name(theChannelName), _capacity(100)
+Channel::Channel(const std::string& theChannelName) : _name(theChannelName)
 {}
 
 Channel::~Channel()
@@ -28,7 +28,7 @@ std::map<const int, Client*>&	Channel::getAbleClients()
   return _ableClients; 
 }
 
-std::map<const int, Client*>&	Channel::getBannedClients()
+std::set<std::string>&	Channel::getBannedClients()
 {
     return _bannedClients;
 }
@@ -38,19 +38,27 @@ std::set<std::string>&	Channel::getKickedClients()
     return _kickedClients;
 }
 
-std::map<const int, Client*>&	Channel::getVoicedClients()
-{
-    return _voicedClients;
-}
-
 const Client*	Channel::getClientByNick(const std::string &client_nick) const
 {
-	std::map<const int, Client*>::const_iterator	itr;
+	std::map<const int, Client *>::const_iterator	itr;
 
 	for (itr = _clients.begin(); itr != _clients.end(); itr++)
 		if (itr->second->getNickname() == client_nick)
 			return (itr->second);
 	return (NULL);
+}
+
+//This function can only be used when we are sure that the client nick name is 
+//present in the Channel. Hence doesClientExit function must have been previously executed.
+Client &Channel::getClientRefByNick(const std::string &client_nick) const
+{
+    
+    std::map<const int, Client *>::const_iterator	it;
+
+    for (it = _clients.begin(); it != _clients.end(); it ++)
+		if (it->second->getNickname() == client_nick)
+			return *(it->second);
+    throw std::out_of_range("Client with nickname " + client_nick + " not found in the channel.");
 }
 
 std::string&    Channel::getTopic()
@@ -74,7 +82,7 @@ void    Channel::setPassword(const std::string& thePassword)
     _password = thePassword;
 }
 
-std::map<const int, Client*>&   Channel::getOperators()
+std::set<std::string>&   Channel::getOperators()
 {
     return _operators;
 }
@@ -86,7 +94,13 @@ int Channel::getCapacity() const
 
 void    Channel::setCapacity(int theCapacity)
 {
+    toggleMode('l', true);
     _capacity = theCapacity;
+}
+
+void    Channel::unsetCapacity()
+{
+    toggleMode('l', false);
 }
 
 Mode&   Channel::getMode()
@@ -205,8 +219,6 @@ int Channel::kickClient(Client& client)
             i &= dismissBannedClient(client);
         if (isOperator(client))
             i &= dismissOperator(client);
-        if (isVoiced(client))
-            i &= dismissVoicedClient(client);
         _clients.erase(it);
         i &= (s - _clients.size());
         i &= addToKickedClients(client);
@@ -229,7 +241,7 @@ int Channel::kickClient(Client& client)
  * @param client The client to be removed from the channel.
  * @return 1 if the client is successfully removed, 0 if the client is not found.
  */
-int Channel::removeClientFromChannel(Client &client)
+int Channel::removeClientFromChannel(const Client &client)
 {
     size_t  s = _clients.size();
     std::map<const int, Client*>::iterator it = _clients.find(client.getClientFd());
@@ -243,8 +255,6 @@ int Channel::removeClientFromChannel(Client &client)
             i &= dismissBannedClient(client);
         if (isOperator(client))
             i &= dismissOperator(client);
-        if (isVoiced(client))
-            i &= dismissVoicedClient(client);
         _clients.erase(it);
         i &= (s - _clients.size());
         if (COMMENT && i)
@@ -269,7 +279,7 @@ int Channel::removeClientFromChannel(Client &client)
  * @return Returns 1 if the able client was successfully kicked, or 0 if the client was not found
  * in the _ableClients map.
  */
-int Channel::kickAbleClient(Client& client)
+int Channel::kickAbleClient(const Client& client)
 {
     size_t  s = _ableClients.size();
     std::map<const int, Client*>::iterator it = _ableClients.find(client.getClientFd());
@@ -297,10 +307,10 @@ int Channel::kickAbleClient(Client& client)
  * @param client The banned client to be dismissed.
  * @return 1 if the client is successfully dismissed from the banned list, 0 if unsuccessful.
  */
-int Channel::dismissBannedClient(Client& client)
+int Channel::dismissBannedClient(const Client& client)
 {
     size_t  s = _bannedClients.size();
-    std::map<const int, Client*>::iterator it = _bannedClients.find(client.getClientFd());
+    std::set<std::string>::iterator it = _bannedClients.find(client.getNickname());
     if (it != _bannedClients.end())
     {
         _bannedClients.erase(it);
@@ -324,13 +334,12 @@ int Channel::dismissBannedClient(Client& client)
  * @param op The client to be added as an operator.
  * @return 1 if the client is successfully added as an operator, 0 if unsuccessful.
  */
-int    Channel::addOperator(Client& op)
+int    Channel::addOperator(const Client& op)
 {
     int i = 1;
     if (!isOperator(op))
     {
-        std::pair<std::map<const int, Client*>::iterator, bool> result =
-                    _operators.insert(std::pair<const int, Client*>(op.getClientFd(), &op));
+        std::pair<std::set<std::string>::iterator, bool> result = _operators.insert(op.getNickname());
         i = result.second;
         if (COMMENT && i)
             std::cout << MSG_HEADER_CHANNEL << op << " is assigned as an operator of channel " << getName() << std::endl;
@@ -352,10 +361,10 @@ int    Channel::addOperator(Client& op)
  * @param op The operator to be dismissed from the channel.
  * @return 1 if the operator is successfully dismissed, 0 if unsuccessful.
  */
-int Channel::dismissOperator(Client& op)
+int Channel::dismissOperator(const Client& op)
 {
     size_t  s = _operators.size();
-    std::map<const int, Client*>::iterator it = _operators.find(op.getClientFd());
+    std::set<std::string>::iterator it = _operators.find(op.getNickname());
     if (it != _operators.end())
     {    
         _operators.erase(it);
@@ -378,9 +387,9 @@ int Channel::dismissOperator(Client& op)
  * @param client The client to check for operator status.
  * @return True if the client is an operator, false otherwise.
  */
-bool    Channel::isOperator(Client& client)
+bool    Channel::isOperator(const Client& client)
 {
-    return (_operators.find(client.getClientFd()) != _operators.end());
+    return (_operators.find(client.getNickname()) != _operators.end());
 }
 
 /**
@@ -473,12 +482,12 @@ int Channel::addToKickedClients(const std::string &client_nick)
  * @return Returns 1 if the client was successfully banned from the channel, or 0 if the client
  * was already banned, if banning is not allowed by the channel's mode, or if the kick operation fails.
  */
-int    Channel::banClient(Client& client)
+int    Channel::banClient(const Client& client)
 {
     int i = 0;
     if (_mode.b)
     {
-        std::map<const int, Client*>::iterator it = _bannedClients.find(client.getClientFd());
+        std::set<std::string>::iterator it = _bannedClients.find(client.getNickname());
 
         if (it != _bannedClients.end())
         {
@@ -486,9 +495,8 @@ int    Channel::banClient(Client& client)
                 std::cout << MSG_HEADER_CHANNEL << client << " was already banned from channel " << getName() << std::endl;
             return (0);
         }
-        std::pair<std::map<const int, Client*>::iterator, bool> result = 
-                _bannedClients.insert(std::pair<const int, Client*>(client.getClientFd(), &client));
-        i = kickAbleClient(client) && result.second;
+        std::pair<std::set<std::string>::iterator, bool> result = _bannedClients.insert(client.getNickname());
+        i = result.second;
         if (COMMENT && i)
             std::cout << MSG_HEADER_CHANNEL << client << " is banned from channel " << getName() << std::endl;
     }
@@ -528,78 +536,10 @@ int Channel::restoreBannedClient(Client& client)
  * @param client The client to check for banning status.
  * @return True if the client is banned, false otherwise.
  */
-bool    Channel::isBanned(Client& client) const
+bool    Channel::isBanned(const Client& client) const
 {
-    return (_bannedClients.find(client.getClientFd()) != _bannedClients.end());
+    return (_bannedClients.find(client.getNickname()) != _bannedClients.end());
 }
-
-/**
- * @brief Adds a client to the voiced list in the channel.
- *
- * This function checks if the client is already in the voiced list and, if not,
- * adds them to the list. If the addition is successful, the client is considered voiced.
- * If the client is already in the voiced list, a message is displayed, indicating that
- * the client is already voiced.
- *
- * @param client The client to be added to the voiced list.
- * @return 1 if the client is successfully added to the voiced list, 0 if unsuccessful.
- */
-int    Channel::addToVoiced(Client& client)
-{
-    if (_voicedClients.find(client.getClientFd()) == _voicedClients.end())
-    {
-        std::pair<std::map<const int, Client*>::iterator, bool> result =
-            _voicedClients.insert(std::pair<const int, Client*>(client.getClientFd(), &client));
-        if (COMMENT && result.second)
-            std::cout << MSG_HEADER_CHANNEL << client << " is voiced in channel " << getName() << std::endl;
-        return (result.second);
-    }
-    else if (COMMENT)
-        std::cout << MSG_HEADER_CHANNEL << client << " is already voiced in channel " << getName() <<  std::endl;
-    return (1);
-}
-
-/**
- * @brief Dismisses a client from the voiced list in the channel.
- *
- * This function checks if the given client is in the voiced list and, if so,
- * removes them from the list. If the removal is successful, the client is considered
- * relieved from voice privileges. If the client is not in the voiced list, a message is displayed.
- *
- * @param client The client to be dismissed from the voiced list.
- * @return 1 if the client is successfully dismissed from the voiced list, 0 if unsuccessful.
- */
-int Channel::dismissVoicedClient(Client& client)
-{
-    size_t  s = _voicedClients.size();
-    std::map<const int, Client*>::iterator it = _voicedClients.find(client.getClientFd());
-    if (it != _voicedClients.end())
-    {
-        _voicedClients.erase(it);
-        int i = s - _voicedClients.size(); 
-        if (COMMENT && i)
-            std::cout << MSG_HEADER_CHANNEL << client << " is no longer voiced in channel " << getName() << std::endl;
-        return (i);
-    }
-    else if (COMMENT)
-        std::cout << MSG_HEADER_CHANNEL << client << " was not voiced in channel " << getName() << std::endl;
-    return (1);
-}
-
-/**
- * @brief Checks if a client is voiced in the channel.
- *
- * This function determines whether a client is voiced in the channel by searching for
- * their client file descriptor in the list of voiced clients.
- *
- * @param client The client to check for voiced status.
- * @return True if the client is voiced, false otherwise.
- */
-bool    Channel::isVoiced(Client& client) const
-{
-    return (_voicedClients.find(client.getClientFd()) != _voicedClients.end());
-}
-
 
 bool    Channel::doesClientExist(const Client &client) const
 {
@@ -627,9 +567,9 @@ void    Channel::PrintChannel()
     std::map<const int, Client*>::const_iterator	it_map;
 	std::set<std::string>::const_iterator			it_set;
 
-    for (it_map = this->getOperators().begin(); it_map != this->getOperators().end(); it_map++)
+    for (it_set = this->getOperators().begin(); it_set != this->getOperators().end(); it_set ++)
     {
-        std::cout << it_map->second->getClientFd() << ", ";
+        std::cout << *it_set << ", ";
     }
     std::cout << std::endl;
 
@@ -651,20 +591,11 @@ void    Channel::PrintChannel()
     }
     std::cout << std::endl;
 
-    std::cout << "\t\t\tVoiced Clients: " << std::endl;
-    std::cout << "\t\t\t\t\t";
-
-    for (it_map = this->getVoicedClients().begin(); it_map != this->getVoicedClients().end(); it_map++)
-    {
-        std::cout << it_map->second->getClientFd() << ", ";
-    }
-    std::cout << std::endl;
-
     std::cout << "\t\t\tBanned Clients: " << std::endl;
     std::cout << "\t\t\t\t\t";
-    for (it_map = this->getBannedClients().begin(); it_map != this->getBannedClients().end(); it_map++)
+    for (it_set = this->getBannedClients().begin(); it_set != this->getBannedClients().end(); it_set++)
     {
-        std::cout << it_map->second->getClientFd() << ", ";
+        std::cout << *it_set << ", ";
     }
     std::cout << std::endl;
 

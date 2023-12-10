@@ -14,6 +14,47 @@ static void	broadcastToAllChannelMembers2(Channel &channel, std::string announce
 	}	
 }
 
+void	operatorChannelMode(Client &operat, const std::string &client_nick, Channel &channel, const std::string &mode)
+{
+	if (!channel.isOperator(operat))
+	{
+		operat.appendSendBuffer(ERR_NOTANOPERATOROFCHANNEL(operat.getNickname(), channel.getName()));
+		return ;
+	}
+	if (!channel.doesClientExist(client_nick))
+	{
+		operat.appendSendBuffer(ERR_USERNOTINCHANNEL(client_nick, "", channel.getName()));
+		return;
+	}
+	const Client *client = channel.getClientByNick(client_nick);
+	if (mode[0] == '+')
+	{
+		if (channel.isOperator(const_cast<Client&>(*client)))
+		{
+			operat.appendSendBuffer(ERR_ALTREADYANOPERATOR(client_nick));
+			return ;
+		}
+		channel.addOperator(const_cast<Client&>(*client));
+		(const_cast<Client&>(*client)).appendSendBuffer(RPL_YOUREOPER(client_nick));
+		broadcastToAllChannelMembers2(channel, MODE_CHANNELMSGWITHPARAM(channel.getName(), "+o", client_nick));
+	}
+	else if (mode[0] == '-')
+	{
+		if (!channel.isOperator(const_cast<Client&>(*client)))
+		{
+			operat.appendSendBuffer(ERR_NOTANOPERATOROFCHANNEL(client_nick, channel.getName()));
+			return ;
+		}
+		channel.dismissOperator(const_cast<Client&>(*client));
+		(const_cast<Client&>(*client)).appendSendBuffer(RPL_YOURENOTOPER(client_nick, channel.getName()));	
+		broadcastToAllChannelMembers2(channel, MODE_CHANNELMSGWITHPARAM(channel.getName(), "-o", client_nick));
+	}
+
+}
+	
+
+
+/*
 void	operatorChannelMode(Client &client, const std::string &params, Channel &channel, const std::string &mode)
 {
 	if (params.empty() == true)
@@ -58,3 +99,4 @@ void	operatorChannelMode(Client &client, const std::string &params, Channel &cha
 		broadcastToAllChannelMembers2(channel, MODE_CHANNELMSGWITHPARAM(channel.getName(), "-o", params));
 	}
 }
+*/

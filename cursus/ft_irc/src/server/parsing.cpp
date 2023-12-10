@@ -142,7 +142,7 @@ static void execCommand(std::map<const int, Client> &client_list,
 		case 7: motd(client, cmd_info); break;
 		case 8: names(client, cmd_info, channel_list); break;
 		case 9: nick(client, cmd_info, client_list); break;
-    	case 10: notice(client, cmd_info, client_list, channel_list); break;
+    	//case 10: notice(client, cmd_info, client_list, channel_list); break;
 		case 11: oper(client, cmd_info, irc_op_list); break;
 		case 12: part(client, cmd_info, channel_list); break;
 		case 13: ping(client, cmd_info); break;

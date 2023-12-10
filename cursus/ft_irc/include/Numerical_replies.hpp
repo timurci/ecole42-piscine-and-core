@@ -25,7 +25,7 @@
 # define ERR_BADCHANNELKEY(client, channel) ("475 " + client + " #" + channel + " :Cannot join channel (+k)\r\n")
 
 // KICK
-# define ERR_USERNOTINCHANNEL(client, nickname, channel) ("441 " + client + " " + nickname + " #" + channel + " :They aren't on that channel\r\n")
+# define ERR_USERNOTINCHANNEL(client, nickname, channel) ("441 " + client + " " + nickname + " #" + channel + " :Not on channel\r\n")
 // # define ERR_CHANOPRIVSNEEDED(client, channel) ("482 " + client + " #" +  channel + " :You're not channel operator\r\n")
 # define RPL_KICK(user_id, channel, kicked, reason) (user_id + " KICK #" + channel + " " + kicked + " " + reason + "\r\n")
 
@@ -39,6 +39,10 @@
 #define ERR_UMODEUNKNOWNFLAG(client) (":localhost 501 " + client + " :Unknown MODE flag\r\n")
 #define ERR_USERSDONTMATCH(client) ("502 " + client + " :Cant change mode for other users\r\n")
 #define RPL_UMODEIS(client, mode) (":localhost 221 " + client + " " + mode + "\r\n")
+#define RPL_BAN(user_id, channel, banned) (user_id + " MODE #" + channel + " +b " + banned + "\r\n")
+#define RPL_UNBAN(user_id, channel, banned) (user_id + " MODE #" + channel + " -b " + banned + "\r\n")
+//#define USERALREADYBANNED(client_nick) ("The client " + client_nick + ", is already banned.\r\n")
+//#define USERNOTBANNED(client_nick) ("The client " + client_nick + ", was not banned.\r\n")
 /* channel mode */
 #define MODE_CHANNELMSG(channel, mode) (":localhost MODE #" + channel + " " + mode + "\r\n")
 #define MODE_CHANNELMSGWITHPARAM(channel, mode, param) (":localhost MODE #" + channel + " " + mode + " " + param + "\r\n")
@@ -48,11 +52,10 @@
 #define ERR_CHANNELISFULL(client, channel) ("471 " + client + " #" + channel + " :Cannot join channel (+l)\r\n")
 #define ERR_CHANOPRIVSNEEDED(client, channel) (":localhost 482 " + client + " #" + channel + " :You're not channel operator\r\n")
 #define ERR_INVALIDMODEPARAM(client, channel, mode, password) ("696 " + client + " #" + channel + " " + mode + " " + password + " : password must only contained alphabetic character\r\n")
-// RPL_ERR a broadcoast quand user pas +v ou operator veut parler
-      // dans notre cas c'était tiff (client) qui voulait send a message
-      // :lair.nl.eu.dal.net 404 tiff #pop :Cannot send to channel
 #define RPL_ADDVOICE(nickname, username, channel, mode, param) (":" + nickname + "!" + username + "@localhost MODE #" + channel + " " + mode + " " + param + "\r\n")
-
+#define MODE_INACTIVE(mode) ("Mode " + mode + "is inactive for this channel.\r\n")
+#define ERR_INVALIDKEY(password) ("Entered password must not be empty and it must be alphabetic.\r\n")
+#define ERR_INVALIDLIMIT(lim) ("The limit value must be greater than 0 and no less than the total number of channel clients: " + lim + "\r\n")
 // MOTD
 #define ERR_NOSUCHSERVER(client, servername) (":localhost 402 " + client + " " + servername + " :No such server\r\n")
 #define ERR_NOMOTD(client) (":localhost 422 " + client + " :MOTD File is missing\r\n")
@@ -70,19 +73,20 @@
 # define ERR_ERRONEUSNICKNAME(client, nickname) (":localhost 432 " + client + " " + nickname + " :Erroneus nickname\r\n")
 # define ERR_NICKNAMEINUSE(client, nickname) (":localhost 433 " + client + " " + nickname + " :Nickname is already in use.\r\n")
 # define RPL_NICK(oclient, uclient, client) (":" + oclient + "!" + uclient + "@localhost NICK " +  client + "\r\n")
-
+# define ERR_NOTANOPERATOROFCHANNEL(clientnick, channelname) ("The client " + clientnick + " is not an operator of channel " + channelname + ".\r\n")
 // NOTICE
 # define RPL_NOTICE(nick, username, target, message) (":" + nick + "!" + username + "@localhost NOTICE " + target + " " + message + "\r\n")
 
 // OPER
-# define ERR_NOOPERHOST(client) ("491 " + client + " :No O-lines for your host\r\n")
+# define ERR_NOOPERHOST(client, op_name) ("491 " + client + " :No O-lines for your host " + op_name + "\r\n")
 # define RPL_YOUREOPER(client) ("381 " + client + " :You are now an IRC operator\r\n")
-
+# define RPL_YOURENOTOPER(client, channel) ("382 " + client + " :You are dismissed from your role as IRC operator for channel " + channel + "\r\n")
+# define ERR_ALTREADYANOPERATOR(client_nick) (client_nick + " :Is already an operator.\r\n")
 // PART
 # define RPL_PART(user_id, channel, reason) (user_id + " PART #" + channel + " " + (reason.empty() ? "." : reason ) + "\r\n")
 
 // PASS
-# define ERR_PASSWDMISMATCH(client) (":localhost 464 " + client + " :Password incorrect.\r\n")
+# define ERR_PASSWDMISMATCH(client) (":localhost 464 " + client + " :Password incorrect\r\n")
 
 // PING
 # define RPL_PONG(user_id, token) (user_id + " PONG " + token + "\r\n")

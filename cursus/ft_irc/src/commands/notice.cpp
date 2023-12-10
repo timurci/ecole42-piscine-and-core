@@ -58,11 +58,16 @@ void	notice(Client &client, const t_cmd_info &cmd_info,
       return ;
    target = cmd_info.params.substr(1, delimiter - 1);
    if (target.empty())
-      return ;
+	{
+		//DEBUG 
+		std::cout << "NOTICE RETURNS, no target" << std::endl;
+		return ;
+	}
+
    msg_to_send = cmd_info.params.substr(delimiter);
 
    delimiter = target.find(" ");
-   if (delimiter != std::string::npos) // permet de gérer le double :: et les espaces de la fin
+   if (delimiter != std::string::npos)
       target.erase(delimiter);  
   
    // Channel case
@@ -82,7 +87,7 @@ void	notice(Client &client, const t_cmd_info &cmd_info,
    // user case
    else
    {
-      std::map<std::string, Channel>::iterator it_channel = channel_list.find(target); // find channel name
+      //std::map<std::string, Channel>::iterator it_channel = channel_list.find(target); // find channel name
      
       std::map<const int, Client>::iterator it_target = client_list.begin();
       while (it_target!=client_list.end())
@@ -91,24 +96,14 @@ void	notice(Client &client, const t_cmd_info &cmd_info,
              break;
          it_target++;
       }
-      if (it_target == client_list.end() && it_channel == channel_list.end()) // user and channel doesn't exist
-         return ;  
-      else
-      {
-         if (it_target == client_list.end()) // si le user n'existe pas mais le channel oui (gestion channel actif)
-         {
-            if (it_channel->second.doesClientExist(it_client->second) == true)
-			{
-				target.insert(1, "#");  // ajouter le # before target
-				it_channel->second.broadcastToChannel(
-				RPL_NOTICE(it_client->second.getNickname(), it_client->second.getUsername(),
-			   		target, msg_to_send));
-            }
-            else
-               return ;
-         }
-         else
-            it_target->second.appendSendBuffer(RPL_NOTICE(it_client->second.getNickname(), it_client->second.getUsername(), target, msg_to_send));    
-      }
+	//if (it_target == client_list.end() && it_channel == channel_list.end()) // user and channel doesn't exist
+	//{
+	//	std::cout << "NOTICE : No target channel and user. " << std::endl;
+    //     return ;
+	//}
+	if (it_target == client_list.end()) // si le user n'existe pas mais le channel oui (gestion channel actif)
+		   return ;
+	else
+		it_target->second.appendSendBuffer(RPL_NOTICE(it_client->second.getNickname(), it_client->second.getUsername(), target, msg_to_send));    
    }
 }

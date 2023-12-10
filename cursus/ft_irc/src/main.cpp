@@ -22,7 +22,7 @@ int main (int argc, char **argv)
 		signal(SIGINT, signal_handler);
 		Server server(argv[1], argv[2], timeinfo);
 
-		char filename[39] = "srcs/config/ManageServOperators.config";
+		char filename[39] = "src/config/ManageServOperators.config";
 		server.readFromConfigFile(filename);
 		
 		// The three following functions calls are just set up

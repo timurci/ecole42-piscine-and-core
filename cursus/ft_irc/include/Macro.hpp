@@ -7,7 +7,7 @@
 # define CONTINUE 3
 
 # define BACKLOG 10          // Nb max of clients queuing
-# define MAX_CLIENT_NB 4     // Nb max of clients overall
+# define MAX_CLIENT_NB 9     // Nb max of clients overall
 # define BUF_SIZE_MSG 4096
 
 /*		MESSAGE		*/

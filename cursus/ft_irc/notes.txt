@@ -14,3 +14,5 @@ list command does not properly work with hexchat
 topic seems to be working
 notice works on channel but not between users
 hexchat cannot send OPER command
+
+convert operators to string set, mode +o works in v1.7

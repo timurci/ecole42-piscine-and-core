@@ -83,6 +83,7 @@ void	kick(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Chan
 	else
 	{
 		broadcastToChannel(it_chan->second, requester, kicked_name, reason);
+		it_chan->second.removeClientFromChannel(*kicked_client);
 		it_chan->second.getClients().erase(kicked_client->getClientFd());
 		it_chan->second.addToKickedClients(kicked_name);
 	}

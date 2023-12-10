@@ -32,8 +32,8 @@ void	quit(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Chan
 void	join(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list); // revise the algorithm
 void	privmsg(Client &client, const t_cmd_info &cmd_info, std::map<const int, Client> &client_list,
 			std::map<std::string, Channel> &channel_list);
-void	notice(Client &client, const t_cmd_info &cmd_info, std::map<const int, Client> &client_list,
-			std::map<std::string, Channel> &channel_list);
+//void	notice(Client &client, const t_cmd_info &cmd_info, std::map<const int, Client> &client_list,
+//			std::map<std::string, Channel> &channel_list);
 void	modeFunction(Client &client, const t_cmd_info &cmd_info,
 			std::map<const int, Client> &client_list, std::map<std::string, Channel> &channel_list);
 void	names(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list);

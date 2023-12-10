@@ -78,7 +78,7 @@ void	join(Client &client, const t_cmd_info &cmd_info,
 
 		it = channel_list.find(channel_name);
 	
-		if (it->second.getCapacity() != -1 && (int)it->second.getClients().size() == it->second.getCapacity())
+		if (it->second.getMode().l && (int)it->second.getClients().size() == it->second.getCapacity())
 		{
 			client.appendSendBuffer(ERR_CHANNELISFULL(client.getNickname(), channel_name));
 			continue ;

@@ -75,12 +75,12 @@
 static void  broadcastToChannel(Client &client, Channel &channel,
 								const std::string &target, const std::string &msg_to_send)
 {
-	std::map<const int, Client*> &banned_users = channel.getBannedClients();
-	std::map<const int, Client*>::const_iterator it;
+	std::set<std::string> &banned_users = channel.getBannedClients();
+	std::set<std::string>::const_iterator it;
 
 	for (it = banned_users.begin(); it != banned_users.end(); it++)
 	{
-	if (it->second->getNickname() == client.getNickname())
+	if (*it == client.getNickname())
 		{
 			std::cout << "[Server] " << client.getNickname() << " is banned from the channel and can't send messages anymore" << std::endl;
 			return ;
@@ -104,7 +104,7 @@ static void  broadcastToChannel(Client &client, Channel &channel,
    
 	if (channel.getMode().m)
    {
-      if (channel.isOperator(client) == false && channel.isVoiced(client) == false)
+      if (channel.isOperator(client) == false /*&& channel.isVoiced(client) == false */)
       {
          client.appendSendBuffer(ERR_CANNOTSENDTOCHAN(client.getNickname(), channel.getName()));
          return ;

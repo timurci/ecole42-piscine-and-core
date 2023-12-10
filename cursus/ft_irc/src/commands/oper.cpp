@@ -38,8 +38,8 @@ void oper(Client &client, const t_cmd_info &cmd_info,
 	std::vector<t_server_op>::const_iterator it_op = findOper(name, irc_op_list);
 
 	if (it_op == irc_op_list.end())
-		client.appendSendBuffer(ERR_NOOPERHOST(client.getNickname()));
-	else if (it_op->password == password)
+		client.appendSendBuffer(ERR_NOOPERHOST(client.getNickname(), name));
+	else if (it_op->password != password)
 		client.appendSendBuffer(ERR_PASSWDMISMATCH(client.getNickname()));
 	else
 	{
@@ -68,8 +68,8 @@ static std::string	getName(std::string msg_to_parse)
 	name.clear();
 	if (msg_to_parse.empty() == false || msg_to_parse.find(" ") != msg_to_parse.npos)
 	{
-		name.insert(0, msg_to_parse, 1,\
-					msg_to_parse.find_last_of(" ") - 1);
+		name.insert(0, msg_to_parse, 0,
+					msg_to_parse.find_last_of(" "));
 	}
 	return (name);
 }
@@ -81,8 +81,8 @@ static std::string	getPassword(std::string msg_to_parse)
 	password.clear();
 	if (msg_to_parse.empty() == false || msg_to_parse.find(" ") != msg_to_parse.npos)
 	{
-		password.insert(0, msg_to_parse,\
-					msg_to_parse.find_last_of(" ") + 1,\
+		password.insert(0, msg_to_parse,
+					msg_to_parse.find_last_of(" ") + 1,
 					msg_to_parse.size() - 1);
 	}
 	return (password);

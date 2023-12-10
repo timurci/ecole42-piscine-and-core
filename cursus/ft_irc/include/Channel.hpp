@@ -3,6 +3,7 @@
 
 # include "Client.hpp"
 # include <set>
+# include <map>
 
 extern int	COMMENT; //The extern declaration in the header file informs the compiler that COMMENT is defined elsewhere (main.cpp).
 
@@ -29,20 +30,19 @@ class Channel
 		std::string						_name;
 		std::map<const int, Client*> 	_clients;
 		std::map<const int, Client*> 	_ableClients;
-		std::map<const int, Client*> 	_bannedClients;
+		std::set<std::string> 			_bannedClients;
 		std::set<std::string>			_kickedClients;
-		std::map<const int, Client*> 	_voicedClients;
 		std::string						_topic;
 		std::string						_password;
-		std::map<const int, Client*> 	_operators;
+		std::set<std::string> 			_operators;
 		std::string						_operatorPassword;
 		std::string						_messageLog;	
 		unsigned						_capacity;
 		struct Mode						_mode;
 
 		int						addAbleClient(Client&);
-		int						kickAbleClient(Client&);
-		int						dismissBannedClient(Client&);
+		int						kickAbleClient(const Client&);
+		int						dismissBannedClient(const Client&);
 
 	public:
 		int						addToKickedClients(Client&);	
@@ -56,12 +56,12 @@ class Channel
 		void					setName(std::string);
 
 		std::map<const int, Client*>&	getClients();
-		std::map<const int, Client*>&	getBannedClients();
+		std::set<std::string>&			getBannedClients();
 		std::map<const int, Client*>&	getAbleClients();
 		std::set<std::string>&			getKickedClients();
-		std::map<const int, Client*>&	getVoicedClients();
 
 		const Client*					getClientByNick(const std::string &) const;
+		Client &						getClientRefByNick(const std::string &client_nick) const;
 
 		std::string&			getTopic();
 		void					setTopic(const std::string&);
@@ -69,31 +69,32 @@ class Channel
 		void					setPassword(const std::string&);
 		void					removePassword();
 		
-		std::map<const int, Client*>&	getOperators();
+		std::set<std::string>&	getOperators();
 
 		std::string&			getMessageLog() const;
 		int						getCapacity() const;
 		void					setCapacity(int);
+		void    				unsetCapacity();
 		Mode&					getMode();
 		std::string				getStringMode(void) const;
 
 		void					broadcastToChannel(const std::string &message);
 		int						addClient(Client&);
 
-		int						addOperator(Client&);
-		int						dismissOperator(Client&);
-		bool					isOperator(Client&);
+		int						addOperator(const Client&);
+		int						dismissOperator(const Client&);
+		bool					isOperator(const Client&);
 
 		void					toggleMode(const char, bool);		
 
-		int						removeClientFromChannel(Client&);
+		int						removeClientFromChannel(const Client&);
 		int						kickClient(Client&);
-		int						banClient(Client&);
+		int						banClient(const Client&);
 		int						restoreBannedClient(Client&);
-		bool					isBanned(Client&) const;
-		int						addToVoiced(Client&);
-		int						dismissVoicedClient(Client&);
-		bool					isVoiced(Client&) const;
+		bool					isBanned(const Client&) const;
+		//int						addToVoiced(Client&);
+		//int						dismissVoicedClient(Client&);
+		//bool					isVoiced(Client&) const;
 		bool					doesClientExist(const Client &client) const;
 		bool					doesClientExist(const std::string &client_nick) const;
 		void    				PrintChannel();
