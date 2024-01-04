@@ -6,7 +6,7 @@
 /*   By: hece <hece@student.42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 20:33:06 by hece              #+#    #+#             */
-/*   Updated: 2023/05/26 20:33:08 by hece             ###   ########.tr       */
+/*   Updated: 2023/05/29 13:17:42 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void
 		if (split[index] == NULL)
 		{
 			printf("ERROR ! = missing arguments\n");
+			printf("Error\nMissing arguments for cylinder.\n");
 			destroy_objects(objects);
 			free_split_check_func(split);
 			exit(1);
@@ -34,7 +35,7 @@ void
 		|| ((ft_check_comma(split[1], ',')) != 2)
 		|| ((ft_check_comma(split[4], ',')) != 2))
 	{
-		printf("ERROR ! = arguments with missing paramters\n");
+		printf("Error\nInvalid parameters for cylinder.\n");
 		destroy_objects(objects);
 		free_split_check_func(split);
 		exit(1);
@@ -57,7 +58,14 @@ void
 {
 	if (test->a != true || test->c != true || test->l != true)
 	{
-		printf("mandatory parameters are missing\n");
+		printf("Error\nMandatory parameters are missing: ");
+		if (test->a == false)
+			printf("ambient light ");
+		if (test->l == false)
+			printf("point light ");
+		if (test->c == false)
+			printf("camera");
+		printf("\n");
 		destroy_objects(objects);
 		exit(1);
 	}

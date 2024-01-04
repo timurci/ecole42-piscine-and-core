@@ -6,7 +6,7 @@
 /*   By: hece <hece@student.42kocaeli.com.tr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 20:32:05 by hece              #+#    #+#             */
-/*   Updated: 2023/05/26 20:32:06 by hece             ###   ########.tr       */
+/*   Updated: 2023/05/29 13:14:06 by tcakmako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void
 	{
 		if (split[index] == NULL)
 		{
-			printf("ERROR ! = missing arguments\n");
+			printf("Error\nMissing arguments for plane.\n");
 			destroy_objects(objects);
 			free_split_check_func(split);
 			exit(1);
@@ -35,7 +35,7 @@ void
 	{
 		if ((ft_check_comma(split[index], ',')) != 2)
 		{
-			printf("ERROR ! = arguments with missing paramters\n");
+			printf("Error\nInvalid parameters for plane.\n");
 			free_split_check_func(split);
 			destroy_objects(objects);
 			exit(1);
@@ -53,7 +53,7 @@ void
 	{
 		if (split[index] == NULL)
 		{
-			printf("ERROR ! = missing arguments\n");
+			printf("Error\nMissing arguments for point light.\n");
 			free_split_check_func(split);
 			destroy_objects(objects);
 			exit(1);
@@ -63,7 +63,7 @@ void
 	if (((ft_check_comma(split[0], ',')) != 2)
 		|| ((ft_check_comma(split[2], ',')) != 2))
 	{
-		printf("ERROR ! = argument with missing paramter\n");
+		printf("Error\nInvalid parameters for point light.\n");
 		free_split_check_func(split);
 		destroy_objects(objects);
 		exit(1);
@@ -80,7 +80,7 @@ void
 	{
 		if (split[index] == NULL)
 		{
-			printf("ERROR ! = missing argument\n");
+			printf("Error\nMissing arguments ambient light.\n");
 			destroy_objects(objects);
 			free_split_check_func(split);
 			exit(1);
@@ -89,7 +89,7 @@ void
 	}
 	if (ft_check_comma(split[1], ',') != 2)
 	{
-		printf("ERROR ! = argument with missing parameters\n");
+		printf("Error\nInvalid parameters ambient light.\n");
 		destroy_objects(objects);
 		free_split_check_func(split);
 		exit(1);
@@ -106,7 +106,7 @@ void
 	{
 		if (split[index] == NULL)
 		{
-			printf("ERROR ! = missing arguments\n");
+			printf("Error\nMissing arguments for camera.\n");
 			destroy_objects(objects);
 			free_split_check_func(split);
 			exit(1);
@@ -116,7 +116,7 @@ void
 	if (((ft_check_comma(split[0], ',')) != 2)
 		|| ((ft_check_comma(split[1], ',')) != 2))
 	{
-		printf("ERROR ! = arguments with missing paramters\n");
+		printf("Error\nInvalid parameters for camera.\n");
 		destroy_objects(objects);
 		free_split_check_func(split);
 		exit(1);
@@ -133,7 +133,7 @@ void
 	{
 		if (split[index] == NULL)
 		{
-			printf("ERROR ! = missing arguments\n");
+			printf("Error\nMissing arguments for sphere.\n");
 			destroy_objects(objects);
 			free_split_check_func(split);
 			exit(1);
@@ -143,7 +143,7 @@ void
 	if ((ft_check_comma(split[0], ',') != 2)
 		|| ((ft_check_comma(split[2], ',')) != 2))
 	{
-		printf("ERROR ! = arguments with missing parameters\n");
+		printf("Error\nInvalid parameters for sphere.\n");
 		destroy_objects(objects);
 		free_split_check_func(split);
 		exit(1);
