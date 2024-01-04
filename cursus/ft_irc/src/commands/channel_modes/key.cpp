@@ -3,18 +3,6 @@
 #include "Server.hpp"
 #include "Commands.hpp"
 
-static void	broadcastToAllChannelMembers2(Channel &channel, std::string announcement)
-{
-	std::map<const int, Client*>::iterator member = channel.getClients().begin();
-	
-	while (member != channel.getClients().end())
-	{
-		member->second->appendSendBuffer(announcement);
-		member++;
-	}	
-}
-
-
 static bool	valid(const std::string &str)
 {
 	if (str.empty())
@@ -44,11 +32,11 @@ void 	keyChannelMode(Client &operat, const std::string &password, Channel &chann
 	if (mode[0] == '+')
 	{
 		channel.setPassword(password);//This function also toggles the 'k' mode to true.
-		broadcastToAllChannelMembers2(channel, MODE_CHANNELMSGWITHPARAM(channel.getName(), "+k", password));
+		channel.broadcastToChannel(MODE_CHANNELMSGWITHPARAM(channel.getName(), "+k", password));
 	}
 	else if (mode[0] == '-')
 	{
 		channel.removePassword();	//This function also toggles the 'k' mode to false.
-		broadcastToAllChannelMembers2(channel, MODE_CHANNELMSGWITHPARAM(channel.getName(), "-k", password));
+		channel.broadcastToChannel(MODE_CHANNELMSGWITHPARAM(channel.getName(), "-k", password));
 	}	
 }

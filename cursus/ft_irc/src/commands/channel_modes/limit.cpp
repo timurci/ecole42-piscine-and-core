@@ -4,18 +4,6 @@
 #include "Commands.hpp"
 #include <cstdlib>
 
-static void	broadcastToAllChannelMembers2(Channel &channel, std::string announcement)
-{
-	std::map<const int, Client*>::iterator member = channel.getClients().begin();
-	
-	while (member != channel.getClients().end())
-	{
-		member->second->appendSendBuffer(announcement);
-		member++;
-	}	
-}
-
-
 static bool	valid(Channel &channel, int limit)
 {
     if (limit < 1 || limit < (int) channel.getClients().size())
@@ -45,12 +33,12 @@ void limitChannelMode(Client &operat, const std::string &limit, Channel &channel
             return ;
         }    
         channel.setCapacity(limit_int);
-        broadcastToAllChannelMembers2(channel, MODE_CHANNELMSGWITHPARAM(channel.getName(), "+l", limit));
+        channel.broadcastToChannel(MODE_CHANNELMSGWITHPARAM(channel.getName(), "+l", limit));
     }
     else if (mode[0] == '-')
     {   if (!channel.getMode().l)
             return ;
         channel.unsetCapacity();
-        broadcastToAllChannelMembers2(channel, MODE_CHANNELMSGWITHPARAM(channel.getName(), "-l", limit));
+        channel.broadcastToChannel(MODE_CHANNELMSGWITHPARAM(channel.getName(), "-l", limit));
     }
 }   

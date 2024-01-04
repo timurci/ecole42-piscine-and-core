@@ -38,7 +38,7 @@ std::set<std::string>&	Channel::getKickedClients()
     return _kickedClients;
 }
 
-const Client*	Channel::getClientByNick(const std::string &client_nick) const
+Client*	Channel::getClientByNick(const std::string &client_nick) const
 {
 	std::map<const int, Client *>::const_iterator	itr;
 
@@ -251,8 +251,6 @@ int Channel::removeClientFromChannel(const Client &client)
         int i = 1;
         if (!isBanned(client))
             i &= kickAbleClient(client);
-        else
-            i &= dismissBannedClient(client);
         if (isOperator(client))
             i &= dismissOperator(client);
         _clients.erase(it);

@@ -51,12 +51,14 @@ void	names(Client &client, const t_cmd_info &cmd_info,
 			client.appendSendBuffer(RPL_ENDOFNAMES(client.getNickname(), channel_to_name));
 			continue ;
 		}
-			
+
+		bool	client_exists = channel->second.doesClientExist(client);
+
 		// find the symbol of said channel (public, secret, or private)
 		symbol = getSymbol(channel->second);
 
 		// get as a string the list of all members (by nickname)
-		list_of_members = getListOfMembers(channel->second);
+		list_of_members = getListOfMembers(channel->second, client_exists);
 
 		if (list_of_members.empty() == false)
 			client.appendSendBuffer(RPL_NAMREPLY(client.getNickname(), symbol, channel_to_name, list_of_members));

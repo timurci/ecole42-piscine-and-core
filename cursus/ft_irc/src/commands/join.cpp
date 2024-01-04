@@ -120,7 +120,7 @@ static void		sendChanInfos(Channel &channel, Client &client)
 		if (channel.getTopic().empty() == false) // why do you send topic to every user?
 			client.appendSendBuffer(RPL_TOPIC(nick, channel_name, channel.getTopic()));
 		
-		std::string	list_of_members = getListOfMembers(channel);
+		std::string	list_of_members = getListOfMembers(channel, true);
 		std::string symbol			= getSymbol(channel);
 
 		client.appendSendBuffer(RPL_NAMREPLY(username, symbol, channel_name, list_of_members));

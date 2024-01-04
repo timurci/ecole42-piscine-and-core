@@ -12,7 +12,7 @@ SRC=\
 	src/commands/join.cpp src/commands/privmsg.cpp src/commands/names.cpp \
 	src/commands/mode.cpp src/commands/kick.cpp src/commands/motd.cpp \
 	src/commands/part.cpp src/commands/kill.cpp src/commands/list.cpp \
-	src/commands/topic.cpp src/commands/oper.cpp \
+	src/commands/topic.cpp src/commands/oper.cpp src/commands/bot.cpp \
 	src/commands/channel_modes/ban.cpp \
 	src/commands/channel_modes/key.cpp \
 	src/commands/channel_modes/limit.cpp \

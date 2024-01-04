@@ -3,13 +3,6 @@
 #include "Commands.hpp"
 #include "Client.hpp"
 
-//void	addToClientBuffer(Server *server, int const client_fd, std::string reply)
-//{
-//	Client &client = retrieveClient(server, client_fd);
-//
-//	client.appendSendBuffer(reply);
-//}
-
 void	Server::sendServerRpl(const Client &client)
 {
 	const std::string&	buf = client.getSendBuffer();
@@ -32,19 +25,6 @@ void	Server::sendServerRpl(const Client &client)
 	}
 }
 
-// ########################################################################
-//Client&	retrieveClient(Server *server, int const client_fd)
-//{
-//	std::map<const int, Client>&		client_list = server->getClients();
-//	std::map<const int, Client>::iterator it_client = client_list.find(client_fd);
-//	
-//	Client &client = it_client->second;
-//	return (client);
-//}
-// Why do you use two functions ?
-// Why do you use two functions ?
-// Why do you use two functions ?
-// Why do you use two functions ?
 Client*	Server::findClient(const int client_fd)
 {
 	std::map<const int, Client>::iterator it_client = clients.find(client_fd);
@@ -56,7 +36,7 @@ Client*	Server::findClient(const int client_fd)
 // ########################################################################
 
 // Channel function
-std::string	getListOfMembers(Channel &channel)
+std::string	getListOfMembers(Channel &channel, const bool client_in_channel)
 {
 	std::map<const int, Client*>&			client_list	= channel.getClients();
 	std::map<const int, Client*>::iterator	it;
@@ -67,8 +47,10 @@ std::string	getListOfMembers(Channel &channel)
 	{
 		nick.clear();
 		nick = it->second->getNickname();
+		// if a member of a channel is invisible and
+		// the client is not on the channel, skip
 		if (it->second->getMode().find('i') != std::string::npos
-			&& channel.doesClientExist(*it->second) == false)
+			&& client_in_channel == false)
 				continue;
 			
 		if (channel.isOperator(*it->second) == true)

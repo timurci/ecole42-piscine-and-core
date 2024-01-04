@@ -60,7 +60,7 @@ class Channel
 		std::map<const int, Client*>&	getAbleClients();
 		std::set<std::string>&			getKickedClients();
 
-		const Client*					getClientByNick(const std::string &) const;
+		Client*					getClientByNick(const std::string &) const;
 		Client &						getClientRefByNick(const std::string &client_nick) const;
 
 		std::string&			getTopic();
@@ -92,9 +92,6 @@ class Channel
 		int						banClient(const Client&);
 		int						restoreBannedClient(Client&);
 		bool					isBanned(const Client&) const;
-		//int						addToVoiced(Client&);
-		//int						dismissVoicedClient(Client&);
-		//bool					isVoiced(Client&) const;
 		bool					doesClientExist(const Client &client) const;
 		bool					doesClientExist(const std::string &client_nick) const;
 		void    				PrintChannel();

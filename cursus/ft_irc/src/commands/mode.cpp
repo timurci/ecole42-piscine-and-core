@@ -120,21 +120,6 @@ static void	changeChannelMode(Client &client, const t_mode_info &mode_info,
 	for (std::vector<std::string>::iterator it = mode_vector.begin();
 		it != mode_vector.end(); it++)
 	{
-		//std::string str = *it;
-		//std::string datas[4];
-		//datas[0] = it_client->second.getNickname();
-		//datas[1] = mode_info.target;
-		//datas[2] = str;
-		//datas[3] = mode_info.params;
-
-		// datas[0] : client.getNickname()
-		// datas[1] : mode_info.target
-		// datas[2] : mode_str
-		// datas[3] : mode_info.params
-		// use channel instead of it_channel_target
-	
-		// DEBUG
-		std::cout << "!!!!!! MODE RECEIVED !!!!!! " << *it << std::endl;
 		if (it->find("b") != std::string::npos)
 			banChannelMode(client, mode_info.params, it_target->second, *it);
 		if (it->find("k") != std::string::npos)
@@ -145,14 +130,6 @@ static void	changeChannelMode(Client &client, const t_mode_info &mode_info,
 			moderateChannelMode(client, mode_info.params, it_target->second, *it);
 		if (it->find("o") != std::string::npos)
 			operatorChannelMode(client, mode_info.params, it_target->second, *it);
-		//if (it->find("p") != std::string::npos)
-		//	privateChannelMode(client, mode_info.params, it_target->second, *it);
-		//if (it->find("s") != std::string::npos)
-		//	secretChannelMode(client, mode_info.params, it_target->second, *it);
-		//if (it->find("t") != std::string::npos)
-		//	topicChannelMode(client, mode_info.params, it_target->second, *it);
-		//if (it->find("v") != std::string::npos)
-		//	voiceChannelMode(client, mode_info.params, it_target->second, *it);
 	}
 }
 

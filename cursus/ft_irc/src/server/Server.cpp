@@ -114,10 +114,10 @@ int 		Server::readFromConfigFile(char *filename)
 		op.password.insert(0, line, line.find_last_of(' ') + 1, line.size() - 1);
 	
 		// DEBUG
-		std::cout << "============= OPERATORS =============" << std::endl;
-		std::cout << "Op name : $" << op.name << "$" << std::endl;  
-		std::cout << "Op host : $" << op.host<< "$" << std::endl;  
-		std::cout << "Op pass : $" << op.password<< "$" << std::endl;  
+		//std::cout << "============= OPERATORS =============" << std::endl;
+		//std::cout << "Op name : $" << op.name << "$" << std::endl;  
+		//std::cout << "Op host : $" << op.host<< "$" << std::endl;  
+		//std::cout << "Op pass : $" << op.password<< "$" << std::endl;  
 		irc_operators.push_back(op);
 	}
    return (SUCCESS);

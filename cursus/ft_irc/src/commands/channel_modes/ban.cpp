@@ -3,18 +3,6 @@
 #include "Server.hpp"
 #include "Commands.hpp"
 
-//static void	broadcastToAllChannelMembers2(Channel &channel, std::string announcement)
-//{
-//	std::map<const int, Client*>::iterator member = channel.getClients().begin();
-//	
-//	while (member != channel.getClients().end())
-//	{
-//		member->second->appendSendBuffer(announcement);
-//		member++;
-//	}	
-//}
-
-
 void    banClientFromChannel(Channel &channel, Client &operat, std::string client_nickname)
 {
     const Client *client = channel.getClientByNick(client_nickname);
@@ -25,10 +13,7 @@ void    banClientFromChannel(Channel &channel, Client &operat, std::string clien
         return ;
     }
     channel.banClient(*client);
-    //std::string announcement =  "Client : " + client->getNickname()  + ", has been banned by the operator: " 
-    //            + operat.getNickname() + " from the channel: " + channel.getName();
 	channel.broadcastToChannel(RPL_BAN(user_id(operat.getNickname(), operat.getUsername()), channel.getName(), client_nickname));
-    //broadcastToAllChannelMembers2(channel, announcement);
 }
 
 void    unbanClientFromChannel(Channel &channel, Client &operat, std::string client_nickname)
@@ -41,17 +26,9 @@ void    unbanClientFromChannel(Channel &channel, Client &operat, std::string cli
         return ;
     }
     channel.restoreBannedClient(const_cast<Client&>(*client));
-    //std::string announcement =  "Client : " + client->getNickname()  + ", has been unbanned by the operator: " 
-    //            + operat.getNickname() + " and restored to the channel: " + channel.getName();
-    //broadcastToAllChannelMembers2(channel, announcement);
 	channel.broadcastToChannel(RPL_UNBAN(user_id(operat.getNickname(), operat.getUsername()), channel.getName(), client_nickname));
 }
 
-//banChannelMode(client, mode_info.params, it_target->second, mode_info.mode);
-    //öncelikle buraya gönderilen client, kanal operatörü.
-    //mode_info.mode[0] den + yada - yi okuyorum.
-    //channeldan channel name okuyabiliyorum
-    //param hakkında ban yada unban hükmü verilen kişi   
 void    banChannelMode(Client &operat, const std::string &client_nick, Channel &channel, const std::string &mode)
 {
     //I need to check if the client is an operator.

@@ -3,7 +3,7 @@
 #include "Server.hpp"
 #include "Commands.hpp"
 
-static void	botHour(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot)
+static void	botHour(Client &client, const std::string &bot_name)
 {
 	std::stringstream ss;
     std::time_t t = std::time(NULL);
@@ -13,10 +13,10 @@ static void	botHour(Server *server, int const client_fd, std::map<const int, Cli
        << tm_local->tm_min << ":" << tm_local->tm_sec;
     
     std::string time = ss.str();
-	addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), time));
+	client.appendSendBuffer(RPL_PRIVMSG(bot_name, bot_name, client.getNickname(), time));
 }
 
-static void	botRandom(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot)
+static void	botRandom(Client &client, const std::string &bot_name)
 {
 	srand(time(NULL)); // initializes the random number generator with a seed value based on the current time
     int index = rand() % 10 + 1; // number between 1 and 10
@@ -34,17 +34,18 @@ static void	botRandom(Server *server, int const client_fd, std::map<const int, C
 		case 8: str = "The Spice Girls were originally a band called Touch."; break;
 		case 9: str = "The unicorn is the national animal of Scotland"; break;
 		case 10: str = "In 2014, there was a Tinder match in Antarctica"; break;
+		default: str = "Are you hacking?"; break;
 	}
-	addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), str));
+	client.appendSendBuffer(RPL_PRIVMSG(bot_name, bot_name, client.getNickname(), str));
 }
 
-void	bot(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot_cmd)
+void	bot(Client &client, const std::string &msg)
 {
-	std::string bot = "chatGTP";
+	std::string bot_name = "bot42";
+	std::string	bot_cmd(msg);
 	std::string	validCmds[4] = {
 		":HELP",
 		":HOUR",
-		":LOVE",
 		":RANDOM",
 		};
 
@@ -61,11 +62,10 @@ void	bot(Server *server, int const client_fd, std::map<const int, Client>::itera
 	}
 	switch (index + 1)
 	{
-		case 1: addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Ask me 'HOUR', 'LOVE' or 'RANDOM'")); break;
-		case 2: botHour(server, client_fd, it_client, bot); break;
-		case 3: addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "dyoula, msanjuan, tmanolis and myself send you love through this terminal <3")); break;
-		case 4: botRandom(server, client_fd, it_client, bot); break;
+		case 1: client.appendSendBuffer(RPL_PRIVMSG(bot_name, bot_name, client.getNickname(), "Ask me 'HOUR' or 'RANDOM'")); break;
+		case 2: botHour(client, bot_name); break;
+		case 3: botRandom(client, bot_name); break;
 		default:
-			addToClientBuffer(server, client_fd, RPL_PRIVMSG(bot, bot, it_client->second.getNickname(), "Invalid request, ask 'HELP' for more infos"));
+			client.appendSendBuffer(RPL_PRIVMSG(bot_name, bot_name, client.getNickname(), "Invalid request, ask 'HELP' for more information"));
 	}
 }

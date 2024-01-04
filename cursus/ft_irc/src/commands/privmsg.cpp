@@ -187,9 +187,9 @@ void	privmsg(Client &client, const t_cmd_info &cmd_info,
       }
       if (it_target == client_list.end() && it_channel == channel_list.end()) // user and channel doesn't exist
       {
-         //if (target == "chatGTP")
-         //   bot(server, client_fd, it_client, msg_to_send);
-         //else
+         if (target == "bot42")
+            bot(client, msg_to_send);
+         else
             client.appendSendBuffer(ERR_NOSUCHNICK(client.getNickname(), target));   
       }
       else

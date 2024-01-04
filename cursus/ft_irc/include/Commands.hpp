@@ -14,7 +14,7 @@ typedef struct s_cmd_info
 	std::string	params;
 }	t_cmd_info;
 
-std::string	getListOfMembers(Channel &channel);
+std::string	getListOfMembers(Channel &channel, const bool client_in_channel);
 std::string	getSymbol(Channel &channel);
 std::string	getChannelName(std::string msg_to_parse);
 std::string	findNickname(std::string msg_to_parse);
@@ -37,7 +37,7 @@ void	privmsg(Client &client, const t_cmd_info &cmd_info, std::map<const int, Cli
 void	modeFunction(Client &client, const t_cmd_info &cmd_info,
 			std::map<const int, Client> &client_list, std::map<std::string, Channel> &channel_list);
 void	names(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list);
-//void	bot(Server *server, int const client_fd, std::map<const int, Client>::iterator it_client, std::string bot_cmd);
+void	bot(Client &client, const std::string &bot_cmd);
 void	invite(Client &client, const t_cmd_info &cmd_info, std::map<const int, Client> &client_list,
 			std::map<std::string, Channel> &channel_list);
 void	kick(Client &client, const t_cmd_info &cmd_info, std::map<std::string, Channel> &channel_list);
